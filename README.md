@@ -8,6 +8,7 @@
 * Spring Boot 2.*
 * Spring JPA, JOOQ, Mybatis(TBD)
 * H2, MySQL 
+* openjdk + docker
 
 ###### 기능
 * 설치형 블로그
@@ -18,3 +19,7 @@
     * 카테고리
     * 태그
     * 검색
+    
+    
+###### 리서치
+* 마크다운 기반 에디터  React + GraphQL (https://goo.gl/4x8XtZ)
