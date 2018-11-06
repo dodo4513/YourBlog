@@ -19,7 +19,11 @@
     * 카테고리
     * 태그
     * 검색
+* 플러그인(?, 확장 가능성..)
     
     
 ###### 리서치
+* 설치형 블로그 (https://goo.gl/5cRW1A)
+    * 워드프레스 => php
 * 마크다운 기반 에디터  React + GraphQL (https://goo.gl/4x8XtZ)
+* blog : medium(https://medium.com/), hashnode(https://hashnode.com/)
