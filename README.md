@@ -37,6 +37,8 @@
 ###### 리서치
 * 설치형 블로그 (https://goo.gl/5cRW1A)
     * 워드프레스 => php
+* 설치형 노트 (http://jupyter.org/)
+    * Jupyter notebook
 * 마크다운 기반 에디터  React + GraphQL (https://goo.gl/4x8XtZ)
 * blog : medium(https://medium.com/), hashnode(https://hashnode.com/)
 
