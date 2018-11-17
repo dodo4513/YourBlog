@@ -13,8 +13,8 @@ public class BasicBlogController {
         return "main";
     }
 
-    @GetMapping("writePost")
+    @GetMapping("post/write")
     public String writePost() {
-        return "writePost";
+        return "write-post";
     }
 }
