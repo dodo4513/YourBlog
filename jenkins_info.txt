@@ -1,0 +1,32 @@
+url : http://35.194.123.85:8080/  
+
+location : google cloud vm instance  
+
+setting command :  
+1. Login onto https://cloud.google.com
+2. Start compute engine
+3. Create VM with 1CPU and open SSH
+4. sudo apt-get install default-jre
+5. Install jenkins
+   wget -q -O - http://pkg.jenkins-ci.org/debian/jenkins-ci.org.key | sudo apt-key add - 
+   sudo sh -c 'echo deb http://pkg.jenkins-ci.org/debian binary/ > /etc/apt/sources.list.d/jenkins.list'
+   sudo apt-get update
+   sudo apt-get install jenkins
+   sudo /etc/init.d/jenkins start
+6. Check
+   curl -vvv jenkins:8080
+   curl -vvv <public ip>:8080
+   curl -vvv 35.194.123.85:8080
+   browser <public ip>:8080
+   browser 35.194.123.85:8080
+
+7. unlock
+ret =  sudo cat /var/lib/jenkins/secrets/initialAdminPassword
+unlock with ret value
+
+reference 
+https://www.youtube.com/watch?v=l7ngjJ_RVXs
+
+
+//TODO
+install spring ci plugin
