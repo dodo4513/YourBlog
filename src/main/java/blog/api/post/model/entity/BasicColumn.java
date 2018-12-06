@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @Setter
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
-public class DefaultColumn {
+public class BasicColumn {
 
     private Boolean deleteYn = false;
 

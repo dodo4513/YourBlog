@@ -1,5 +1,6 @@
-package blog.api.post.model.entity;
+package blog.api.info.model.entity;
 
+import blog.api.post.model.entity.BasicColumn;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -8,18 +9,21 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-@Setter
 @Getter
+@Setter
 @Entity
-public class Post extends BasicColumn {
+public class Me extends BasicColumn {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    // 제목
-    private String title;
+    // 이름
+    private String name;
 
-    // 본문
-    private String body;
+    // 메일
+    private String email;
+
+    // 소개
+    private String introduction;
 }

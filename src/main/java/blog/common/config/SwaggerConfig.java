@@ -19,9 +19,11 @@ public class SwaggerConfig {
                 .apis(RequestHandlerSelectors.basePackage("blog.api"))
                 .paths(PathSelectors.any())
                 .build();
-//                .apiInfo(apiInfo())
+//                .apiInfo(apiInfo()) TODO 나중에 정리하자
 //                .tags(new Tag("Test", "Test page for developers"),
-//                        new Tag("Post", "Post Management APIs")
+//                        new Tag("Post", "Post Management APIs"),
+//                        new Tag("Post", "Post Management APIs"),
+//
 //                );
     }
 
