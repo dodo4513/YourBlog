@@ -1,7 +1,3 @@
-tag : java
-
-----
-
 ### YourBlog
 블로그를 개발하자!
 
