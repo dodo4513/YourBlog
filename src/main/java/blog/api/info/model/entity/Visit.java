@@ -17,7 +17,7 @@ public class Visit extends BasicColumn {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private Long no;
 
     // 오늘 방문 수
     long todayCount;

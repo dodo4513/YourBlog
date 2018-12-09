@@ -1,7 +1,12 @@
 plugins {
     id 'org.springframework.boot' version '2.0.6.RELEASE'
     id "com.ewerk.gradle.plugins.querydsl" version "1.0.10"
+    id "nu.studer.jooq" version "3.0.2"
+    id "org.flywaydb.flyway" version "5.2.4"
 }
+
+ext['jooq.version'] = '3.11.2'
+ext['lombok.version'] = '1.18.2'
 
 apply plugin: 'java'
 apply plugin: 'idea'
@@ -20,10 +25,13 @@ dependencies {
     // spring
     compile 'org.springframework.boot:spring-boot-starter-web'
     compile 'org.springframework.boot:spring-boot-starter-data-jpa'
+    compile 'org.springframework.boot:spring-boot-starter-jooq'
 
     // db
     compile 'com.querydsl:querydsl-jpa:4.2.1'
-    compile 'com.h2database:h2'
+    runtime 'mysql:mysql-connector-java'
+    jooqRuntime 'mysql:mysql-connector-java'
+    compile 'org.flywaydb:flyway-core'
 
     //etc
     compile 'org.springframework.boot:spring-boot-starter-thymeleaf'
@@ -34,3 +42,35 @@ dependencies {
 
     testCompile 'org.springframework.boot:spring-boot-starter-test'
 }
+
+jooq {
+    version = '3.11.2'
+    edition = 'OSS'
+    sample(sourceSets.main) {
+        jdbc {
+            driver = 'com.mysql.jdbc.Driver'
+            url = 'jdbc:mysql://localhost:3306/your-blog'
+            user = 'root'
+            password = 'password'
+        }
+        generator {
+            database {
+                includes = 'your-blog.*'
+                excludes = '.'
+            }
+            target {
+                packageName = 'com.jooq'
+            }
+        }
+    }
+}
+
+flyway {
+    url = 'jdbc:mysql://localhost:3306?useSSL=false'
+    user = 'root'
+    password = 'password'
+    schemas = ['your-blog']
+}
+
+project.tasks.getByName('initQuerydslSourcesDir').dependsOn += 'generateSampleJooqSchemaSource'
+project.tasks.getByName('generateSampleJooqSchemaSource').dependsOn += 'flywayMigrate'
