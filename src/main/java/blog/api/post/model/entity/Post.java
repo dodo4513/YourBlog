@@ -1,12 +1,12 @@
 package blog.api.post.model.entity;
 
+import blog.api.tag.model.entity.Tag;
+import blog.common.model.entity.BasicColumn;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
 
 @Setter
 @Getter
@@ -22,4 +22,9 @@ public class Post extends BasicColumn {
 
     // 본문
     private String body;
+
+    // 태그
+    @ManyToMany
+    @JoinTable(name = "post_tag_mapping", joinColumns = @JoinColumn(name = "post_no"), inverseJoinColumns = @JoinColumn(name = "tag_no"))
+    private List<Tag> tags;
 }

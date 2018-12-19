@@ -1,6 +1,6 @@
 package blog.api.info.model.entity;
 
-import blog.api.post.model.entity.BasicColumn;
+import blog.common.model.entity.BasicColumn;
 import lombok.Getter;
 import lombok.Setter;
 

@@ -1,7 +1,8 @@
-package blog.api.post.model.entity;
+package blog.common.model.entity;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.Type;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -16,6 +17,7 @@ import java.time.LocalDateTime;
 @EntityListeners(AuditingEntityListener.class)
 public class BasicColumn {
 
+    @Type(type="yes_no")
     private Boolean deleteYn = false;
 
     @CreatedDate

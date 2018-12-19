@@ -1,4 +1,6 @@
 $(() => {
+    const URI = {POST: '/posts'};
+
     blog.writePost = {
         editor: null,
         init() {
@@ -16,7 +18,7 @@ $(() => {
 
         initEditor() {
             this.editor = new tui.Editor({
-                el: document.querySelector('#editSection'),
+                el: document.querySelector('#tui-editor'),
                 initialEditType: 'markdown',
                 previewStyle: 'vertical',
                 height: '300px'
@@ -43,8 +45,8 @@ $(() => {
         registerPost() {
             const post = this.makePostObject();
             const param = {
-                type: 'put',
-                url: '/post',
+                type: 'post',
+                url: URI.POST,
                 data: JSON.stringify(post)
             };
 
@@ -54,9 +56,17 @@ $(() => {
 
         makePostObject() {
             return {
-                title: $('[name=title]').val(),
-                body: this.editor.getMarkdown()
+                title: $('#title').val(),
+                body: this.editor.getMarkdown(),
+                tags: this.makeTagsObject()
             };
+        },
+
+        makeTagsObject() {
+            const tags = [];
+            $('#tags').val().split(',').forEach(tag => tags.push({name: tag}));
+
+            return tags;
         }
     };
 
