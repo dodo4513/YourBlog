@@ -5,6 +5,7 @@ import blog.api.tag.model.entity.Tag;
 import blog.api.tag.model.request.TagRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -19,6 +20,7 @@ public class TagService {
         this.tagRepository = tagRepository;
     }
 
+    @Transactional
     public List<Tag> saveTags(List<TagRequest> tagRequests) {
         List<Tag> tags = tagRequests.stream().map(tagRequest -> {
             Tag tag = new Tag();

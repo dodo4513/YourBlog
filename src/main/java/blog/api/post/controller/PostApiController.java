@@ -1,21 +1,14 @@
 package blog.api.post.controller;
 
-import blog.api.post.model.entity.Post;
 import blog.api.post.model.request.PostRequest;
 import blog.api.post.model.request.PostsGetRequest;
 import blog.api.post.model.response.PostResponse;
 import blog.api.post.service.PostService;
-import blog.api.tag.model.entity.Tag;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 
 @Api(tags = "Post", description = "포스트")
 @RestController
@@ -38,14 +31,11 @@ public class PostApiController {
     @GetMapping("posts/{no}")
     @ApiOperation(value = "포스트 상세 조회", notes = "포스트 단건을 조회합니다.")
     public ResponseEntity<PostResponse> getPost(@PathVariable long no) {
-        Optional<Post> post = postService.getPost(no);
+        PostResponse postResponse = postService.makePostResponse(no);
 
-        if (!post.isPresent()) {
+        if (postResponse == null) {
             return ResponseEntity.noContent().build();
         }
-
-        PostResponse postResponse = new PostResponse();
-        BeanUtils.copyProperties(post, postResponse);
 
         return ResponseEntity.ok().body(postResponse);
     }
