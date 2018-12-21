@@ -16,7 +16,7 @@ public class Me extends BasicColumn {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long no;
+    private long no;
 
     // 이름
     private String name;

@@ -5,16 +5,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("test")
+@RequestMapping("admin")
 public class AdminController {
 
-    // FIXME 필요?
     @GetMapping
     public String main() {
         return "main";
     }
 
-    @GetMapping("post/write")
+    @GetMapping("write-post")
     public String writePost() {
         return "write-post";
     }

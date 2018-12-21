@@ -1,6 +1,6 @@
 package blog.api.info.model.entity;
 
-import blog.common.model.entity.BasicColumn;
+import blog.common.model.entity.ImmutableBasicColumn;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,19 +12,12 @@ import javax.persistence.Id;
 @Getter
 @Setter
 @Entity
-public class Visit extends BasicColumn {
-    // FIXME 방문 데이터는 테이블을 어떻게 구성해야할까?
+public class Visit extends ImmutableBasicColumn {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long no;
 
-    // 오늘 방문 수
-    long todayCount;
-
-    // 어제 방문 수
-    long yesterdayCount;
-
-    // 지금까지 방문 수
-    long totalCount;
+    // 포스트 번호
+    private Long postNo;
 }

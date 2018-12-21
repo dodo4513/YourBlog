@@ -17,3 +17,8 @@ spring:
     properties:
       hibernate:
         format_sql: true
+  devtools:
+    livereload:
+      enabled: true
+    restart:
+      enabled: false

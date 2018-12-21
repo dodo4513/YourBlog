@@ -3,6 +3,7 @@ package blog.api.post.service;
 import blog.api.post.dao.PostRepository;
 import blog.api.post.model.entity.Post;
 import blog.api.post.model.request.PostRequest;
+import blog.api.post.model.response.PostInfoResponse;
 import blog.api.post.model.response.PostResponse;
 import blog.api.tag.model.entity.Tag;
 import blog.api.tag.model.response.TagResponse;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -26,9 +28,8 @@ public class PostService {
         this.tagService = tagService;
     }
 
-    public PostResponse makePostResponse(long no) {
-
-        Post post = postRepository.findById(no).orElse(null);
+    public PostResponse makePostInfoResponse(long no) {
+        Post post = postRepository.findByNoAndDeleteYn(no, false);
         if (post == null) {
 
             return null;
@@ -37,22 +38,39 @@ public class PostService {
         BeanUtils.copyProperties(post, postResponse);
 
         if (post.getTags() != null) {
-
-            postResponse.setTags(BeanUtils.copyProperty(post.getTags(), TagResponse.class));
+            postResponse.setTags(BeanUtils.copyProperties(post.getTags(), TagResponse.class));
         }
 
         return postResponse;
     }
 
+    public List<PostResponse> makePostResponses() {
+        List<Post> posts = postRepository.findByDeleteYn(false);
+
+        List<PostResponse> postResponses = BeanUtils.copyProperties(posts, PostResponse.class);
+        postResponses.forEach(postResponse -> {
+            postResponse.setTags(BeanUtils.copyProperties(postResponse.getTags(), TagResponse.class));
+        });
+
+        return postResponses;
+    }
+
     @Transactional
     public Post savePost(PostRequest postRequest) {
-
-        Post post = new Post();
-        BeanUtils.copyProperties(postRequest, post);
+        Post post = BeanUtils.copyProperties(postRequest, Post.class);
 
         List<Tag> tags = tagService.saveTags(postRequest.getTags());
         post.setTags(tags);
 
         return postRepository.save(post);
+    }
+
+    @Transactional
+    public PostInfoResponse makePostInfoResponse() {
+        PostInfoResponse postInfoResponse = new PostInfoResponse();
+        postInfoResponse.setTotalPost(postRepository.countByDeleteYn(false));
+        postInfoResponse.setPostFor7Days(postRepository.countByRegisterYmdtAfterAndDeleteYn(LocalDateTime.now().minusDays(7), false));
+
+        return postInfoResponse;
     }
 }

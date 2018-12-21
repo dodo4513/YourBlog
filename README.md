@@ -47,9 +47,10 @@
 > 차주 회의
 
 * DB 자료 import, export 방식에 대해 논의 되어야함.
-* 깃플로 적용해야하나? 좀더 구조가 세워지고 해도 될거같긴한데..
-* admin url 구조를 어떻게 가야할까..
-* 더 늦기 전에 gradle multi module 구조로 바꿔야할까? 
+* email 발송 기능
+* post image 어떻게 관리?
+* gradle multi module?
+* 튜닝은 마지막에 해야해
 
 - - -
 

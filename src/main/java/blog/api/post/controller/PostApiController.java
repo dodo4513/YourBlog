@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Api(tags = "Post", description = "포스트")
 @RestController
 public class PostApiController {
@@ -23,15 +25,15 @@ public class PostApiController {
 
     @GetMapping("posts")
     @ApiOperation(value = "포스트 목록 조회", notes = "포스트 목록을 조회합니다.(paging)")
-    public ResponseEntity<?> getPosts(@RequestBody PostsGetRequest postsGetRequest) {
+    public ResponseEntity<List<PostResponse>> getPosts() {
 
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok().body(postService.makePostResponses());
     }
 
     @GetMapping("posts/{no}")
     @ApiOperation(value = "포스트 상세 조회", notes = "포스트 단건을 조회합니다.")
     public ResponseEntity<PostResponse> getPost(@PathVariable long no) {
-        PostResponse postResponse = postService.makePostResponse(no);
+        PostResponse postResponse = postService.makePostInfoResponse(no);
 
         if (postResponse == null) {
             return ResponseEntity.noContent().build();

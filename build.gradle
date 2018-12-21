@@ -26,6 +26,7 @@ dependencies {
     compile 'org.springframework.boot:spring-boot-starter-web'
     compile 'org.springframework.boot:spring-boot-starter-data-jpa'
     compile 'org.springframework.boot:spring-boot-starter-jooq'
+    compile 'org.springframework.boot:spring-boot-devtools'
 
     // db
     compile 'com.querydsl:querydsl-jpa:4.2.1'
@@ -70,6 +71,10 @@ flyway {
     user = 'root'
     password = 'password'
     schemas = ['your-blog']
+}
+
+bootRun {
+    sourceResources sourceSets.main
 }
 
 project.tasks.getByName('initQuerydslSourcesDir').dependsOn += 'generateSampleJooqSchemaSource'

@@ -5,6 +5,25 @@
     <title>writePost</title>
 </head>
 <body>
-<h1 th:text="your-blog"></h1>
+<h1>YourBlog admin</h1>
+
+<div>
+    <div>전체 포스트 : <span id="totalPost"/></div>
+    <div>최근 포스팅(1주) : <span id="postFor7Days"/></div>
+    <div>전체 방문자 : <span id="totalVisit"/></div>
+    <div>오늘 방문자 : <span id="todayVisit"/></div>
+</div>
+
+<div>
+    메뉴
+    <div><a href="/admin/write-post">포스트 등록</a></div>
+</div>
+<!--lib-->
+<script src="/webjars/jquery/3.3.1-1/jquery.js"></script>
+
+<!--my js-->
+<script src="/js/common.js"></script>
+<script src="/js/main.js"></script>
+
 </body>
 </html>

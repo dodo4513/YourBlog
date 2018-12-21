@@ -15,7 +15,7 @@ public class Post extends BasicColumn {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long no;
+    private long no;
 
     // 제목
     private String title;

@@ -1,11 +1,12 @@
 package blog.api.post.model.response;
 
-import blog.api.tag.model.entity.Tag;
 import blog.api.tag.model.response.TagResponse;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.data.annotation.LastModifiedDate;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
@@ -13,7 +14,7 @@ import java.util.List;
 public class PostResponse {
 
     @ApiModelProperty(value = "포스트 번호", position = 10)
-    private Long no;
+    private long no;
 
     @ApiModelProperty(value = "제목", position = 20)
     private String title;
@@ -23,4 +24,10 @@ public class PostResponse {
 
     @ApiModelProperty(value = "태그", position = 40)
     private List<TagResponse> tags;
+
+    @ApiModelProperty(value = "등록일", position = 50)
+    private LocalDateTime registerYmdt;
+
+    @ApiModelProperty(value = "수정일", position = 60)
+    private LocalDateTime updateYmdt;
 }
