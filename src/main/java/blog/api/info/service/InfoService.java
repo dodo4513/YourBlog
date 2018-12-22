@@ -10,14 +10,14 @@ import org.springframework.stereotype.Service;
  */
 
 @Service
-public class BlogService {
+public class InfoService {
 
     private final VisitService visitService;
 
     private final PostService postService;
 
     @Autowired
-    public BlogService(PostService postService, VisitService visitService) {
+    public InfoService(PostService postService, VisitService visitService) {
         this.postService = postService;
         this.visitService = visitService;
     }

@@ -1,5 +1,6 @@
 package blog.api.info.model.entity;
 
+import blog.api.info.model.enums.ConfigCode;
 import blog.common.model.entity.BasicColumn;
 import lombok.Getter;
 import lombok.Setter;

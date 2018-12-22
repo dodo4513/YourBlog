@@ -17,4 +17,9 @@ public class AdminController {
     public String writePost() {
         return "write-post";
     }
+
+    @GetMapping("set-me")
+    public String setMe() {
+        return "set-me";
+    }
 }

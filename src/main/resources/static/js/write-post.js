@@ -6,7 +6,7 @@ $(() => {
         init() {
             this.initEditor();
             this.addEvent();
-            this.testing();
+            this.testing(); // FIXME
         },
 
         testing() {
