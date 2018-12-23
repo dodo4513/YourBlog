@@ -1,9 +1,10 @@
-package blog.api.info.model.request;
+package blog.api.info.model.response;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
 import java.util.Map;
 
 /**
@@ -11,14 +12,17 @@ import java.util.Map;
  */
 @Getter
 @Setter
-public class MeRequest {
+public class MeResponse {
 
-    @ApiModelProperty(value = "이름", required = true, position = 10)
+    @ApiModelProperty(value = "이름", position = 10)
     private String name;
 
-    @ApiModelProperty(value = "이메일", required = true, position = 20)
+    @ApiModelProperty(value = "대표 이메일", position = 20)
     private String email;
 
     @ApiModelProperty(value = "기타 정보", position = 30)
     private Map<String, String> extraData;
+
+    @ApiModelProperty(value = "등록일", position = 40)
+    private LocalDateTime registerYmdt;
 }

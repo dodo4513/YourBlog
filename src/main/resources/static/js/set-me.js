@@ -11,7 +11,6 @@ $(() => {
             if (blog.common.MOCK_DATA) {
                 $('#name').val('황도');
                 $('#email').val('dpdp@namver.com');
-                $('#introduction').val('개발자아아아');
             }
         },
 
@@ -50,7 +49,8 @@ $(() => {
                 email: $('#email').val(),
                 introduction: $('#introduction').val(),
                 extraData: {github: 'dodo4513@gmail.com',
-                    naver: 'xavier@naver.com'}
+                    naver: 'xavier@naver.com',
+                    introduce: '개개발'}
 
             };
         }

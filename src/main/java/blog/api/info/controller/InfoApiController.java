@@ -4,9 +4,11 @@ import blog.api.info.model.enums.ConfigCode;
 import blog.api.info.model.request.MeRequest;
 import blog.api.info.model.request.VisitRequest;
 import blog.api.info.model.response.BlogInfoResponse;
+import blog.api.info.model.response.MeResponse;
 import blog.api.info.model.response.VisitResponse;
 import blog.api.info.service.BlogConfigService;
 import blog.api.info.service.InfoService;
+import blog.api.info.service.MeService;
 import blog.api.info.service.VisitService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -25,25 +27,28 @@ public class InfoApiController {
 
     private final BlogConfigService blogConfigService;
 
+    private final MeService meService;
+
     @Autowired
-    public InfoApiController(InfoService infoService, VisitService visitService, BlogConfigService blogConfigService) {
+    public InfoApiController(InfoService infoService, VisitService visitService, BlogConfigService blogConfigService, MeService meService) {
         this.infoService = infoService;
         this.visitService = visitService;
         this.blogConfigService = blogConfigService;
+        this.meService = meService;
     }
 
     @GetMapping("me")
-    @ApiOperation(value = "[미구현] 내 프로필 조회", notes = "[미구현] 내 프로필을 조회합니다.")
-    public ResponseEntity<?> getMe() {
+    @ApiOperation(value = "내 프로필 조회", notes = "내 프로필을 조회합니다.")
+    public ResponseEntity<MeResponse> getMe() {
 
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok().body(meService.makeMeResponse());
     }
 
     @PostMapping("me")
     @ApiOperation(value = "내 프로필 저장", notes = "내 프로필을 저장합니다.")
     public ResponseEntity<?> saveMe(@RequestBody MeRequest meRequest) {
 
-        return ResponseEntity.ok().body(blogConfigService.saveBlogConfig(meRequest, ConfigCode.ME));
+        return ResponseEntity.ok().body(meService.saveMe(meRequest));
     }
 
     @GetMapping("blog")
