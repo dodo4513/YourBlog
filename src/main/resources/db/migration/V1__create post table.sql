@@ -4,6 +4,7 @@ CREATE TABLE post
   title         VARCHAR(200)                      NOT NULL,
   body          TEXT                              NOT NULL,
   delete_yn     CHAR(1) DEFAULT 'N'               NOT NULL,
+  extra_data    JSON                              NULL,
   register_ymdt TIMESTAMP                         NOT NULL DEFAULT CURRENT_TIMESTAMP,
   update_ymdt   TIMESTAMP                         NOT NULL DEFAULT CURRENT_TIMESTAMP
 );

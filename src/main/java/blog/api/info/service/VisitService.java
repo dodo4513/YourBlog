@@ -28,16 +28,18 @@ public class VisitService {
     }
 
     @Transactional
-    public VisitResponse saveVisit(VisitRequest visitRequest) {
+    public VisitResponse saveVisit(VisitRequest visitRequest, String clientIp) {
         Visit visit = BeanUtils.copyProperties(visitRequest, Visit.class);
+        visit.setClientIp(clientIp);
 
         return BeanUtils.copyProperties(visitRepository.save(visit), VisitResponse.class);
     }
 
     VisitInfoResponse makeVisitResponse() {
         VisitInfoResponse visitInfoResponse = new VisitInfoResponse();
-        visitInfoResponse.setTodayVisit(visitRepository.countByRegisterYmdtAfter(LocalDateTime.of(LocalDate.now(), LocalTime.MIDNIGHT)));
         visitInfoResponse.setTotalVisit(visitRepository.count());
+        visitInfoResponse.setTodayVisit(visitRepository.countByRegisterYmdtAfter(LocalDateTime.of(LocalDate.now(), LocalTime.MIDNIGHT)));
+        visitInfoResponse.setYesterdayVisit(visitRepository.countByRegisterYmdtAfter(LocalDateTime.of(LocalDate.now().minusDays(1), LocalTime.MIDNIGHT)));
 
         return visitInfoResponse;
     }

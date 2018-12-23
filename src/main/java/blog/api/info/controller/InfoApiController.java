@@ -1,20 +1,21 @@
 package blog.api.info.controller;
 
-import blog.api.info.model.enums.ConfigCode;
 import blog.api.info.model.request.MeRequest;
 import blog.api.info.model.request.VisitRequest;
 import blog.api.info.model.response.BlogInfoResponse;
 import blog.api.info.model.response.MeResponse;
-import blog.api.info.model.response.VisitResponse;
 import blog.api.info.service.BlogConfigService;
 import blog.api.info.service.InfoService;
 import blog.api.info.service.MeService;
 import blog.api.info.service.VisitService;
+import blog.common.util.ControllerUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
 
 @Api(tags = "Info", description = "정보")
 @RequestMapping("info")
@@ -25,15 +26,12 @@ public class InfoApiController {
 
     private final InfoService infoService;
 
-    private final BlogConfigService blogConfigService;
-
     private final MeService meService;
 
     @Autowired
-    public InfoApiController(InfoService infoService, VisitService visitService, BlogConfigService blogConfigService, MeService meService) {
+    public InfoApiController(InfoService infoService, VisitService visitService, MeService meService) {
         this.infoService = infoService;
         this.visitService = visitService;
-        this.blogConfigService = blogConfigService;
         this.meService = meService;
     }
 
@@ -47,8 +45,9 @@ public class InfoApiController {
     @PostMapping("me")
     @ApiOperation(value = "내 프로필 저장", notes = "내 프로필을 저장합니다.")
     public ResponseEntity<?> saveMe(@RequestBody MeRequest meRequest) {
+        meService.saveMe(meRequest);
 
-        return ResponseEntity.ok().body(meService.saveMe(meRequest));
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping("blog")
@@ -60,8 +59,11 @@ public class InfoApiController {
 
     @PostMapping("visit")
     @ApiOperation(value = "방문 정보 저장", notes = "특정 포스트의 방문 정보를 저장합니다.")
-    public ResponseEntity<VisitResponse> saveVisit(VisitRequest visitRequest) {
+    public ResponseEntity<?> saveVisit(VisitRequest visitRequest) {
 
-        return ResponseEntity.ok().body(visitService.saveVisit(visitRequest));
+        // TODO getIP() 가 제대로 동작하는지 서버 올리고 확인해 봐야함.
+        visitService.saveVisit(visitRequest, ControllerUtils.getIp());
+
+        return ResponseEntity.noContent().build();
     }
 }

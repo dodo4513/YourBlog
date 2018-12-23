@@ -50,7 +50,6 @@ $(() => {
                 data: JSON.stringify(post)
             };
 
-            console.log(param);
             blog.common.ajaxForPromise(param);
         },
 
@@ -58,7 +57,9 @@ $(() => {
             return {
                 title: $('#title').val(),
                 body: this.editor.getMarkdown(),
-                tags: this.makeTagsObject()
+                tags: this.makeTagsObject(),
+                extraData: {one: 1,
+                    two: '2'}
             };
         },
 

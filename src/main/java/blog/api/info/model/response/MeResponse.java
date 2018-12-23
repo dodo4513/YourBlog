@@ -20,9 +20,9 @@ public class MeResponse {
     @ApiModelProperty(value = "대표 이메일", position = 20)
     private String email;
 
-    @ApiModelProperty(value = "기타 정보", position = 30)
-    private Map<String, String> extraData;
-
-    @ApiModelProperty(value = "등록일", position = 40)
+    @ApiModelProperty(value = "등록일", position = 30)
     private LocalDateTime registerYmdt;
+
+    @ApiModelProperty(value = "기타 정보", position = 40)
+    private Map<String, String> extraData;
 }

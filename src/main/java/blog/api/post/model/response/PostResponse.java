@@ -8,6 +8,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 @Getter
 @Setter
@@ -25,9 +26,12 @@ public class PostResponse {
     @ApiModelProperty(value = "태그", position = 40)
     private List<TagResponse> tags;
 
-    @ApiModelProperty(value = "등록일", position = 50)
+    @ApiModelProperty(value = "기타 정보", position = 50)
+    private Map<String, String> extraData;
+
+    @ApiModelProperty(value = "등록일", position = 60)
     private LocalDateTime registerYmdt;
 
-    @ApiModelProperty(value = "수정일", position = 60)
+    @ApiModelProperty(value = "수정일", position = 70)
     private LocalDateTime updateYmdt;
 }

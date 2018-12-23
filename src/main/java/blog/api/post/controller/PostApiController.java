@@ -1,7 +1,6 @@
 package blog.api.post.controller;
 
 import blog.api.post.model.request.PostRequest;
-import blog.api.post.model.request.PostsGetRequest;
 import blog.api.post.model.response.PostResponse;
 import blog.api.post.service.PostService;
 import io.swagger.annotations.Api;
@@ -43,10 +42,10 @@ public class PostApiController {
     }
 
     @PostMapping("posts")
-    @ApiOperation(value = "포스트 저장", notes = "포스트를 저장합니다", response = PostResponse.class)
+    @ApiOperation(value = "포스트 저장", notes = "포스트를 저장합니다")
     public ResponseEntity<?> savePost(@RequestBody PostRequest postRequest) {
         postService.savePost(postRequest);
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity.noContent().build();
     }
 }

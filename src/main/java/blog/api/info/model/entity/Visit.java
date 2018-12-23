@@ -20,4 +20,7 @@ public class Visit extends ImmutableBasicColumn {
 
     // 포스트 번호
     private Long postNo;
+
+    // 접속자 ip
+    private String clientIp;
 }

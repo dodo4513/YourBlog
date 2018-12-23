@@ -10,6 +10,7 @@ blog.common = {
             data: params.data,
             contentType: 'application/json',
             success(resp) {
+                console.log('Communication ok\n response: ', resp);
                 resolve(resp);
             }
         });

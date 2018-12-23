@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.List;
+import java.util.Map;
 
 @Getter
 @Setter
@@ -17,6 +18,9 @@ public class PostRequest {
     @ApiModelProperty(value = "본문", required = true, position = 20)
     private String body;
 
-    @ApiModelProperty(value = "태그", position = 20)
+    @ApiModelProperty(value = "태그", position = 30)
     private List<TagRequest> tags;
+
+    @ApiModelProperty(value = "기타 정보", position = 40)
+    private Map<String, String> extraData;
 }

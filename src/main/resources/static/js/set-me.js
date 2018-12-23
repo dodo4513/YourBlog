@@ -38,8 +38,6 @@ $(() => {
                 url: URI.ME,
                 data: JSON.stringify(post)
             };
-
-            console.log(param);
             blog.common.ajaxForPromise(param);
         },
 
