@@ -11,6 +11,6 @@ import lombok.Setter;
 @Setter
 public class VisitRequest {
 
-    @ApiModelProperty(value = "포스트 번호", required = true, position = 10)
-    private long postNo;
+  @ApiModelProperty(value = "포스트 번호", required = true, position = 10)
+  private long postNo;
 }

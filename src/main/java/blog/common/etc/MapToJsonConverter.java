@@ -1,7 +1,6 @@
 package blog.common.etc;
 
 import blog.common.util.JacksonUtils;
-
 import javax.persistence.AttributeConverter;
 
 /**
@@ -9,14 +8,14 @@ import javax.persistence.AttributeConverter;
  */
 public class MapToJsonConverter implements AttributeConverter<Object, String> {
 
-    @Override
-    public String convertToDatabaseColumn(Object attribute) {
-        return JacksonUtils.toForceJson(attribute);
+  @Override
+  public String convertToDatabaseColumn(Object attribute) {
+    return JacksonUtils.toForceJson(attribute);
 
-    }
+  }
 
-    @Override
-    public Object convertToEntityAttribute(String dbData) {
-        return JacksonUtils.toForceMap(dbData);
-    }
+  @Override
+  public Object convertToEntityAttribute(String dbData) {
+    return JacksonUtils.toForceMap(dbData);
+  }
 }

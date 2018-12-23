@@ -10,10 +10,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class TagApiController {
 
-    @GetMapping("tag")
-    @ApiOperation(value = "[미구현] 전체 태그 조회", notes = "[미구현] 전체 태그를 조회합니다.")
-    public ResponseEntity<?> getTag() {
+  @GetMapping("tag")
+  @ApiOperation(value = "[미구현] 전체 태그 조회", notes = "[미구현] 전체 태그를 조회합니다.")
+  public ResponseEntity<?> getTag() {
 
-        return ResponseEntity.noContent().build();
-    }
+    return ResponseEntity.noContent().build();
+  }
 }

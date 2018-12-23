@@ -9,68 +9,68 @@ import blog.api.tag.model.entity.Tag;
 import blog.api.tag.model.response.TagResponse;
 import blog.api.tag.service.TagService;
 import blog.common.util.BeanUtils;
+import java.time.LocalDateTime;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
-import java.util.List;
-
 @Service
 public class PostService {
 
-    private final PostRepository postRepository;
-    private final TagService tagService;
+  private final PostRepository postRepository;
+  private final TagService tagService;
 
-    @Autowired
-    public PostService(PostRepository postRepository, TagService tagService) {
-        this.postRepository = postRepository;
-        this.tagService = tagService;
+  @Autowired
+  public PostService(PostRepository postRepository, TagService tagService) {
+    this.postRepository = postRepository;
+    this.tagService = tagService;
+  }
+
+  public PostResponse makePostInfoResponse(long no) {
+    Post post = postRepository.findByNoAndDeleteYn(no, false);
+    if (post == null) {
+
+      return null;
+    }
+    PostResponse postResponse = new PostResponse();
+    BeanUtils.copyProperties(post, postResponse);
+
+    if (post.getTags() != null) {
+      postResponse.setTags(BeanUtils.copyProperties(post.getTags(), TagResponse.class));
     }
 
-    public PostResponse makePostInfoResponse(long no) {
-        Post post = postRepository.findByNoAndDeleteYn(no, false);
-        if (post == null) {
+    return postResponse;
+  }
 
-            return null;
-        }
-        PostResponse postResponse = new PostResponse();
-        BeanUtils.copyProperties(post, postResponse);
+  public List<PostResponse> makePostResponses() {
+    List<Post> posts = postRepository.findByDeleteYn(false);
 
-        if (post.getTags() != null) {
-            postResponse.setTags(BeanUtils.copyProperties(post.getTags(), TagResponse.class));
-        }
+    List<PostResponse> postResponses = BeanUtils.copyProperties(posts, PostResponse.class);
+    postResponses.forEach(postResponse -> {
+      postResponse.setTags(BeanUtils.copyProperties(postResponse.getTags(), TagResponse.class));
+    });
 
-        return postResponse;
-    }
+    return postResponses;
+  }
 
-    public List<PostResponse> makePostResponses() {
-        List<Post> posts = postRepository.findByDeleteYn(false);
+  @Transactional
+  public Post savePost(PostRequest postRequest) {
+    Post post = BeanUtils.copyProperties(postRequest, Post.class);
 
-        List<PostResponse> postResponses = BeanUtils.copyProperties(posts, PostResponse.class);
-        postResponses.forEach(postResponse -> {
-            postResponse.setTags(BeanUtils.copyProperties(postResponse.getTags(), TagResponse.class));
-        });
+    List<Tag> tags = tagService.saveTags(postRequest.getTags());
+    post.setTags(tags);
 
-        return postResponses;
-    }
+    return postRepository.save(post);
+  }
 
-    @Transactional
-    public Post savePost(PostRequest postRequest) {
-        Post post = BeanUtils.copyProperties(postRequest, Post.class);
+  @Transactional
+  public PostInfoResponse makePostInfoResponse() {
+    PostInfoResponse postInfoResponse = new PostInfoResponse();
+    postInfoResponse.setTotalPost(postRepository.countByDeleteYn(false));
+    postInfoResponse.setPostFor7Days(postRepository
+        .countByRegisterYmdtAfterAndDeleteYn(LocalDateTime.now().minusDays(7), false));
 
-        List<Tag> tags = tagService.saveTags(postRequest.getTags());
-        post.setTags(tags);
-
-        return postRepository.save(post);
-    }
-
-    @Transactional
-    public PostInfoResponse makePostInfoResponse() {
-        PostInfoResponse postInfoResponse = new PostInfoResponse();
-        postInfoResponse.setTotalPost(postRepository.countByDeleteYn(false));
-        postInfoResponse.setPostFor7Days(postRepository.countByRegisterYmdtAfterAndDeleteYn(LocalDateTime.now().minusDays(7), false));
-
-        return postInfoResponse;
-    }
+    return postInfoResponse;
+  }
 }

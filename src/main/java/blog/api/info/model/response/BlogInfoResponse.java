@@ -13,9 +13,9 @@ import lombok.Setter;
 @Setter
 public class BlogInfoResponse {
 
-    @ApiModelProperty(value = "포스트 관련 정보", position = 10)
-    PostInfoResponse postInfoResponse;
+  @ApiModelProperty(value = "포스트 관련 정보", position = 10)
+  PostInfoResponse postInfoResponse;
 
-    @ApiModelProperty(value = "방문자 정보", position = 20)
-    VisitInfoResponse visitInfoResponse;
+  @ApiModelProperty(value = "방문자 정보", position = 20)
+  VisitInfoResponse visitInfoResponse;
 }

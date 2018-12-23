@@ -8,6 +8,6 @@ import lombok.Setter;
 @Setter
 public class TagRequest {
 
-    @ApiModelProperty(value = "이름", required = true, position = 10)
-    private String name;
+  @ApiModelProperty(value = "이름", required = true, position = 10)
+  private String name;
 }

@@ -17,6 +17,7 @@ $(() => {
             $('#postFor7Days').text(blogInfoResponse.postInfoResponse.postFor7Days);
             $('#todayVisit').text(blogInfoResponse.visitInfoResponse.todayVisit);
             $('#totalVisit').text(blogInfoResponse.visitInfoResponse.totalVisit);
+            $('#yesterdayVisit').text(blogInfoResponse.visitInfoResponse.yesterdayVisit);
         }
     };
 

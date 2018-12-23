@@ -11,9 +11,9 @@ import lombok.Setter;
 @Setter
 public class PostInfoResponse {
 
-    @ApiModelProperty(value = "총 포스트 수", position = 110)
-    long totalPost;
+  @ApiModelProperty(value = "총 포스트 수", position = 110)
+  long totalPost;
 
-    @ApiModelProperty(value = "7일간 작성한 포스트 수", position = 120)
-    long postFor7Days;
+  @ApiModelProperty(value = "7일간 작성한 포스트 수", position = 120)
+  long postFor7Days;
 }

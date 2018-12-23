@@ -4,9 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -14,41 +12,42 @@ import java.util.Map;
  */
 public class JacksonUtils {
 
-    public static <T> String toForceJson(T model) {
-        ObjectMapper objectMapper = new ObjectMapper();
-        try {
-            return objectMapper.writeValueAsString(model);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
-        return null;
+  public static <T> String toForceJson(T model) {
+    ObjectMapper objectMapper = new ObjectMapper();
+    try {
+      return objectMapper.writeValueAsString(model);
+    } catch (JsonProcessingException e) {
+      e.printStackTrace();
     }
+    return null;
+  }
 
-    public static <T> T toForceModel(String src, Class<T> clazz) {
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        try {
-            return mapper.readValue(src, clazz);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
+  public static <T> T toForceModel(String src, Class<T> clazz) {
+    ObjectMapper mapper = new ObjectMapper();
+    mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+    try {
+      return mapper.readValue(src, clazz);
+    } catch (IOException e) {
+      e.printStackTrace();
     }
+    return null;
+  }
 
-    public static Map<String, String> toForceMap(String src) {
-        try {
-            if (src == null) {
-                return null;
-            }
-            ObjectMapper mapper = new ObjectMapper();
-            mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+  public static Map<String, String> toForceMap(String src) {
+    try {
+      if (src == null) {
+        return null;
+      }
+      ObjectMapper mapper = new ObjectMapper();
+      mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
 //            return mapper.readValue(src, mapper.getTypeFactory().constructMapType(HashMap.class, String.class, HashMap.class));
-            return mapper.readValue(src,  new TypeReference<Map<String, String>>(){});
-        } catch (Exception e) {
-            e.printStackTrace();
+      return mapper.readValue(src, new TypeReference<Map<String, String>>() {
+      });
+    } catch (Exception e) {
+      e.printStackTrace();
 
-            return null;
-        }
+      return null;
     }
+  }
 }

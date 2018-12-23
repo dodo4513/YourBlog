@@ -12,22 +12,22 @@ import org.springframework.stereotype.Service;
 @Service
 public class InfoService {
 
-    private final VisitService visitService;
+  private final VisitService visitService;
 
-    private final PostService postService;
+  private final PostService postService;
 
-    @Autowired
-    public InfoService(PostService postService, VisitService visitService) {
-        this.postService = postService;
-        this.visitService = visitService;
-    }
+  @Autowired
+  public InfoService(PostService postService, VisitService visitService) {
+    this.postService = postService;
+    this.visitService = visitService;
+  }
 
-    public BlogInfoResponse makeBlogInfo() {
-        BlogInfoResponse blogInfoResponse = new BlogInfoResponse();
-        blogInfoResponse.setPostInfoResponse(postService.makePostInfoResponse());
-        blogInfoResponse.setVisitInfoResponse(visitService.makeVisitResponse());
+  public BlogInfoResponse makeBlogInfo() {
+    BlogInfoResponse blogInfoResponse = new BlogInfoResponse();
+    blogInfoResponse.setPostInfoResponse(postService.makePostInfoResponse());
+    blogInfoResponse.setVisitInfoResponse(visitService.makeVisitResponse());
 
-        return blogInfoResponse;
-    }
+    return blogInfoResponse;
+  }
 
 }

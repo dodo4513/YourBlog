@@ -8,9 +8,9 @@ import lombok.Setter;
 @Setter
 public class TagResponse {
 
-    @ApiModelProperty(value = "태그 번호", position = 10)
-    private Long no;
+  @ApiModelProperty(value = "태그 번호", position = 10)
+  private Long no;
 
-    @ApiModelProperty(value = "이름", position = 20)
-    private String name;
+  @ApiModelProperty(value = "이름", position = 20)
+  private String name;
 }

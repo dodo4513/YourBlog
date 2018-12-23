@@ -8,5 +8,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface BlogConfigRepository extends JpaRepository<BlogConfig, Long> {
 
-    BlogConfig findByConfigCode(ConfigCode configCode);
+  BlogConfig findByConfigCode(ConfigCode configCode);
 }

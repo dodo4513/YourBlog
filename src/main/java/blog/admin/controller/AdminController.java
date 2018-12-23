@@ -8,18 +8,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("admin")
 public class AdminController {
 
-    @GetMapping
-    public String main() {
-        return "main";
-    }
+  @GetMapping
+  public String main() {
+    return "main";
+  }
 
-    @GetMapping("write-post")
-    public String writePost() {
-        return "write-post";
-    }
+  @GetMapping("write-post")
+  public String writePost() {
+    return "write-post";
+  }
 
-    @GetMapping("set-me")
-    public String setMe() {
-        return "set-me";
-    }
+  @GetMapping("set-me")
+  public String setMe() {
+    return "set-me";
+  }
 }

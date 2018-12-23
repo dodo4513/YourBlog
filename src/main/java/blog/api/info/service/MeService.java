@@ -15,22 +15,22 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class MeService {
 
-    private final BlogConfigService blogConfigService;
+  private final BlogConfigService blogConfigService;
 
-    @Autowired
-    public MeService(BlogConfigService blogConfigService) {
-        this.blogConfigService = blogConfigService;
-    }
+  @Autowired
+  public MeService(BlogConfigService blogConfigService) {
+    this.blogConfigService = blogConfigService;
+  }
 
-    @Transactional
-    public Me saveMe(MeRequest meRequest) {
-        Me me = BeanUtils.copyProperties(meRequest, Me.class);
-        blogConfigService.saveBlogConfig(me, ConfigCode.ME);
+  @Transactional
+  public Me saveMe(MeRequest meRequest) {
+    Me me = BeanUtils.copyProperties(meRequest, Me.class);
+    blogConfigService.saveBlogConfig(me, ConfigCode.ME);
 
-        return me;
-    }
+    return me;
+  }
 
-    public MeResponse makeMeResponse() {
-        return blogConfigService.getBlogConfig(ConfigCode.ME, MeResponse.class);
-    }
+  public MeResponse makeMeResponse() {
+    return blogConfigService.getBlogConfig(ConfigCode.ME, MeResponse.class);
+  }
 }
