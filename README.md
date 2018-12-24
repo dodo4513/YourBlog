@@ -7,9 +7,10 @@
     
 ###### 개발환경
 * Spring Boot 2.*
-* Spring JPA, JOOQ, Mybatis(TBD)
-* H2, MySQL 
-* openjdk + docker
+* Spring JPA
+* MySQL
+* openjdk 
+* docker
 
 ###### 기능?특징?
 * 설치형 블로그
@@ -42,6 +43,11 @@
 * 마크다운 기반 에디터  React + GraphQL (https://goo.gl/4x8XtZ)
 * blog : medium(https://medium.com/), hashnode(https://hashnode.com/)
 
+###### 테마 개발 요구사항
+* github 공개
+* 설치 가이드 제공 
+* 사이트 하단에 your-blog 홍보 문구 삽입
+
 ###### 고민
 
 > 차주 회의
@@ -50,7 +56,7 @@
 * email 발송 기능
 * post image 어떻게 관리?
 * gradle multi module?
-* 튜닝은 마지막에 해야해
+* 튜닝도 마지막에 해야해
 
 - - -
 
@@ -66,4 +72,3 @@
 * 프론트는 다른 프로젝트로 만들어야할 것 같다. 한 다음 만남 이후 부터 조금씩? -> 다음 만남부터 조금씩?
 
 - - -
-

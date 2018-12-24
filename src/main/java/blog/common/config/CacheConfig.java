@@ -22,6 +22,7 @@ public class CacheConfig {
   public CacheManager cacheManager() {
     SimpleCacheManager cacheManager = new SimpleCacheManager();
     cacheManager.setCaches(getCacheNames());
+
     return cacheManager;
   }
 
