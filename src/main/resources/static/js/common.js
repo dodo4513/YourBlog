@@ -1,3 +1,4 @@
+let $ = jQuery;
 const blog = {};
 blog.common = {
     SETTING: {LOCATION: 'http://localhost:8081'},

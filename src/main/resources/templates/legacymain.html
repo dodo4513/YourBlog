@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>writePost</title>
+</head>
+<body>
+<h1>YourBlog admin</h1>
+
+<div>
+    <div>전체 포스트 : <span id="totalPost"/></div>
+    <div>최근 포스팅(1주) : <span id="postFor7Days"/></div>
+    <div>누적 방문수 : <span id="totalVisit"/></div>
+    <div>오늘 방문수 : <span id="todayVisit"/></div>
+    <div>어제 방문수 : <span id="yesterdayVisit"/></div>
+</div>
+
+<div>
+    메뉴
+    <div><a href="/admin/write-post">포스트 등록</a></div>
+    <div><a href="/admin/set-me">프로필 관리</a></div>
+</div>
+<!--lib-->
+<script src="/webjars/jquery/3.3.1-1/jquery.js"></script>
+
+<!--my js-->
+<script src="/js/common.js"></script>
+<script src="/js/main.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8"/>
+    <title>post registration</title>
+
+    <!--TUI editor-->
+    <link rel="stylesheet" href="/lib/tui/codemirror/lib/codemirror.css">
+    <link rel="stylesheet" href="/lib/tui/highlightjs/styles/github.css">
+    <link rel="stylesheet" href="/lib/tui/tui-editor/dist/tui-editor.css">
+    <link rel="stylesheet" href="/lib/tui/tui-editor/dist/tui-editor-contents.css">
+
+</head>
+<body>
+<h1>포스트 등록</h1>
+<div>
+    제목 : <input type="text" id="title"/>
+</div>
+<div id="tui-editor"></div>
+
+<div>
+    <div>
+        태그 : <input type="text" id="tags" placeholder=", 로 구분">
+    </div>
+</div>
+
+
+<button class="action" data-action="register">등록</button>
+
+<!--lib-->
+<script src="/webjars/jquery/3.3.1-1/jquery.js"></script>
+
+<!--TUI editor-->
+<script src='/lib/tui/markdown-it/dist/markdown-it.js'></script>
+<script src="/lib/tui/to-mark/dist/to-mark.js"></script>
+<script src="/lib/tui/tui-code-snippet/dist/tui-code-snippet.js"></script>
+<script src="/lib/tui/codemirror/lib/codemirror.js"></script>
+<script src="/lib/tui/highlightjs/highlight.pack.js"></script>
+<script src="/lib/tui/squire-rte/build/squire-raw.js"></script>
+<script src="/lib/tui/tui-editor/dist/tui-editor-Editor.js"></script>
+
+<!--my js-->
+<script src="/js/common.js"></script>
+<script src="/js/write-post.js"></script>
+
+</body>
+</html>
+
+

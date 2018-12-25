@@ -1,0 +1,44 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<head>
+  <title>Ela Admin - HTML5 Admin Template</title>
+  <th:block th:insert="fragment/ela-style-sheets.html :: ela-style-sheets"/>
+</head>
+
+<body>
+<!-- Left Panel -->
+<th:block th:insert="fragment/left-panel.html :: left-panel"/>
+<!-- /#left-panel -->
+
+<!-- Right Panel -->
+<div id="right-panel" class="right-panel">
+  <!-- Header-->
+  <th:block th:insert="fragment/header.html :: header"/>
+  <!-- /#header -->
+
+  <!-- Content -->
+  <div class="content">
+    <!-- Animated -->
+    <div class="animated fadeIn">
+
+      <!--<div class="row"></div>-->
+
+    </div>
+    <!-- .animated -->
+  </div>
+  <!-- /.content -->
+  <div class="clearfix"></div>
+  <!-- Footer -->
+  <th:block th:insert="fragment/footer.html :: footer"/>
+  <!-- /.site-footer -->
+</div>
+<!-- /#right-panel -->
+
+<!-- Scripts -->
+<th:block th:insert="fragment/ela-scripts.html :: ela-scripts"/>
+
+<!--Local Stuff-->
+<script src="/js/common.js"></script>
+
+</body>
+</html>

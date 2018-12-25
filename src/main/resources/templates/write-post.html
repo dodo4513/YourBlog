@@ -1,36 +1,158 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
 <head>
-    <meta charset="UTF-8"/>
-    <title>post registration</title>
+  <title>포스트 등록</title>
+  <th:block th:insert="fragment/ela-style-sheets.html :: ela-style-sheets"/>
 
-    <!--TUI editor-->
-    <link rel="stylesheet" href="/lib/tui/codemirror/lib/codemirror.css">
-    <link rel="stylesheet" href="/lib/tui/highlightjs/styles/github.css">
-    <link rel="stylesheet" href="/lib/tui/tui-editor/dist/tui-editor.css">
-    <link rel="stylesheet" href="/lib/tui/tui-editor/dist/tui-editor-contents.css">
-
+  <!--TUI editor-->
+  <link rel="stylesheet" href="/lib/tui/codemirror/lib/codemirror.css">
+  <link rel="stylesheet" href="/lib/tui/highlightjs/styles/github.css">
+  <link rel="stylesheet" href="/lib/tui/tui-editor/dist/tui-editor.css">
+  <link rel="stylesheet" href="/lib/tui/tui-editor/dist/tui-editor-contents.css">
 </head>
+
 <body>
-<h1>포스트 등록</h1>
-<div>
-    제목 : <input type="text" id="title"/>
-</div>
-<div id="tui-editor"></div>
+<!-- Left Panel -->
+<th:block th:insert="fragment/left-panel.html :: left-panel(activeId = 'post')"/>
+<!-- /#left-panel -->
 
-<div>
-    <div>
-        태그 : <input type="text" id="tags" placeholder=", 로 구분">
+<!-- Right Panel -->
+<div id="right-panel" class="right-panel">
+  <!-- Header-->
+  <th:block th:insert="fragment/header.html :: header"/>
+  <!-- /#header -->
+
+  <!-- Content -->
+  <div class="content">
+    <!-- Animated -->
+    <div class="animated fadeIn">
+
+      <div class="row">
+
+        <div class="col-lg-12">
+          <div class="card">
+            <div class="card-header">
+              <strong>포스트</strong> 등록
+            </div>
+            <div class="card-body card-block">
+              <form action="#" method="post" enctype="multipart/form-data" class="form-horizontal">
+                <div class="row form-group">
+                  <div class="col col-md-2"><label class=" form-control-label">작성자</label></div>
+                  <div class="col-12 col-md-10">
+                    <p class="form-control-static">dodo</p>
+                  </div>
+                </div>
+                <div class="row form-group">
+                  <div class="col col-md-2"><label for="title"
+                                                   class=" form-control-label">제목</label></div>
+                  <div class="col-12 col-md-10"><input type="text" id="title" name="text-input"
+                                                       placeholder="제목" class="form-control">
+                    <small class="help-block form-text">* 최대 100자 이내로 입력해 주세요.</small>
+                  </div>
+                </div>
+                <!--<div class="row form-group">-->
+                <!--<div class="col col-md-3"><label for="email-input" class=" form-control-label">Email-->
+                <!--Input</label></div>-->
+                <!--<div class="col-12 col-md-9"><input type="email" id="email-input"-->
+                <!--name="email-input" placeholder="Enter Email"-->
+                <!--class="form-control">-->
+                <!--<small class="help-block form-text">Please enter your email</small>-->
+                <!--</div>-->
+                <!--</div>-->
+                <!--<div class="row form-group">-->
+                <!--<div class="col col-md-3"><label for="password-input" class=" form-control-label">Password</label>-->
+                <!--</div>-->
+                <!--<div class="col-12 col-md-9"><input type="password" id="password-input"-->
+                <!--name="password-input" placeholder="Password"-->
+                <!--class="form-control">-->
+                <!--<small class="help-block form-text">Please enter a complex password</small>-->
+                <!--</div>-->
+                <!--</div>-->
+                <!--<div class="row form-group">-->
+                <!--<div class="col col-md-3"><label for="disabled-input" class=" form-control-label">Disabled-->
+                <!--Input</label></div>-->
+                <!--<div class="col-12 col-md-9"><input type="text" id="disabled-input"-->
+                <!--name="disabled-input" placeholder="Disabled"-->
+                <!--disabled="" class="form-control"></div>-->
+                <!--</div>-->
+                <div class="row form-group">
+                  <div class="col col-md-2"><label for="tui-editor"
+                                                   class=" form-control-label">본문</label>
+                  </div>
+                  <div class="col-12 col-md-10">
+                    <!-- tui -->
+                    <div id="tui-editor" style="min-height: 300px"></div>
+
+                  </div>
+                </div>
+
+                <div class="row form-group">
+                  <div class="col col-md-2"><label for="tags"
+                                                   class=" form-control-label">태그</label></div>
+                  <div class="col-12 col-md-10"><input type="text" id="tags" name="text-input"
+                                                       placeholder="태그" class="form-control">
+                    <small class="help-block form-text">* <strong>,</strong> 로 태그를 구분해 주세요.(입력방식 개선 예정)</small>
+                  </div>
+                </div>
+
+                <div class="row form-group">
+                  <div class="col col-md-2"><label class=" form-control-label">부가 설정</label>
+                  </div>
+                  <div class="col col-md-10">
+                    <div class="form-check">
+                      <div class="checkbox">
+                        <label for="checkbox1" class="form-check-label ">
+                          <input type="checkbox" id="checkbox1" name="checkbox1" value="option1"
+                                 class="form-check-input">공개(미구현)
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row form-group">
+                  <div class="col col-md-2"><label class=" form-control-label"/>
+                  </div>
+                  <div class="col col-md-10">
+                    <div class="form-check">
+                      <div class="checkbox">
+                        <label for="checkbox1" class="form-check-label ">
+                          <input type="checkbox" id="checkbox1" name="checkbox1" value="option1"
+                                 class="form-check-input">좋아요(미구현)
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div class="card-footer">
+              <button type="submit" class="btn btn-primary btn-sm action" data-action="register">
+                <i class="fa fa-dot-circle-o"></i> Submit
+              </button>
+              <button type="reset" class="btn btn-danger btn-sm">
+                <i class="fa fa-ban"></i> Reset(미구현)
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
+    <!-- .animated -->
+  </div>
+  <!-- /.content -->
+  <div class="clearfix"></div>
+  <!-- Footer -->
+  <th:block th:insert="fragment/footer.html :: footer"/>
+  <!-- /.site-footer -->
 </div>
+<!-- /#right-panel -->
 
-
-<button class="action" data-action="register">등록</button>
-
-<!--lib-->
-<script src="/webjars/jquery/3.3.1-1/jquery.js"></script>
+<!-- Scripts -->
+<th:block th:insert="fragment/ela-scripts.html :: ela-scripts"/>
 
 <!--TUI editor-->
+<script src="/webjars/jquery/3.3.1-1/jquery.js"></script>
 <script src='/lib/tui/markdown-it/dist/markdown-it.js'></script>
 <script src="/lib/tui/to-mark/dist/to-mark.js"></script>
 <script src="/lib/tui/tui-code-snippet/dist/tui-code-snippet.js"></script>
@@ -39,11 +161,9 @@
 <script src="/lib/tui/squire-rte/build/squire-raw.js"></script>
 <script src="/lib/tui/tui-editor/dist/tui-editor-Editor.js"></script>
 
-<!--my js-->
+<!--Local Stuff-->
 <script src="/js/common.js"></script>
 <script src="/js/write-post.js"></script>
 
 </body>
 </html>
-
-

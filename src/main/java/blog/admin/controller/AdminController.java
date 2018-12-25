@@ -13,13 +13,31 @@ public class AdminController {
     return "main";
   }
 
+  @GetMapping("empty")
+  public String te() {
+    return "default-template";
+  }
+
+  @GetMapping("post")
+  public String post() {
+    return "post";
+  }
+
   @GetMapping("write-post")
-  public String writePost() {
+  public String wrtiePost() {
     return "write-post";
   }
 
+  @GetMapping("write-post1")
+  @Deprecated
+  public String writePost1() {
+    return "write-post1";
+  }
+
   @GetMapping("set-me")
+  @Deprecated
   public String setMe() {
     return "set-me";
   }
+
 }

@@ -11,6 +11,7 @@
 * MySQL
 * openjdk 
 * docker
+* [ElaAdmin](https://github.com/puikinsh/ElaAdmin) [DEMO](https://colorlib.com/polygon/elaadmin/index.html)
 
 ###### 기능?특징?
 * 설치형 블로그
@@ -71,4 +72,4 @@
     -> 프론트에서 어떤 기능을 쓸지 모르니 다 지원하는게 좋을듯 
 * 프론트는 다른 프로젝트로 만들어야할 것 같다. 한 다음 만남 이후 부터 조금씩? -> 다음 만남부터 조금씩?
 
-- - -
+- - -  
