@@ -1,4 +1,4 @@
-let $ = jQuery;
+const $ = jQuery;
 const blog = {};
 blog.common = {
     SETTING: {LOCATION: 'http://localhost:8081'},
@@ -15,6 +15,11 @@ blog.common = {
                 resolve(resp);
             }
         });
-    })
+    }),
+    getDateInKR(date) {
+        const r = new Date(date);
+
+        return `${r.getFullYear()}년 ${r.getMonth()}월 ${r.getDay()}일`;
+    }
 };
 

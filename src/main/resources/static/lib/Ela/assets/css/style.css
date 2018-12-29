@@ -891,8 +891,8 @@ aside.left-panel {
 
 .open .right-panel {
   margin-left: 83px; }
-.open .let-panel {
-  z-index: 999; }
+/*.open .let-panel {*/
+  /*z-index: 999; }*/
 
 header.fixed-top {
   background: #fff;

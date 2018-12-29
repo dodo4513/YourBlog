@@ -18,20 +18,14 @@ public class AdminController {
     return "default-template";
   }
 
-  @GetMapping("post")
+  @GetMapping("post-list")
   public String post() {
-    return "post";
+    return "post-list";
   }
 
   @GetMapping("write-post")
   public String wrtiePost() {
     return "write-post";
-  }
-
-  @GetMapping("write-post1")
-  @Deprecated
-  public String writePost1() {
-    return "write-post1";
   }
 
   @GetMapping("set-me")
