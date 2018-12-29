@@ -4,11 +4,17 @@
   <title>포스트 등록</title>
   <th:block th:insert="fragment/ela-style-sheets.html :: ela-style-sheets"/>
 
+  <!--my-->
+  <link rel="stylesheet" type="text/css" href="/css/common.css"/>
+
   <!--TUI editor-->
   <link rel="stylesheet" href="/lib/bower_components/codemirror/lib/codemirror.css">
   <link rel="stylesheet" href="/lib/bower_components/highlightjs/styles/github.css">
   <link rel="stylesheet" href="/lib/bower_components/tui-editor/dist/tui-editor.css">
   <link rel="stylesheet" href="/lib/bower_components/tui-editor/dist/tui-editor-contents.css">
+
+  <!--auto complete-->
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 </head>
 
 <body>
@@ -46,7 +52,7 @@
                   <div class="col col-md-2"><label for="title"
                                                    class=" form-control-label">제목</label></div>
                   <div class="col-12 col-md-10"><input type="text" id="title" name="text-input"
-                                                       placeholder="제목" class="form-control">
+                                                       placeholder="제목" class="form-control input-style large-input-style">
                     <small class="help-block form-text">* 최대 100자 이내로 입력해 주세요.</small>
                   </div>
                 </div>
@@ -90,7 +96,7 @@
                   <div class="col col-md-2"><label for="tags"
                                                    class=" form-control-label">태그</label></div>
                   <div class="col-12 col-md-10"><input type="text" id="tags" name="text-input"
-                                                       placeholder="태그" class="form-control">
+                                                       placeholder="태그" class="form-control input-style large-input-style">
                     <small class="help-block form-text">* <strong>,</strong> 로 태그를 구분해 주세요.(입력방식 개선 예정)</small>
                   </div>
                 </div>
@@ -161,8 +167,12 @@
 <script src="/lib/bower_components/squire-rte/build/squire-raw.js"></script>
 <script src="/lib/bower_components/tui-editor/dist/tui-editor-Editor.js"></script>
 
+<!--auto complete-->
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
 <!--Local Stuff-->
 <script src="/js/common.js"></script>
+<script src="/js/jquery-autocomplete.js"></script>
 <script src="/js/write-post.js"></script>
 
 </body>

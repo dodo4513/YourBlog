@@ -7,6 +7,7 @@ $(() => {
             this.initEditor();
             this.addEvent();
             this.testing(); // FIXME
+            blog.autocomplete.init($('#tags'), '/tags');
         },
 
         testing() {

@@ -24,7 +24,7 @@ public class InfoService {
 
   public BlogInfoResponse makeBlogInfo() {
     BlogInfoResponse blogInfoResponse = new BlogInfoResponse();
-    blogInfoResponse.setPostInfoResponse(postService.makePostInfoResponse());
+    blogInfoResponse.setPostInfoResponse(postService.getPostInfoResponse());
     blogInfoResponse.setVisitInfoResponse(visitService.makeVisitResponse());
 
     return blogInfoResponse;

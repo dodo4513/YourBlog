@@ -7,11 +7,16 @@ import lombok.Setter;
 @Getter
 @Setter
 public class PostsGetRequest {
-  // TODO 정렬,
 
-  @ApiModelProperty(value = "페이지 번호")
-  int pageNumber = 0;
+  @ApiModelProperty(value = "제목", position = 10)
+  String title;
 
-  @ApiModelProperty(value = "페이지 수")
-  int pageSize = 10;
+  @ApiModelProperty(value = "태그", position = 20)
+  String tags;
+
+  @ApiModelProperty(value = "페이지 번호", position = 30)
+  long pageNumber = 0;
+
+  @ApiModelProperty(value = "페이지 수", position = 40)
+  long pageSize = 10;
 }

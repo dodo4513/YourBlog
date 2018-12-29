@@ -3,6 +3,7 @@ package blog.api.post.service;
 import blog.api.post.dao.PostRepository;
 import blog.api.post.model.entity.Post;
 import blog.api.post.model.request.PostRequest;
+import blog.api.post.model.request.PostsGetRequest;
 import blog.api.post.model.response.PostInfoResponse;
 import blog.api.post.model.response.PostResponse;
 import blog.api.tag.model.entity.Tag;
@@ -27,7 +28,7 @@ public class PostService {
     this.tagService = tagService;
   }
 
-  public PostResponse makePostInfoResponse(long no) {
+  public PostResponse getPostInfoResponse(long no) {
     Post post = postRepository.findByNoAndDeleteYn(no, false);
     if (post == null) {
 
@@ -43,13 +44,11 @@ public class PostService {
     return postResponse;
   }
 
-  public List<PostResponse> makePostResponses() {
-    List<Post> posts = postRepository.findByDeleteYn(false);
+  public List<PostResponse> getPostResponses(PostsGetRequest postsGetRequest) {
+    List<Post> posts = postRepository.getPosts(postsGetRequest);
 
     List<PostResponse> postResponses = BeanUtils.copyProperties(posts, PostResponse.class);
-    postResponses.forEach(postResponse -> {
-      postResponse.setTags(BeanUtils.copyProperties(postResponse.getTags(), TagResponse.class));
-    });
+    postResponses.forEach(postResponse -> postResponse.setTags(BeanUtils.copyProperties(postResponse.getTags(), TagResponse.class)));
 
     return postResponses;
   }
@@ -65,7 +64,7 @@ public class PostService {
   }
 
   @Transactional
-  public PostInfoResponse makePostInfoResponse() {
+  public PostInfoResponse getPostInfoResponse() {
     PostInfoResponse postInfoResponse = new PostInfoResponse();
     postInfoResponse.setTotalPost(postRepository.countByDeleteYn(false));
     postInfoResponse.setPostFor7Days(postRepository

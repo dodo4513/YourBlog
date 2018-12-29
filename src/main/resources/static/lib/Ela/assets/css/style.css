@@ -1834,7 +1834,7 @@ header .form-inline {
   text-align: center;
   background-color: #e9ecef;
   border: 1px solid rgba(0, 0, 0, 0.15);
-  border-radius: .25rem; }
+}
 
 .flotTip {
   background: #252525;

@@ -4,8 +4,17 @@
   <title>Ela Admin - HTML5 Admin Template</title>
   <th:block th:insert="fragment/ela-style-sheets.html :: ela-style-sheets"/>
 
+  <!--my-->
+  <link rel="stylesheet" type="text/css" href="/css/common.css"/>
+
   <!--TUI grid-->
-  <link rel="stylesheet" type="text/css" href="/lib/bower_components/tui-grid/dist/tui-grid.css" />
+  <link rel="stylesheet" type="text/css" href="/lib/bower_components/tui-grid/dist/tui-grid.css"/>
+  <link rel="stylesheet" type="text/css"
+        href="/lib/bower_components/tui-pagination/dist/tui-pagination.css"/>
+
+  <!--auto complete-->
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
 </head>
 
 <body>
@@ -28,9 +37,38 @@
         <div class="col-lg-12">
           <div class="card">
             <div class="card-header">
-              <strong>포스트</strong> 리스트
+              <strong>포스트</strong> 조회
             </div>
             <div class="card-body card-block">
+
+              <form id="search-form">
+              <div class="row form-group">
+                <div class="col col-md-2">
+                  <label for="title" class=" form-control-label">제목</label>
+                </div>
+                <div class="col-12 col-md-10">
+                  <input type="text" id="title" name="title" class="form-control input-style large-input-style search-condition">
+                </div>
+              </div>
+
+              <div class="row form-group">
+                <div class="col col-md-2">
+                  <label for="tags" class=" form-control-label">태그</label>
+                </div>
+                <div class="col-12 col-md-10">
+                  <input type="text" id="tags" name="tags" size="50" class="form-control input-style medium-input-style">
+                </div>
+              </div>
+
+              <div class="search-btn-box">
+                <div class="action btn-primary" data-action="search">조회</div>
+                <div class="">초기화</div>
+              </div>
+              </form>
+
+              <div class="clear-line"></div>
+
+              <!-- grid -->
               <div id="wrapper"></div>
             </div>
           </div>
@@ -58,10 +96,15 @@
 <script src="/lib/bower_components/tui-pagination/dist/tui-pagination.js"></script>
 <script src="/lib/bower_components/tui-date-picker/dist/tui-date-picker.js"></script>
 <script src="/lib/bower_components/tui-grid/dist/tui-grid.js"></script>
+<script src="/lib/bower_components/tui-pagination/dist/tui-pagination.js"></script>
 
-<!--Local Stuff-->
+<!--auto complete-->
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+<!--my-->
 <script src="/js/common.js"></script>
 <script src="/js/grid-column.js"></script>
+<script src="/js/jquery-autocomplete.js"></script>
 <script src="/js/post-list.js"></script>
 
 </body>
