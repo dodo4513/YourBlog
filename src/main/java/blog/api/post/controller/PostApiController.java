@@ -3,10 +3,10 @@ package blog.api.post.controller;
 import blog.api.post.model.request.PostRequest;
 import blog.api.post.model.request.PostsGetRequest;
 import blog.api.post.model.response.PostResponse;
+import blog.api.post.model.response.PostsResponse;
 import blog.api.post.service.PostService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,9 +29,9 @@ public class PostApiController {
 
   @GetMapping("posts")
   @ApiOperation(value = "포스트 목록 조회", notes = "포스트 목록을 조회합니다.(paging)")
-  public ResponseEntity<List<PostResponse>> getPosts(@ModelAttribute PostsGetRequest postsGetRequest) {
+  public ResponseEntity<PostsResponse> getPosts(@ModelAttribute PostsGetRequest postsGetRequest) {
 
-    return ResponseEntity.ok().body(postService.getPostResponses(postsGetRequest));
+    return ResponseEntity.ok().body(postService.getPostsResponse(postsGetRequest));
   }
 
   @GetMapping("posts/{no}")

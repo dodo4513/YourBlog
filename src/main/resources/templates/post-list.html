@@ -42,6 +42,10 @@
             <div class="card-body card-block">
 
               <form id="search-form">
+                <input type="hidden" name="pageNumber"/>
+                <input type="hidden" name="pageSize"/>
+                <input type="hidden" name="publicYn" />
+
               <div class="row form-group">
                 <div class="col col-md-2">
                   <label for="title" class=" form-control-label">제목</label>
@@ -60,16 +64,35 @@
                 </div>
               </div>
 
+              <div class="row form-group">
+                <div class="col col-md-2">상태 </div>
+                <div class="col-12 col-md-10" style="padding-left: 35px;">
+                  <span style="margin-right: 30px;">
+                    <input type="checkbox" id="publicY" class="form-check-input" style="margin-right: 10px" checked="checked">공개
+                  </span>
+                  <span>
+                    <input type="checkbox" id="publicN" class="form-check-input" style="margin-right: 10px" checked="checked">비공개
+                  </span>
+                </div>
+              </div>
+
               <div class="search-btn-box">
                 <div class="action btn-primary" data-action="search">조회</div>
-                <div class="">초기화</div>
+                <div class="action" data-action="clear">초기화</div>
               </div>
               </form>
 
-              <div class="clear-line"></div>
+              <ul class="nav nav-tabs" id="result-grid" role="tablist">
+                <li class="nav-item">
+                  <a class="nav-link active show" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">
+                    조회 결과
+                    <span class="badge" id="total-count-badge">0</span>
+                  </a>
+                </li>
+              </ul>
 
               <!-- grid -->
-              <div id="wrapper"></div>
+              <div id="wrapper" style="min-height: 450px"></div>
             </div>
           </div>
         </div>

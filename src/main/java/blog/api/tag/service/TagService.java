@@ -4,7 +4,11 @@ import blog.api.tag.dao.TagRepository;
 import blog.api.tag.model.entity.Tag;
 import blog.api.tag.model.request.TagRequest;
 import blog.api.tag.model.response.TagResponse;
+import blog.common.etc.CacheName;
+import blog.common.etc.SystemConstants;
+import blog.common.service.CacheService;
 import blog.common.util.BeanUtils;
+import blog.common.util.JacksonUtils;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,14 +20,19 @@ public class TagService {
 
   private final TagRepository tagRepository;
 
+  private final CacheService cacheService;
+
   @Autowired
-  public TagService(TagRepository tagRepository) {
+  public TagService(TagRepository tagRepository, CacheService cacheService) {
     this.tagRepository = tagRepository;
+    this.cacheService = cacheService;
   }
 
   @Transactional
   public List<Tag> saveTags(List<TagRequest> tagRequests) {
     List<Tag> originTags = tagRepository.findAll();
+
+    cacheService.evict(CacheName.Tags);
 
     return tagRepository.saveAll(tagRequests
         .stream()
@@ -39,7 +48,16 @@ public class TagService {
   }
 
   public List<TagResponse> getTags() {
-    // TODO 캐시처리
-    return BeanUtils.copyProperties(tagRepository.findAll(), TagResponse.class);
+    String cachedTags = cacheService.get(CacheName.Tags, SystemConstants.TAGS_CACHE_KEY);
+
+    if (cachedTags == null) {
+      List<TagResponse> tagResponses = BeanUtils
+          .copyProperties(tagRepository.findAll(), TagResponse.class);
+      cacheService.put(CacheName.Tags, SystemConstants.TAGS_CACHE_KEY, tagResponses);
+
+      return tagResponses;
+    }
+
+    return JacksonUtils.toForceList(cachedTags, TagResponse.class);
   }
 }

@@ -6,6 +6,7 @@ import blog.api.post.model.request.PostRequest;
 import blog.api.post.model.request.PostsGetRequest;
 import blog.api.post.model.response.PostInfoResponse;
 import blog.api.post.model.response.PostResponse;
+import blog.api.post.model.response.PostsResponse;
 import blog.api.tag.model.entity.Tag;
 import blog.api.tag.model.response.TagResponse;
 import blog.api.tag.service.TagService;
@@ -44,13 +45,19 @@ public class PostService {
     return postResponse;
   }
 
-  public List<PostResponse> getPostResponses(PostsGetRequest postsGetRequest) {
+  public PostsResponse getPostsResponse(PostsGetRequest postsGetRequest) {
+
+    PostsResponse postsResponse = new PostsResponse();
     List<Post> posts = postRepository.getPosts(postsGetRequest);
 
     List<PostResponse> postResponses = BeanUtils.copyProperties(posts, PostResponse.class);
     postResponses.forEach(postResponse -> postResponse.setTags(BeanUtils.copyProperties(postResponse.getTags(), TagResponse.class)));
 
-    return postResponses;
+    postsResponse.setPostResponses(postResponses);
+
+    postsResponse.setTotalCount(postRepository.getCountPosts(postsGetRequest));
+
+    return postsResponse;
   }
 
   @Transactional

@@ -5,6 +5,7 @@ import blog.api.post.model.entity.Post;
 import blog.api.post.model.entity.QPost;
 import blog.api.post.model.request.PostsGetRequest;
 import com.querydsl.core.BooleanBuilder;
+import com.querydsl.jpa.JPQLQuery;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -21,7 +22,29 @@ public class PostRepositoryImpl extends QuerydslRepositorySupport implements Pos
 
   @Override
   public List<Post> getPosts(PostsGetRequest request) {
+    JPQLQuery<Post> query = getPostJPQLQuery(request);
 
+    if (request.getPageNumber() != null && request.getPageSize() != null) {
+      query
+          .limit(request.getPageSize())
+          .offset((request.getPageNumber() - 1) * request.getPageSize());
+    }
+
+    return query
+        .orderBy(post.no.desc())
+        .fetch();
+  }
+
+
+  @Override
+  public long getCountPosts(PostsGetRequest request) {
+
+    JPQLQuery<Post> query = getPostJPQLQuery(request);
+
+    return query.fetchCount();
+  }
+
+  private JPQLQuery<Post> getPostJPQLQuery(PostsGetRequest request) {
     BooleanBuilder condition = new BooleanBuilder();
 
     if (Strings.isNotEmpty(request.getTitle())) {
@@ -33,6 +56,10 @@ public class PostRepositoryImpl extends QuerydslRepositorySupport implements Pos
       condition.and(post.tags.any().name.in(tags));
     }
 
-    return from(post).where(post.deleteYn.eq(false).and(condition)).fetch();
+    if (request.getPublicYn() != null) {
+      condition.and(post.publicYn.eq(request.getPublicYn()));
+    }
+
+    return from(post).where(post.deleteYn.eq(false).and(condition));
   }
 }

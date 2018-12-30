@@ -1,6 +1,7 @@
 package blog.common.service;
 
 import blog.common.etc.CacheName;
+import blog.common.util.JacksonUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
@@ -27,10 +28,23 @@ public class CacheService {
     return cache.get(key, String.class);
   }
 
+//  public <T> String get(CacheName cacheName, String key, Class<T> clazz) {
+//    Cache cache = cacheManager.getCache(cacheName.name());
+//    assert cache != null;
+//
+//    return JacksonUtils.toForceModel()cache.get(key, String.class);
+//  }
+
   public void put(CacheName cacheName, String key, String value) {
     Cache cache = cacheManager.getCache(cacheName.name());
     assert cache != null;
     cache.put(key, value);
+  }
+
+  public void put(CacheName cacheName, String key, Object value) {
+    Cache cache = cacheManager.getCache(cacheName.name());
+    assert cache != null;
+    cache.put(key, JacksonUtils.toForceJson(value));
   }
 
   public void evict(CacheName cacheName) {

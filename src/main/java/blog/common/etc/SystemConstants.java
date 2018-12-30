@@ -7,4 +7,5 @@ public class SystemConstants {
 
   public static final String NO = "N";
   public static final String YES = "Y";
+  public static final String TAGS_CACHE_KEY = "1";
 }

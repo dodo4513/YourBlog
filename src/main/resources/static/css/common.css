@@ -40,6 +40,7 @@
   cursor: Pointer;
   text-align: center;
   padding-top: 4px;
+  user-select: none;
   display: inline-block;
 }
 
@@ -55,7 +56,21 @@
   background-color: #1979e0 !important;
 }
 
+#result-grid {
+  margin-top: 50px;
+  margin-bottom: 10px;
+}
+#total-count-badge {
+  background-color: #4b96e6;
+  color: white;
+  margin-left: 5px;
+}
 
-
-/* jquery auto complete */
-
+#curtain {
+  height: 100%;
+  background-color: rgba(57, 102, 134, 0.2);
+  width: 100%;
+  z-index: 9999;
+  top: 0;
+  position: fixed;
+}

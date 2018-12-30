@@ -15,6 +15,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.Type;
 
 @Setter
 @Getter
@@ -35,6 +36,10 @@ public class Post extends BasicColumn {
   @ManyToMany
   @JoinTable(name = "post_tag_mapping", joinColumns = @JoinColumn(name = "post_no"), inverseJoinColumns = @JoinColumn(name = "tag_no"))
   private List<Tag> tags;
+
+  // 공개 여부
+  @Type(type = "yes_no")
+  private boolean publicYn;
 
   // 기타 정보
   @Convert(converter = MapToJsonConverter.class)

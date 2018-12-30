@@ -14,9 +14,12 @@ public class PostsGetRequest {
   @ApiModelProperty(value = "태그", position = 20)
   String tags;
 
+  @ApiModelProperty(value = "공개", position = 25)
+  Boolean publicYn;
+
   @ApiModelProperty(value = "페이지 번호", position = 30)
-  long pageNumber = 0;
+  Long pageNumber;
 
   @ApiModelProperty(value = "페이지 수", position = 40)
-  long pageSize = 10;
+  Long pageSize;
 }

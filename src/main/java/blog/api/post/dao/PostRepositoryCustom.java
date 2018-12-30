@@ -8,4 +8,6 @@ public interface PostRepositoryCustom {
 
   List<Post> getPosts(PostsGetRequest postsGetRequest);
 
+  long getCountPosts(PostsGetRequest postsGetRequest);
+
 }
