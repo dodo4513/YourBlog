@@ -665,7 +665,7 @@ aside.left-panel {
           .navbar .navbar-nav li.menu-item-has-children a:hover:before {
             border-color: #03a9f3 #03a9f3 transparent transparent; }
         .navbar .navbar-nav li.menu-item-has-children .sub-menu {
-          background: #fff;
+          background: #fafafa;
           border: none;
           -webkit-box-shadow: none;
                   box-shadow: none;

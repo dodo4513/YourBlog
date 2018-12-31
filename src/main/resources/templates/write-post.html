@@ -13,6 +13,11 @@
   <link rel="stylesheet" href="/lib/bower_components/tui-editor/dist/tui-editor.css">
   <link rel="stylesheet" href="/lib/bower_components/tui-editor/dist/tui-editor-contents.css">
 
+  <!--TUI grid-->
+  <link rel="stylesheet" type="text/css" href="/lib/bower_components/tui-grid/dist/tui-grid.css"/>
+  <link rel="stylesheet" type="text/css"
+        href="/lib/bower_components/tui-pagination/dist/tui-pagination.css"/>
+
   <!--auto complete-->
   <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 </head>
@@ -43,47 +48,23 @@
             <div class="card-body card-block">
               <form action="#" method="post" enctype="multipart/form-data" class="form-horizontal">
                 <div class="row form-group">
-                  <div class="col col-md-2"><label class=" form-control-label">작성자</label></div>
+                  <div class="col col-md-2"><label class=" form-control-label must">작성자(미구현)</label></div>
                   <div class="col-12 col-md-10">
                     <p class="form-control-static">dodo</p>
                   </div>
                 </div>
                 <div class="row form-group">
                   <div class="col col-md-2"><label for="title"
-                                                   class=" form-control-label">제목</label></div>
+                                                   class=" form-control-label must">제목</label></div>
                   <div class="col-12 col-md-10"><input type="text" id="title" name="text-input"
                                                        placeholder="제목" class="form-control input-style large-input-style">
-                    <small class="help-block form-text">* 최대 100자 이내로 입력해 주세요.</small>
+                    <small class="help-block form-text">최대 100자 이내로 입력해 주세요.</small>
                   </div>
                 </div>
-                <!--<div class="row form-group">-->
-                <!--<div class="col col-md-3"><label for="email-input" class=" form-control-label">Email-->
-                <!--Input</label></div>-->
-                <!--<div class="col-12 col-md-9"><input type="email" id="email-input"-->
-                <!--name="email-input" placeholder="Enter Email"-->
-                <!--class="form-control">-->
-                <!--<small class="help-block form-text">Please enter your email</small>-->
-                <!--</div>-->
-                <!--</div>-->
-                <!--<div class="row form-group">-->
-                <!--<div class="col col-md-3"><label for="password-input" class=" form-control-label">Password</label>-->
-                <!--</div>-->
-                <!--<div class="col-12 col-md-9"><input type="password" id="password-input"-->
-                <!--name="password-input" placeholder="Password"-->
-                <!--class="form-control">-->
-                <!--<small class="help-block form-text">Please enter a complex password</small>-->
-                <!--</div>-->
-                <!--</div>-->
-                <!--<div class="row form-group">-->
-                <!--<div class="col col-md-3"><label for="disabled-input" class=" form-control-label">Disabled-->
-                <!--Input</label></div>-->
-                <!--<div class="col-12 col-md-9"><input type="text" id="disabled-input"-->
-                <!--name="disabled-input" placeholder="Disabled"-->
-                <!--disabled="" class="form-control"></div>-->
-                <!--</div>-->
+
                 <div class="row form-group">
                   <div class="col col-md-2"><label for="tui-editor"
-                                                   class=" form-control-label">본문</label>
+                                                   class=" form-control-label must">본문</label>
                   </div>
                   <div class="col-12 col-md-10">
                     <!-- tui -->
@@ -97,19 +78,18 @@
                                                    class=" form-control-label">태그</label></div>
                   <div class="col-12 col-md-10"><input type="text" id="tags" name="text-input"
                                                        placeholder="태그" class="form-control input-style large-input-style">
-                    <small class="help-block form-text">* <strong>,</strong> 로 태그를 구분해 주세요.(입력방식 개선 예정)</small>
+                    <small class="help-block form-text"><strong>,</strong> 로 태그를 구분해 주세요.(입력방식 개선 예정)</small>
                   </div>
                 </div>
 
                 <div class="row form-group">
-                  <div class="col col-md-2"><label class=" form-control-label">부가 설정</label>
-                  </div>
+                  <div class="col col-md-2"><label class=" form-control-label">공개 여부</label></div>
                   <div class="col col-md-10">
                     <div class="form-check">
                       <div class="checkbox">
                         <label for="publicYn" class="form-check-label ">
                           <input type="checkbox" id="publicYn" name="publicYn"
-                                 class="form-check-input">공개
+                                 class="form-check-input" checked="checked">공개
                         </label>
                       </div>
                     </div>
@@ -117,16 +97,21 @@
                 </div>
 
                 <div class="row form-group">
-                  <div class="col col-md-2"><label class=" form-control-label"/>
+                  <div class="col col-md-2">
+                    <label class=" form-control-label">추가 정보</label>
+                    <span data-tooltip-text="고정된 위 항목 외에도 자신에게 필요한 추가적인 정보를 포스트와 함께 저장할 수 있습니다. 이 정보는 포스트 조회 시 extraData로 반환됩니다."><i class="fa fa-question-circle"></i></span>
                   </div>
                   <div class="col col-md-10">
                     <div class="form-check">
                       <div class="checkbox">
-                        <label for="checkbox1" class="form-check-label ">
-                          <input type="checkbox" id="checkbox1" name="checkbox1" value="option1"
-                                 class="form-check-input">좋아요(미구현)
+                        <label for="extra-data-use-check" class="form-check-label ">
+                          <input type="checkbox" id="extra-data-use-check" class="form-check-input">사용
                         </label>
                       </div>
+                    </div>
+                    <div id="extra-data-box" style="display: none">
+                      <a href="javascript:" class="action"><span class="badge badge-primary"  data-action="addRow">+ 추가</span></a>
+                      <div id="extra-data-grid" style="width: 450px; margin-top:10px;"></div>
                     </div>
                   </div>
                 </div>
@@ -167,11 +152,22 @@
 <script src="/lib/bower_components/squire-rte/build/squire-raw.js"></script>
 <script src="/lib/bower_components/tui-editor/dist/tui-editor-Editor.js"></script>
 
+<!--TUI grid-->
+<script src="/webjars/jquery/3.3.1-1/jquery.js"></script>
+<script src="/lib/bower_components/underscore/underscore.js"></script>
+<script src="/lib/bower_components/backbone/backbone.js"></script>
+<script src="/lib/bower_components/tui-code-snippet/dist/tui-code-snippet.js"></script>
+<script src="/lib/bower_components/tui-pagination/dist/tui-pagination.js"></script>
+<script src="/lib/bower_components/tui-date-picker/dist/tui-date-picker.js"></script>
+<script src="/lib/bower_components/tui-grid/dist/tui-grid.js"></script>
+<script src="/lib/bower_components/tui-pagination/dist/tui-pagination.js"></script>
+
 <!--auto complete-->
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
 <!--Local Stuff-->
 <script src="/js/common.js"></script>
+<script src="/js/grid-column.js"></script>
 <script src="/js/jquery-autocomplete.js"></script>
 <script src="/js/write-post.js"></script>
 

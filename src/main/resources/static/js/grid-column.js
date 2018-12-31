@@ -41,6 +41,38 @@ blog.column = {
         formatter: value => blog.common.getDateInKR(value)
       }
     ];
+  },
+  extraData() {
+    return [
+      {
+        title: '키',
+        name: 'key',
+        width: 80,
+        align: 'center',
+        editOptions: {
+          type: 'text',
+          useViewMode: false
+        }
+      },
+      {
+        title: '값',
+        name: 'value',
+        editOptions: {
+          type: 'text',
+          useViewMode: false
+        }
+      },
+      {
+        title: '삭제',
+        width: 10,
+        align: 'center',
+        className: 'removeRow',
+        formatter: () => `<i class="fa fa-times action" data-action="remove"/>`,
+        editOptions: {
+          onFocus: (e) => console.log(e)
+        }
+      }
+    ];
   }
 };
 
