@@ -1201,7 +1201,7 @@ header .form-inline {
 
 .card {
   margin-bottom: 1.875em;
-  border-radius: 5px;
+  border-radius: 3px;
   padding: 0;
   border: 0px solid transparent;
   -webkit-box-shadow: 0 0 20px rgba(0, 0, 0, 0.08);

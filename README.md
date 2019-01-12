@@ -1,78 +1,35 @@
 ### YourBlog
-블로그를 개발하자!
+YourBlog는 유용한 블로그의 기능들을 모아 REST API 를 제공하는 서버입니다. 이를 지원하는 테마(프론트)를 사용하거나, 직접 개발해 자신만의 블로그를 빠르게 만들 수 있습니다.
 
-###### 일정
-1. 스펙정의 18.11.01 ~
-2. 1차 프로토타입 개발(ASAP)
-    
-###### 개발환경
-* Spring Boot 2.*
-* Spring JPA
-* MySQL
-* openjdk 
-* docker
-* [ElaAdmin](https://github.com/puikinsh/ElaAdmin) [DEMO](https://colorlib.com/polygon/elaadmin/index.html)
-
-###### 기능?특징?
-* 지속적인 포스팅을 유도할 수 있는 요소
-* 태그 좀더 이쁘게 하자
-* 좋아요
+#### 특징
 * 설치형 블로그
-    * 기본 프론트 템플릿도 하나 있어야겠지?
-* 마크다운 기반 에디터
-    * TUI editor http://ui.toast.com/tui-editor/
-* SEO
-* 포스트
-    * 시리즈
-    * 카테고리
-    * 태그
-    * 검색
-    * 백업
-* 플러그인(?, 확장 가능성..)
-* 소통
-    * 댓글
-    * 알림
-        * email ?
-* 프로필
-* 다국어
-* 로그
-    * google analysis
-    * today
-    
-###### 리서치
-* 설치형 블로그 (https://goo.gl/5cRW1A)
-    * 워드프레스 => php
-* 설치형 노트 (http://jupyter.org/)
-    * Jupyter notebook
-* 마크다운 기반 에디터  React + GraphQL (https://goo.gl/4x8XtZ)
-* blog : medium(https://medium.com/), hashnode(https://hashnode.com/)
+* REST API 기반으로 블로그에 특화된 서버 제공
+* 블로그 관리를 위한 Admin 사이트
+* 지속적인 포스팅 동기 부여를 위한 요소
+-  - - 
+#### 프로젝트 목표 일정
 
-###### 테마 개발 요구사항
-* github 공개
-* 설치 가이드 제공 
-* 사이트 하단에 your-blog 홍보 문구 삽입
-
-###### 고민
-
-> 차주 회의
-
-* DB 자료 import, export 방식에 대해 논의 되어야함.
-* email 발송 기능
-* post image 어떻게 관리?
-* gradle multi module?
-* 튜닝도 마지막에 해야해
-
+| - | 일시 | 목표 | 비고 | 
+| --- | --- | --- | --- |
+| 1 | 18.11.01 ~ 19.01.31  (15주) | 블로그 스펙 정의 및 간단한 프로토타입 구현 |* API(포스트, 태그, 카테고리), Admin 페이지 구현 </br> * 기존 Jekyll 블로그의 간단한 기능들 우선 개발</br>* Google cloud platform 환경 세팅 |
+| 2 | ~ 19.03. 31 (9주)| *  기본 블로그 테마(프론트) 기획 및 개발  | * Vue.js |
+| 3 | ~ 19.04.30 (4주) | * SEO, 테스트 등 블로그 오픈 준비 | * SPA로 SEO를 깔끔하게 적용할 수 있을까 |
+| 4 | 19.05.01 | YourBlog 1.0 블로그 서비스 시작 |
+| 5|  ~ | Admin 추가 기능 개발 | 이후 일정은 추후 기획
+- - -    
+#### 개발환경
+* Spring Boot 2.*, JPA , Mysql
+* Docker 
+* Admin page template: [ElaAdmin](https://github.com/puikinsh/ElaAdmin) [DEMO](https://colorlib.com/polygon/elaadmin/index.html)
 - - -
+#### 테마(프론트) 개발
+함께 테마를 개발할분을 찾고 있습니다.  YourBlog REST API으로 자신의 블로그를 만든다고 생각하면 됩니다. 언어나 환경은 무엇이든 좋습니다. 메일로 문의 부탁드립니다.
 
-> 18.12.06 회의
-
-* 카테고리, 태그을 어떻게 활용하면 좋을까
-
-* 디비가 필요한가? - 거의다 읽는 데이터 일거같은데.. -> 차후 들어갈 기능을 생각하면 디비 쓰는게 좋을듯
-* 어드민 사이트가 필요하구나, 단순히 글 쓰는 것 뿐 아니라 태그, 카테고리 등을 관리할 페이지
-    * 기획을?
-    * 어드민용 API 는(글, 프로필 등록, 태그 수정 등) 어떻하지? 프론트가 바라보는 API 처럼 만들어야할까 
-    -> 프론트에서 어떤 기능을 쓸지 모르니 다 지원하는게 좋을듯 
-* 프론트는 다른 프로젝트로 만들어야할 것 같다. 한 다음 만남 이후 부터 조금씩? -> 다음 만남부터 조금씩?
-
-- - -  
+* 누구나 사용할 수 있도록 Github Repository는 공개해야합니다.
+* README.md에 친절한 설치 가이드 작성을 부탁드립니다.
+* 전체 사이트 하단에 YourBlog Repository URL을 삽입해야합니다.
+- - -
+#### 이슈
+* email 발송 기능
+* CDN
+* SQL 튜닝
