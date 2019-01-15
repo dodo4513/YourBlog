@@ -43,9 +43,6 @@
           <!--<li>-->
             <!--<a href="/admin/post"> <i class="menu-icon ti-email"></i>포스트(미구현)</a>-->
           <!--</li>-->
-          <li>
-            <a href="category.html"> <i class="menu-icon fa fa-archive"></i>게시판</a>
-          </li>
           <li class="menu-item-has-children dropdown" th:classappend="${activeId} == 'post' ? 'active' : ''">
             <a href="#" class="dropdown-toggle " data-toggle="dropdown" aria-haspopup="true"
                aria-expanded="false"> <i class="menu-icon fa fa-file-text"></i>포스트</a>
@@ -54,8 +51,8 @@
               <li><i class="menu-icon fa fa-list-ol"></i><a href="/admin/post-list">조회</a></li>
             </ul>
           </li>
-          <li>
-            <a href="widgets.html"> <i class="menu-icon fa fa-align-left"></i>카테고리(미구현) </a>
+          <li th:class="${activeId} == 'category' ? 'active' : ''">
+            <a href="/admin/category-list"> <i class="menu-icon fa fa-align-left"></i>카테고리 </a>
           </li>
           <li>
             <a href="widgets.html"> <i class="menu-icon fa fa-cog"></i>태그(미구현) </a>

@@ -24,8 +24,13 @@ public class AdminController {
   }
 
   @GetMapping("write-post")
-  public String wrtiePost() {
+  public String writePost() {
     return "write-post";
+  }
+
+  @GetMapping("category-list")
+  public String categoryList() {
+    return "category-list";
   }
 
   @GetMapping("set-me")

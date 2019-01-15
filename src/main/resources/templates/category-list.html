@@ -1,0 +1,52 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<head>
+  <title>Ela Admin - HTML5 Admin Template</title>
+  <th:block th:insert="fragment/ela-style-sheets.html :: ela-style-sheets"/>
+
+  <!--my-->
+  <link rel="stylesheet" type="text/css" href="/css/common.css"/>
+  <link  href="/lib/bower_components/bootstrap/dis/bootstrap.css" rel="stylesheet">
+
+</head>
+
+<body>
+<!-- Left Panel -->
+<th:block th:insert="fragment/left-panel.html :: left-panel(activeId = 'category')"/>
+<!-- /#left-panel -->
+
+<!-- Right Panel -->
+<div id="right-panel" class="right-panel">
+  <!-- Header-->
+  <th:block th:insert="fragment/header.html :: header"/>
+  <!-- /#header -->
+
+  <!-- Content -->
+  <div class="content">
+    <!-- Animated -->
+    <div class="animated fadeIn">
+
+      <div id="tree"></div>
+      <!--<div class="row"></div>-->
+
+    </div>
+    <!-- .animated -->
+  </div>
+  <!-- /.content -->
+  <div class="clearfix"></div>
+  <!-- Footer -->
+  <th:block th:insert="fragment/footer.html :: footer"/>
+  <!-- /.site-footer -->
+</div>
+<!-- /#right-panel -->
+
+<!-- Scripts -->
+<th:block th:insert="fragment/ela-scripts.html :: ela-scripts"/>
+
+<!--Local Stuff-->
+<script src="/lib/bower_components/bootstrap-treeview/public/js/bootstrap-treeview.js"></script>
+<script src="/js/common.js"></script>
+<script src="/js/category-list.js"></script>
+
+</body>
+</html>
