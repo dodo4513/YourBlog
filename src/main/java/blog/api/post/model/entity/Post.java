@@ -1,5 +1,6 @@
 package blog.api.post.model.entity;
 
+import blog.api.category.model.entity.Category;
 import blog.api.tag.model.entity.Tag;
 import blog.common.etc.MapToJsonConverter;
 import blog.common.model.entity.BasicColumn;
@@ -13,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.Type;
@@ -24,7 +26,7 @@ public class Post extends BasicColumn {
 
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
-  private long no;
+  private long postNo;
 
   // 제목
   private String title;
@@ -40,6 +42,10 @@ public class Post extends BasicColumn {
   // 공개 여부
   @Type(type = "yes_no")
   private boolean publicYn;
+
+  @ManyToOne
+  @JoinColumn(name = "category_no")
+  private Category category;
 
   // 기타 정보
   @Convert(converter = MapToJsonConverter.class)

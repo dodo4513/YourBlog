@@ -2,8 +2,8 @@ package blog.api.post.service;
 
 import blog.api.post.dao.PostRepository;
 import blog.api.post.model.entity.Post;
-import blog.api.post.model.request.PostRequest;
-import blog.api.post.model.request.PostsGetRequest;
+import blog.api.post.model.request.SavePostRequest;
+import blog.api.post.model.request.GetPostsRequest;
 import blog.api.post.model.response.PostInfoResponse;
 import blog.api.post.model.response.PostResponse;
 import blog.api.post.model.response.PostsResponse;
@@ -29,8 +29,8 @@ public class PostService {
     this.tagService = tagService;
   }
 
-  public PostResponse getPostInfoResponse(long no) {
-    Post post = postRepository.findByNoAndDeleteYn(no, false);
+  public PostResponse getPostResponse(long no) {
+    Post post = postRepository.findByPostNoAndDeleteYn(no, false);
     if (post == null) {
 
       return null;
@@ -45,26 +45,25 @@ public class PostService {
     return postResponse;
   }
 
-  public PostsResponse getPostsResponse(PostsGetRequest postsGetRequest) {
+  public PostsResponse getPostsResponse(GetPostsRequest getPostsRequest) {
 
     PostsResponse postsResponse = new PostsResponse();
-    List<Post> posts = postRepository.getPosts(postsGetRequest);
+    List<Post> posts = postRepository.getPosts(getPostsRequest);
 
     List<PostResponse> postResponses = BeanUtils.copyProperties(posts, PostResponse.class);
     postResponses.forEach(postResponse -> postResponse.setTags(BeanUtils.copyProperties(postResponse.getTags(), TagResponse.class)));
 
     postsResponse.setPostResponses(postResponses);
-
-    postsResponse.setTotalCount(postRepository.getCountPosts(postsGetRequest));
+    postsResponse.setTotalCount(postRepository.getCountPosts(getPostsRequest));
 
     return postsResponse;
   }
 
   @Transactional
-  public Post savePost(PostRequest postRequest) {
-    Post post = BeanUtils.copyProperties(postRequest, Post.class);
+  public Post savePost(SavePostRequest request) {
+    Post post = BeanUtils.copyProperties(request, Post.class);
 
-    List<Tag> tags = tagService.saveTags(postRequest.getTags());
+    List<Tag> tags = tagService.saveTags(request.getTags());
     post.setTags(tags);
 
     return postRepository.save(post);
@@ -78,5 +77,9 @@ public class PostService {
         .countByRegisterYmdtAfterAndDeleteYn(LocalDateTime.now().minusDays(7), false));
 
     return postInfoResponse;
+  }
+
+  public long getCountOfPostsInCategoryNo(long no) {
+    return postRepository.countByCategory_CategoryNoAndDeleteYn(no, false);
   }
 }

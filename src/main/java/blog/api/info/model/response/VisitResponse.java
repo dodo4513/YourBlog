@@ -13,7 +13,7 @@ import lombok.Setter;
 public class VisitResponse {
 
   @ApiModelProperty(value = "방문 정보 번호", position = 10)
-  private Long no;
+  private Long visitNo;
 
   @ApiModelProperty(value = "포스트 번호", position = 20)
   private Long postNo;

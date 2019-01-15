@@ -10,7 +10,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class PostRequest {
+public class SavePostRequest {
 
   @ApiModelProperty(value = "제목", required = true, position = 10)
   private String title;

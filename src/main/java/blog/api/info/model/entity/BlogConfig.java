@@ -21,7 +21,7 @@ public class BlogConfig extends ImmutableBasicColumn {
 
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
-  private long no;
+  private long blogConfigNo;
 
   // key
   @Enumerated(EnumType.STRING)

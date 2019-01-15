@@ -1,7 +1,7 @@
 package blog.api.post.controller;
 
-import blog.api.post.model.request.PostRequest;
-import blog.api.post.model.request.PostsGetRequest;
+import blog.api.post.model.request.GetPostsRequest;
+import blog.api.post.model.request.SavePostRequest;
 import blog.api.post.model.response.PostResponse;
 import blog.api.post.model.response.PostsResponse;
 import blog.api.post.service.PostService;
@@ -29,15 +29,15 @@ public class PostApiController {
 
   @GetMapping("posts")
   @ApiOperation(value = "포스트 목록 조회", notes = "포스트 목록을 조회합니다.(paging)")
-  public ResponseEntity<PostsResponse> getPosts(@ModelAttribute PostsGetRequest postsGetRequest) {
+  public ResponseEntity<PostsResponse> getPosts(@ModelAttribute GetPostsRequest getPostsRequest) {
 
-    return ResponseEntity.ok().body(postService.getPostsResponse(postsGetRequest));
+    return ResponseEntity.ok().body(postService.getPostsResponse(getPostsRequest));
   }
 
   @GetMapping("posts/{no}")
-  @ApiOperation(value = "포스트 상세 조회", notes = "포스트 단건을 조회합니다.")
+  @ApiOperation(value = "포스트 상세 조회", notes = "포스트를 조회합니다.")
   public ResponseEntity<PostResponse> getPost(@PathVariable long no) {
-    PostResponse postResponse = postService.getPostInfoResponse(no);
+    PostResponse postResponse = postService.getPostResponse(no);
 
     if (postResponse == null) {
       return ResponseEntity.noContent().build();
@@ -48,8 +48,8 @@ public class PostApiController {
 
   @PostMapping("posts")
   @ApiOperation(value = "포스트 저장", notes = "포스트를 저장합니다")
-  public ResponseEntity<?> savePost(@RequestBody PostRequest postRequest) {
-    postService.savePost(postRequest);
+  public ResponseEntity<?> savePost(@RequestBody SavePostRequest savePostRequest) {
+    postService.savePost(savePostRequest);
 
     return ResponseEntity.noContent().build();
   }

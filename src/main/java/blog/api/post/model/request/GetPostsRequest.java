@@ -6,7 +6,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class PostsGetRequest {
+public class GetPostsRequest {
 
   @ApiModelProperty(value = "제목", position = 10)
   String title;

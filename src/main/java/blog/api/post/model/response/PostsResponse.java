@@ -5,8 +5,8 @@ import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter
 @Setter
+@Getter
 public class PostsResponse {
 
   @ApiModelProperty(value = "포스트 총 개수", position = 10)

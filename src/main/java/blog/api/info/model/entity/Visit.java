@@ -15,7 +15,7 @@ public class Visit extends ImmutableBasicColumn {
 
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
-  private Long no;
+  private Long visitNo;
 
   // 포스트 번호
   private Long postNo;

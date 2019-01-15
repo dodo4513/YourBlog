@@ -23,11 +23,11 @@ YourBlog는 유용한 블로그의 기능들을 모아 REST API 를 제공하는
 * Admin page template: [ElaAdmin](https://github.com/puikinsh/ElaAdmin) [DEMO](https://colorlib.com/polygon/elaadmin/index.html)
 - - -
 #### 테마(프론트) 개발
-함께 테마를 개발할분을 찾고 있습니다.  YourBlog REST API으로 자신의 블로그를 만든다고 생각하면 됩니다. 언어나 환경은 무엇이든 좋습니다. 메일로 문의 부탁드립니다.
+함께 테마를 개발할분을 찾고 있습니다.  YourBlog REST API으로 자신의 블로그 프론트 만든다고 생각하면 됩니다. 언어나 환경은 무엇이든 좋습니다. 메일로 문의 부탁드립니다.
 
-* 누구나 사용할 수 있도록 Github Repository는 공개해야합니다.
+* 누구나 사용할 수 있도록 Github Repository 는 공개해야합니다.
 * README.md에 친절한 설치 가이드 작성을 부탁드립니다.
-* 전체 사이트 하단에 YourBlog Repository URL을 삽입해야합니다.
+* 전체 사이트 하단에 YourBlog Repository uri 를 삽입해야합니다.
 - - -
 #### 이슈
 * email 발송 기능

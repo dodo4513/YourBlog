@@ -9,12 +9,12 @@ import java.util.Map;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter
 @Setter
+@Getter
 public class PostResponse {
 
   @ApiModelProperty(value = "포스트 번호", position = 10)
-  private long no;
+  private long postNo;
 
   @ApiModelProperty(value = "제목", position = 20)
   private String title;
