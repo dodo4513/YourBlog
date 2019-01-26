@@ -1,10 +1,18 @@
 package blog.api.category.model.entity;
 
 import blog.common.model.entity.BasicColumn;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.Type;
@@ -27,4 +35,12 @@ public class Category extends BasicColumn {
   // 공개 여부
   @Type(type = "yes_no")
   private boolean publicYn;
+
+  // 부모 카테고리
+  @ManyToOne(cascade = CascadeType.ALL)
+  @JoinColumn(name = "parent_no")
+  private Category parent;
+
+  @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+  private List<Category> subCategories;
 }

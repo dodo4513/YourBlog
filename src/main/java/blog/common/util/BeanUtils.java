@@ -1,11 +1,20 @@
 package blog.common.util;
 
+import java.beans.FeatureDescriptor;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
+import org.springframework.beans.BeanWrapper;
+import org.springframework.beans.BeanWrapperImpl;
 
 public class BeanUtils extends org.springframework.beans.BeanUtils {
 
   public static <T> T copyProperties(Object sources, Class<T> clazz) {
+
+    return copyProperties(sources, clazz, new String[0]);
+  }
+
+  public static <T> T copyProperties(Object sources, Class<T> clazz, String[] ignoreProperties) {
 
     T t = null;
     try {
@@ -15,7 +24,7 @@ public class BeanUtils extends org.springframework.beans.BeanUtils {
     }
 
     assert t != null;
-    copyProperties(sources, t);
+    copyProperties(sources, t, ignoreProperties);
 
     return t;
   }
@@ -36,5 +45,13 @@ public class BeanUtils extends org.springframework.beans.BeanUtils {
     });
 
     return results;
+  }
+
+  public static String[] getNullPropertyNames(Object source) {
+    final BeanWrapper wrappedSource = new BeanWrapperImpl(source);
+    return Stream.of(wrappedSource.getPropertyDescriptors())
+        .map(FeatureDescriptor::getName)
+        .filter(propertyName -> wrappedSource.getPropertyValue(propertyName) == null)
+        .toArray(String[]::new);
   }
 }

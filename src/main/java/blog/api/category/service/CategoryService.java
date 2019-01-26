@@ -8,6 +8,7 @@ import blog.api.category.model.response.CategoriesResponse;
 import blog.api.category.model.response.CategoryResponse;
 import blog.api.post.service.PostService;
 import blog.common.util.BeanUtils;
+import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -59,8 +60,28 @@ public class CategoryService {
   }
 
   public Category saveCategory(SaveCategoryRequest request) {
-    Category category = BeanUtils.copyProperties(request, Category.class);
+    Category category = copyCategoryRequestToEntity(request);
 
     return categoryRepository.save(category);
+  }
+
+  // Recursive
+  private Category copyCategoryRequestToEntity(SaveCategoryRequest categoryRequest) {
+    Category parentsCategory = BeanUtils
+        .copyProperties(categoryRequest, Category.class,
+            BeanUtils.getNullPropertyNames(categoryRequest));
+
+    List<Category> childCategories = new ArrayList<>();
+    List<SaveCategoryRequest> childCategoryRequests = categoryRequest.getSubCategories();
+    if (childCategoryRequests != null) {
+      childCategoryRequests.forEach(subCategory -> {
+        Category childCategory = copyCategoryRequestToEntity(subCategory);
+        childCategory.setParent(parentsCategory);
+        childCategories.add(childCategory);
+      });
+    }
+    parentsCategory.setSubCategories(childCategories);
+
+    return parentsCategory;
   }
 }
