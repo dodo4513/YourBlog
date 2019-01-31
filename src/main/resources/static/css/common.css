@@ -44,6 +44,12 @@
   display: inline-block;
 }
 
+.common-btn {
+  font-size: 15px;
+  margin-left: 5px;
+  padding: 2px 10px;
+}
+
 .search-btn-box div:active {
   background-color: dimgray;
 }
@@ -117,3 +123,4 @@
   left: 0;
   opacity: 1;
 }
+

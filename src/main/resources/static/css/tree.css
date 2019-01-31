@@ -1,0 +1,19 @@
+.tui-tree-wrap {
+  background-color: white;
+  width: 100%;
+}
+
+.tui-tree-input {
+  height: 32px;
+  width: 200px;
+  margin-left: 100px;
+}
+
+.tui-tree-text {
+  font-size: 15px;
+}
+
+.tui-tree-opened > .tui-tree-content-wrapper .tui-tree-text {
+  font-weight: 600;
+  color: #4b96e6;
+}
