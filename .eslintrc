@@ -195,7 +195,7 @@
         "no-multiple-empty-lines": [2, {"max": 1}],
         "no-nested-ternary": 2,
         "no-new-object": 2,
-        "no-plusplus": [2, {"allowForLoopAfterthoughts": true}],
+        "no-plusplus": [0, {"allowForLoopAfterthoughts": true}],
         "no-restricted-syntax": [2, "WithStatement"],
         "no-spaced-func": 2,
         "no-tabs": 2,
@@ -230,7 +230,7 @@
             }
         }],
         "wrap-regex": 0,
-        "newline-before-return": 1,
+        "newline-before-return": 2,
         "max-statements-per-line": [2, {"max": 1}],
         "unicode-bom": [2, "never"],
 
@@ -257,7 +257,7 @@
         "object-shorthand": [2, "always", {"avoidQuotes": true}],
         "prefer-arrow-callback": [2, {"allowUnboundThis": false, "allowNamedFunctions": true}],
         "prefer-const": [2, {"destructuring": "any", "ignoreReadBeforeAssign": true}],
-        "prefer-destructuring": [2, {"array": true, "object": true}, {"enforceForRenamedProperties": false}],
+        "prefer-destructuring": [0, {"array": true, "object": true}, {"enforceForRenamedProperties": false}],
         "prefer-numeric-literals": 2,
         "prefer-reflect": 0,
         "prefer-rest-params": 2,

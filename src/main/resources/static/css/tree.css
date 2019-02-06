@@ -5,8 +5,9 @@
 
 .tui-tree-input {
   height: 32px;
-  width: 200px;
-  margin-left: 100px;
+  width: 350px;
+  margin-left: 120px;
+  margin-top: 1px;
 }
 
 .tui-tree-text {

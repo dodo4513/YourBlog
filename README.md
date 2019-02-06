@@ -2,8 +2,8 @@
 YourBlog는 유용한 블로그의 기능들을 모아 REST API 를 제공하는 서버입니다. 이를 지원하는 테마(프론트)를 사용하거나, 직접 개발해 자신만의 블로그를 빠르게 만들 수 있습니다.
 
 #### 특징
-* 설치형 블로그
-* REST API 기반으로 블로그에 특화된 서버 제공
+* 설치형 자바 블로그
+* REST API 기반으로 블로그에 특화된 기능 제공
 * 블로그 관리를 위한 Admin 사이트
 * 지속적인 포스팅 동기 부여를 위한 요소
 -  - - 
@@ -17,7 +17,7 @@ YourBlog는 유용한 블로그의 기능들을 모아 REST API 를 제공하는
 | 4 | 19.05.01 | YourBlog 1.0 블로그 서비스 시작 |
 | 5|  ~ | Admin 추가 기능 개발 | 이후 일정은 추후 기획
 - - -    
-#### 개발환경
+#### 환경
 * Spring Boot 2.*, JPA , Mysql
 * Docker 
 * Admin page template: [ElaAdmin](https://github.com/puikinsh/ElaAdmin) [DEMO](https://colorlib.com/polygon/elaadmin/index.html)
@@ -32,4 +32,9 @@ YourBlog는 유용한 블로그의 기능들을 모아 REST API 를 제공하는
 #### 이슈
 * email 발송 기능
 * CDN
-* SQL 튜닝
+* SQL 튜닝(우선 인덱스...)
+- - -
+* 카테고리 no 유지하기
+* 카테고리에 글 매핑하기
+* 카테고리 저장 API 배열로 받도록
+* 카테고리 저장된거 로드 하기 개발해야해!
