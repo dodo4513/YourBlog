@@ -8,5 +8,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface CategoryRepository extends JpaRepository<Category, Long> {
 
-  List<Category> findByPublicYn(boolean publicYn);
+  List<Category> findByPublicYnAndParentIsNull(boolean publicYn);
+
+  List<Category> findByParentIsNull();
 }

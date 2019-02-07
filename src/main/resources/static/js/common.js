@@ -10,6 +10,7 @@ blog.common = {
     if (progressCircle) {
       blog.common.curtainToggle(true);
     }
+    console.log(params);
 
     $.ajax({
       url: `${blog.common.SETTING.LOCATION}${params.url}`,

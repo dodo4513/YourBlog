@@ -1,7 +1,7 @@
 package blog.common.etc;
 
+import blog.common.model.enums.CacheName;
 import blog.common.service.CacheService;
-import lombok.extern.log4j.Log4j;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;

@@ -36,11 +36,14 @@ public class Category extends BasicColumn {
   @Type(type = "yes_no")
   private boolean publicYn;
 
+  // 전시 순서
+  private long displayOrder;
+
   // 부모 카테고리
   @ManyToOne(cascade = CascadeType.ALL)
   @JoinColumn(name = "parent_no")
   private Category parent;
 
   @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-  private List<Category> subCategories;
+  private List<Category> children;
 }

@@ -12,9 +12,9 @@ import lombok.Setter;
 @Getter
 public class CategoriesResponse {
 
-  @ApiModelProperty(value = "게시판 총 개수", position = 10)
+  @ApiModelProperty(value = "1depth 카테고리 개수", position = 10)
   private long totalCount;
 
-  @ApiModelProperty(value = "게시판", position = 20)
+  @ApiModelProperty(value = "카테고리", position = 20)
   private List<CategoryResponse> categoryResponses;
 }

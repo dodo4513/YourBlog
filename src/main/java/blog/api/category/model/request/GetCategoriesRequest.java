@@ -1,5 +1,6 @@
 package blog.api.category.model.request;
 
+import blog.common.model.enums.PublicType;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
@@ -11,6 +12,6 @@ import lombok.Setter;
 @Setter
 public class GetCategoriesRequest {
 
-  @ApiModelProperty(value = "공개 여부", position = 20)
-  private boolean publicYn = true;
+  @ApiModelProperty(value = "공개", position = 10)
+  private PublicType publicType = PublicType.ONLY_PUBLIC;
 }

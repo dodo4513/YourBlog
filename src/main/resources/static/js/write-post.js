@@ -1,7 +1,10 @@
 /* eslint-disable no-eval */
 $(() => {
-  const URI = {POST: '/posts',
-    LIST: '/admin/post-list'};
+  const URI = {
+    POST: '/posts',
+    LIST: '/admin/post-list'
+  };
+
   const MESSAGE = {
     SAVE_SUCCESS: '저장되었습니다.'
   };
@@ -109,13 +112,11 @@ $(() => {
         return;
       }
 
-      const param = {
+      blog.common.ajaxForPromise({
         type: 'post',
         url: URI.POST,
         data: JSON.stringify(postObject)
-      };
-
-      blog.common.ajaxForPromise(param).then(() => {
+      }).then(() => {
         alert(MESSAGE.SAVE_SUCCESS);
         location.href = URI.LIST;
       });
@@ -142,6 +143,7 @@ $(() => {
       if ($('#extra-data-use-check:checked').val() === 'on') {
         return eval(`({${blog.writePost.grid.getRows().map(row => `${row.key}:'${row.value}'`).join(',')}})`);
       }
+
       return null;
     }
   };

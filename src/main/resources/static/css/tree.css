@@ -5,7 +5,7 @@
 
 .tui-tree-input {
   height: 32px;
-  width: 350px;
+  width: 250px;
   margin-left: 120px;
   margin-top: 1px;
 }
@@ -17,4 +17,8 @@
 .tui-tree-opened > .tui-tree-content-wrapper .tui-tree-text {
   font-weight: 600;
   color: #4b96e6;
+}
+
+.tui-tree-content-wrapper {
+  padding-left: 20px !important;
 }

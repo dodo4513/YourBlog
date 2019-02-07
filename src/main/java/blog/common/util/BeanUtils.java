@@ -1,5 +1,6 @@
 package blog.common.util;
 
+import blog.api.category.model.entity.Category;
 import java.beans.FeatureDescriptor;
 import java.util.ArrayList;
 import java.util.List;
@@ -45,6 +46,10 @@ public class BeanUtils extends org.springframework.beans.BeanUtils {
     });
 
     return results;
+  }
+
+  public static <T> T copyNullableProperties(Object source, Class<T> clazz) {
+    return copyProperties(source, clazz, BeanUtils.getNullPropertyNames(source));
   }
 
   public static String[] getNullPropertyNames(Object source) {

@@ -1,4 +1,4 @@
-package blog.common.etc;
+package blog.common.model.enums;
 
 /**
  * @author cyclamen on 23/12/2018

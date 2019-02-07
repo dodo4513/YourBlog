@@ -1,4 +1,25 @@
+
 $(() => {
+  const URI = {
+    SAVE: '/categories',
+    GET: '/categories'
+  };
+
+  // const data = [
+  //   {
+  //     text: '아빠',
+  //     children: [
+  //       {
+  //         text: '자식',
+  //         children: []
+  //       }
+  //     ]
+  //   }, {
+  //     text: '친구',
+  //     children: []
+  //   }
+  // ];
+
   const data = [
     {
       text: 'Root',
@@ -6,20 +27,50 @@ $(() => {
     }
   ];
 
+  const MESSAGE = {
+    SAVE_SUCCESS: '저장되었습니다.',
+    CATEGORY_LIMIT: '4단계까지만 추가가능합니다.'
+  };
+
   function getTemplate(isPublic) {
     return {
-      customInternalNode: `<div class="tui-tree-content-wrapper tui-tree-root-btn">
+      customInternalNode:
+          `<div class="tui-tree-content-wrapper tui-tree-root-btn">
             <button type="button" class="fa fa-laptop tui-tree-toggle-btn tui-js-tree-toggle-btn">
               {{stateLabel}}
             </button>
             <span class="tui-tree-text tui-js-tree-text ${isPublic ? '' : 'cancel-line'}">{{text}}</span>
-          </div>
-          <ul class="tui-tree-subtree tui-js-tree-subtree">{{{children}}}</ul>`,
+          <ul class="tui-tree-subtree tui-js-tree-subtree">{{{children}}}</ul></div>`,
       customLeafNode: `<div class="tui-tree-content-wrapper tui-tree-root-btn">
             <span class="tui-tree-text tui-js-tree-text ${isPublic ? '' : 'cancel-line'}">{{text}}</span>
           </div>`
     };
   }
+
+  // function getTemplate(isPublic) {
+  //   return {
+  //     customInternalNode:
+  //
+  //
+  //     `<div class="tui-tree-content-wrapper tui-tree-root-btn">
+  //               <button type="button" class="fa fa-laptop tui-tree-toggle-btn tui-js-tree-toggle-btn">
+  //                 {{stateLabel}}
+  //               </button>
+  //               <span class="tui-tree-text tui-js-tree-text ${isPublic ? '' : 'cancel-line'}">{{text}}</span>
+  //             <ul class="tui-tree-subtree tui-js-tree-subtree">{{{children}}}</ul></div>`,
+  //
+  //
+  //     //   <span class="tui-tree-text tui-js-tree-text ${isPublic ? '' : 'cancel-line'}">{{text}}</span>
+  //     // </div>
+  //     // <ul class="tui-tree-subtree tui-js-tree-subtree">{{{children}}}</ul>`,
+  //     customLeafNode:
+  //     // `<span class="{{textClass}}">{{text}}</span>`
+  //         `<div class="tui-tree-content-wrapper tui-tree-root-btn">
+  //           <span class="tui-tree-text tui-js-tree-text ${isPublic ? '' : 'cancel-line'}">{{text}}</span>
+  //         </div>`
+  //   };
+  // }
+
 
   blog.category = {
     tree: null,
@@ -29,11 +80,25 @@ $(() => {
     init() {
       this.addEvent();
       this.initTree();
+      this.fetchCategories();
+    },
+
+    fetchCategories() {
+      blog.common.ajaxForPromise({
+        type: 'get',
+        url: URI.GET
+      }).then(resp => {
+        const a = resp.categoryResponses
+          .map(response => this.getEntityToJSON(response));
+        console.log(JSON.stringify(a));
+        this.tree.resetAllData(a);
+      });
     },
 
     initTree() {
       const that = this;
       this.tree = new tui.Tree('tree', {
+        // data: [],
         data,
         nodeDefaultState: 'opened',
         template: {
@@ -55,7 +120,7 @@ $(() => {
             }
           }
 
-          props.indent = 20 * depth; // customizing indent
+          props.indent = 10 * depth; // customizing indent
 
           return Mustache.render(tmpl, props);
         },
@@ -83,8 +148,15 @@ $(() => {
     },
 
     saveTree() {
-      const category = this.getCategoryToJSON(this.tree.getRootNodeId());
-      console.log(category);
+      const categories = this.getCategoryToJSON(this.tree.getRootNodeId());
+
+      blog.common.ajaxForPromise({
+        type: 'post',
+        url: URI.SAVE,
+        data: JSON.stringify(categories)
+      }).then(() => {
+        alert(MESSAGE.SAVE_SUCCESS);
+      });
     },
 
     getCategoryToJSON(parentId) {
@@ -96,11 +168,33 @@ $(() => {
         const category = {};
         category.title = tree.getNodeData(childId).text;
         category.displayOrder = categories.length + 1;
-        category.subCategories = this.getCategoryToJSON(childId);
+        category.children = this.getCategoryToJSON(childId);
+        category.isPublic = !$(`#tui-tree-node-${childId.split('-')[3]} > .tui-tree-content-wrapper > .tui-tree-text`).hasClass('cancel-line');
         categories.push(category);
       }
 
       return categories;
+    },
+
+    getEntityToJSON(category) {
+      if (category.length === 0) {
+        return [];
+      }
+
+      const parentCategory = {};
+      const categories = [];
+      if (!!category.children && category.children.length > 0) {
+        category.children.forEach(child => {
+          const _category = {};
+          _category.text = child.title;
+          _category.children = this.getEntityToJSON(child.children);
+          categories.push(_category);
+        });
+      }
+      parentCategory.text = category.title;
+      parentCategory.children = categories;
+
+      return parentCategory;
     },
 
     onClickAction(e) {
@@ -161,7 +255,7 @@ $(() => {
       const selectedNodeId = this.tree.getSelectedNodeId();
       const depth = this.tree.getDepth(selectedNodeId);
       if (depth === 4) {
-        alert('4단계까지만 추가가능합니다.');
+        alert(MESSAGE.CATEGORY_LIMIT);
 
         return;
       }

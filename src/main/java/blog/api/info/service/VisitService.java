@@ -5,7 +5,7 @@ import blog.api.info.model.entity.Visit;
 import blog.api.info.model.request.VisitRequest;
 import blog.api.info.model.response.VisitInfoResponse;
 import blog.api.info.model.response.VisitResponse;
-import blog.common.etc.CacheName;
+import blog.common.model.enums.CacheName;
 import blog.common.service.CacheService;
 import blog.common.util.BeanUtils;
 import java.time.LocalDate;

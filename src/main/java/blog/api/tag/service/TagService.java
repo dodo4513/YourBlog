@@ -4,7 +4,7 @@ import blog.api.tag.dao.TagRepository;
 import blog.api.tag.model.entity.Tag;
 import blog.api.tag.model.request.TagRequest;
 import blog.api.tag.model.response.TagResponse;
-import blog.common.etc.CacheName;
+import blog.common.model.enums.CacheName;
 import blog.common.etc.SystemConstants;
 import blog.common.service.CacheService;
 import blog.common.util.BeanUtils;

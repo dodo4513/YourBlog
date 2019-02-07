@@ -1,6 +1,6 @@
 package blog.common.config;
 
-import blog.common.etc.CacheName;
+import blog.common.model.enums.CacheName;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;

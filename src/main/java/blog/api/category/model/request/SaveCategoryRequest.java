@@ -1,7 +1,6 @@
 package blog.api.category.model.request;
 
 import io.swagger.annotations.ApiModelProperty;
-import java.util.ArrayList;
 import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
@@ -22,6 +21,9 @@ public class SaveCategoryRequest {
   @ApiModelProperty(value = "공개 여부", position = 30)
   private boolean publicYn = true;
 
-  @ApiModelProperty(value = "하위 카테고리", position = 40)
-  private List<SaveCategoryRequest> subCategories;
+  @ApiModelProperty(value = "전시 순서", position = 40)
+  private long displayOrder;
+
+  @ApiModelProperty(value = "하위 카테고리", position = 50)
+  private List<SaveCategoryRequest> children;
 }
