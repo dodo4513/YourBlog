@@ -46,6 +46,10 @@
               <strong>포스트</strong> 등록
             </div>
             <div class="card-body card-block">
+              <div id="no-category-alert" class="sufee-alert alert with-close alert-danger alert-dismissible fade show" style="display: none">
+                <span class="badge badge-pill badge-danger">WARN</span>
+                현재 등록된 카테고리가 없습니다. 카테고리부터 먼저 등록해 주세요.
+              </div>
               <form action="#" method="post" enctype="multipart/form-data" class="form-horizontal">
                 <div class="row form-group">
                   <div class="col col-md-2"><label class=" form-control-label must">작성자(미구현)</label></div>
@@ -54,11 +58,21 @@
                   </div>
                 </div>
                 <div class="row form-group">
-                  <div class="col col-md-2"><label for="title"
-                                                   class=" form-control-label must">제목</label></div>
-                  <div class="col-12 col-md-10"><input type="text" id="title" name="text-input"
-                                                       placeholder="제목" class="form-control input-style large-input-style">
+                  <div class="col col-md-2">
+                    <label for="title" class=" form-control-label must">제목</label>
+                  </div>
+                  <div class="col-12 col-md-10">
+                    <input type="text" id="title" name="text-input" placeholder="제목" class="form-control input-style large-input-style">
                     <small class="help-block form-text">최대 100자 이내로 입력해 주세요.</small>
+                  </div>
+                </div>
+
+                <div class="row form-group">
+                  <div class="col col-md-2"><label for="title"
+                                                   class=" form-control-label must">카테고리</label></div>
+                  <div class="col-12 col-md-10">
+                    <!--<input type="text" id="categories" name="text-input" placeholder="제목" class="form-control input-style large-input-style">-->
+                    <select id="category-selector" name="category"></select>
                   </div>
                 </div>
 
@@ -116,15 +130,16 @@
                   </div>
                 </div>
               </form>
+              <button id="save" type="button" class="btn btn-success common-small-btn action" data-action="register">저장</button>
             </div>
-            <div class="card-footer">
-              <button type="submit" class="btn btn-primary btn-sm action" data-action="register">
-                <i class="fa fa-dot-circle-o"></i> Submit
-              </button>
-              <button type="reset" class="btn btn-danger btn-sm">
-                <i class="fa fa-ban"></i> Reset(미구현)
-              </button>
-            </div>
+            <!--<div class="card-footer">-->
+              <!--<button type="submit" class="btn btn-primary btn-sm action" data-action="register">-->
+                <!--<i class="fa fa-dot-circle-o"></i> Submit-->
+              <!--</button>-->
+              <!--<button type="reset" class="btn btn-danger btn-sm">-->
+                <!--<i class="fa fa-ban"></i> Reset(미구현)-->
+              <!--</button>-->
+            <!--</div>-->
           </div>
         </div>
       </div>

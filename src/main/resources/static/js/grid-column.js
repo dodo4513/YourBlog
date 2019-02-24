@@ -3,7 +3,7 @@ blog.column = {
     return [
       {
         title: '번호',
-        name: 'no',
+        name: 'postNo',
         width: 50,
         align: 'center',
         formatter: value => `<a href="/admin/post/${value}">${value}</a>`
@@ -12,6 +12,12 @@ blog.column = {
         title: '제목',
         name: 'title',
         formatter: (value, row) => `<a href="/admin/post/${row.no}">${value}</a>`
+      },
+      {
+        title: '카테고리',
+        name: 'categoryTitle',
+        width: 100,
+        formatter: (value, row) => row.category.title
       },
       {
         title: '태그',
@@ -69,7 +75,7 @@ blog.column = {
         className: 'removeRow',
         formatter: () => `<i class="fa fa-times action" data-action="remove"/>`,
         editOptions: {
-          onFocus: (e) => console.log(e)
+          onFocus: e => console.log(e)
         }
       }
     ];

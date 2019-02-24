@@ -2,6 +2,7 @@ package blog.api.category.controller;
 
 import blog.api.category.model.request.GetCategoriesRequest;
 import blog.api.category.model.request.SaveCategoryRequest;
+import blog.api.category.model.request.SaveCategoryRequests;
 import blog.api.category.model.response.CategoriesResponse;
 import blog.api.category.model.response.CategoryResponse;
 import blog.api.category.service.CategoryService;
@@ -58,8 +59,8 @@ public class CategoryApiController {
 
   @PostMapping
   @ApiOperation(value = "카테고리 저장/수정", notes = "카테고리를 저장/수정합니다")
-  public ResponseEntity<?> saveCategory(@RequestBody List<SaveCategoryRequest> requests) {
-    categoryService.saveCategory(requests);
+  public ResponseEntity<?> saveCategory(@RequestBody SaveCategoryRequests requests) {
+    categoryService.saveCategories(requests);
 
     return ResponseEntity.noContent().build();
   }

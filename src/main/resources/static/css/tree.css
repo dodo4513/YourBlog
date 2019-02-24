@@ -15,8 +15,13 @@
 }
 
 .tui-tree-opened > .tui-tree-content-wrapper .tui-tree-text {
-  font-weight: 600;
-  color: #4b96e6;
+  font-weight: 500;
+  color: gray;
+}
+
+.tui-tree-selected>.tui-tree-content-wrapper .tui-tree-text {
+  font-weight: 500;
+  color: gray;
 }
 
 .tui-tree-content-wrapper {

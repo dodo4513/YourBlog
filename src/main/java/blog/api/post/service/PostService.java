@@ -1,9 +1,10 @@
 package blog.api.post.service;
 
+import blog.api.category.model.response.CategoryResponse;
 import blog.api.post.dao.PostRepository;
 import blog.api.post.model.entity.Post;
-import blog.api.post.model.request.SavePostRequest;
 import blog.api.post.model.request.GetPostsRequest;
+import blog.api.post.model.request.SavePostRequest;
 import blog.api.post.model.response.PostInfoResponse;
 import blog.api.post.model.response.PostResponse;
 import blog.api.post.model.response.PostsResponse;
@@ -51,7 +52,12 @@ public class PostService {
     List<Post> posts = postRepository.getPosts(getPostsRequest);
 
     List<PostResponse> postResponses = BeanUtils.copyProperties(posts, PostResponse.class);
-    postResponses.forEach(postResponse -> postResponse.setTags(BeanUtils.copyProperties(postResponse.getTags(), TagResponse.class)));
+    postResponses.forEach(postResponse -> {
+      postResponse.setTags(BeanUtils.copyProperties(postResponse.getTags(), TagResponse.class));
+      postResponse.setCategory(BeanUtils.copyProperties(
+          posts.stream().filter(p -> p.getPostNo() == postResponse.getPostNo()).findAny().get()
+              .getCategory(), CategoryResponse.class));
+    });
 
     postsResponse.setPostResponses(postResponses);
     postsResponse.setTotalCount(postRepository.getCountPosts(getPostsRequest));

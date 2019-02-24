@@ -1,7 +1,7 @@
 package blog.api.post.model.response;
 
+import blog.api.category.model.response.CategoryResponse;
 import blog.api.tag.model.response.TagResponse;
-import blog.common.etc.SystemConstants;
 import io.swagger.annotations.ApiModelProperty;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -25,7 +25,10 @@ public class PostResponse {
   @ApiModelProperty(value = "공개 여부", position = 35)
   private boolean publicYn;
 
-  @ApiModelProperty(value = "태그", position = 40)
+  @ApiModelProperty(value = "카테고리", position = 40)
+  private CategoryResponse category;
+
+  @ApiModelProperty(value = "태그", position = 45)
   private List<TagResponse> tags;
 
   @ApiModelProperty(value = "기타 정보", position = 50)

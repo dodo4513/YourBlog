@@ -59,6 +59,7 @@ $(() => {
         data: $('#search-form').serialize()
       })
         .then(resp => {
+          console.log(resp)
           this.grid.setData(resp.postResponses);
 
           const pagination = this.grid.getPagination();

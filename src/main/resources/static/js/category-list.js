@@ -1,26 +1,10 @@
-
 $(() => {
   const URI = {
     SAVE: '/categories',
     GET: '/categories'
   };
 
-  // const data = [
-  //   {
-  //     text: '아빠',
-  //     children: [
-  //       {
-  //         text: '자식',
-  //         children: []
-  //       }
-  //     ]
-  //   }, {
-  //     text: '친구',
-  //     children: []
-  //   }
-  // ];
-
-  const data = [
+  const defaultTemplate = [
     {
       text: 'Root',
       children: []
@@ -37,45 +21,29 @@ $(() => {
       customInternalNode:
           `<div class="tui-tree-content-wrapper tui-tree-root-btn">
             <button type="button" class="fa fa-laptop tui-tree-toggle-btn tui-js-tree-toggle-btn">
+              <span class="tui-ico-tree"></span>
               {{stateLabel}}
             </button>
-            <span class="tui-tree-text tui-js-tree-text ${isPublic ? '' : 'cancel-line'}">{{text}}</span>
+            <span class="tui-tree-text tui-js-tree-text ${isPublic ? '' : 'cancel-line'}">
+              {{text}}
+              <span class="badge badge-secondary">{{totalNumberOfPosts}}</span>
+            </span>
           <ul class="tui-tree-subtree tui-js-tree-subtree">{{{children}}}</ul></div>`,
       customLeafNode: `<div class="tui-tree-content-wrapper tui-tree-root-btn">
-            <span class="tui-tree-text tui-js-tree-text ${isPublic ? '' : 'cancel-line'}">{{text}}</span>
+            <span class="tui-tree-text tui-js-tree-text ${isPublic ? '' : 'cancel-line'}">
+              {{text}}
+              <span class="badge badge-secondary">{{totalNumberOfPosts}}</span>
+            </span>
           </div>`
     };
   }
-
-  // function getTemplate(isPublic) {
-  //   return {
-  //     customInternalNode:
-  //
-  //
-  //     `<div class="tui-tree-content-wrapper tui-tree-root-btn">
-  //               <button type="button" class="fa fa-laptop tui-tree-toggle-btn tui-js-tree-toggle-btn">
-  //                 {{stateLabel}}
-  //               </button>
-  //               <span class="tui-tree-text tui-js-tree-text ${isPublic ? '' : 'cancel-line'}">{{text}}</span>
-  //             <ul class="tui-tree-subtree tui-js-tree-subtree">{{{children}}}</ul></div>`,
-  //
-  //
-  //     //   <span class="tui-tree-text tui-js-tree-text ${isPublic ? '' : 'cancel-line'}">{{text}}</span>
-  //     // </div>
-  //     // <ul class="tui-tree-subtree tui-js-tree-subtree">{{{children}}}</ul>`,
-  //     customLeafNode:
-  //     // `<span class="{{textClass}}">{{text}}</span>`
-  //         `<div class="tui-tree-content-wrapper tui-tree-root-btn">
-  //           <span class="tui-tree-text tui-js-tree-text ${isPublic ? '' : 'cancel-line'}">{{text}}</span>
-  //         </div>`
-  //   };
-  // }
-
 
   blog.category = {
     tree: null,
     newTreeIndex: 1,
     isNotPublicNodes: [],
+    isRemovedNodes: [],
+    selectedNodeIsPublic: false,
 
     init() {
       this.addEvent();
@@ -86,20 +54,35 @@ $(() => {
     fetchCategories() {
       blog.common.ajaxForPromise({
         type: 'get',
-        url: URI.GET
+        url: URI.GET,
+        data: {publicType: 'ALL'}
       }).then(resp => {
-        const a = resp.categoryResponses
+        const responses = resp.categoryResponses
           .map(response => this.getEntityToJSON(response));
-        console.log(JSON.stringify(a));
-        this.tree.resetAllData(a);
+        console.log(JSON.stringify(responses));
+        this.tree.resetAllData(responses);
+        this.initCategoryInPublicYn(this.tree.getChildIds(this.tree.getRootNodeId()));
       });
+    },
+
+    initCategoryInPublicYn(nodes) {
+      nodes.forEach(node => {
+        if (this.tree.getNodeData(node).isPublic === false) {
+          this.isNotPublicNodes.push(Number(node.split('-')[3]));
+        }
+
+        if (this.tree.getChildIds(node).length > 0) {
+          this.initCategoryInPublicYn(this.tree.getChildIds(node));
+        }
+      });
+
+      this.setPublicCSS();
     },
 
     initTree() {
       const that = this;
       this.tree = new tui.Tree('tree', {
-        // data: [],
-        data,
+        defaultTemplate,
         nodeDefaultState: 'opened',
         template: {
           internalNode: getTemplate(true).customInternalNode,
@@ -140,6 +123,10 @@ $(() => {
           editableClassName: this.tree.classNames.textClass,
           dataKey: 'text'
         });
+
+      this.tree.on('afterDraw', () => {
+        this.setPublicCSS();
+      });
     },
 
     addEvent() {
@@ -148,14 +135,17 @@ $(() => {
     },
 
     saveTree() {
-      const categories = this.getCategoryToJSON(this.tree.getRootNodeId());
+      const data = {};
+      data.categoryRequests = this.getCategoryToJSON(this.tree.getRootNodeId());
+      data.removedCategoryNo = this.isRemovedNodes;
 
       blog.common.ajaxForPromise({
         type: 'post',
         url: URI.SAVE,
-        data: JSON.stringify(categories)
+        data: JSON.stringify(data)
       }).then(() => {
         alert(MESSAGE.SAVE_SUCCESS);
+        location.reload();
       });
     },
 
@@ -169,32 +159,30 @@ $(() => {
         category.title = tree.getNodeData(childId).text;
         category.displayOrder = categories.length + 1;
         category.children = this.getCategoryToJSON(childId);
-        category.isPublic = !$(`#tui-tree-node-${childId.split('-')[3]} > .tui-tree-content-wrapper > .tui-tree-text`).hasClass('cancel-line');
+        category.publicYn = !$(`#tui-tree-node-${childId.split('-')[3]} > .tui-tree-content-wrapper > .tui-tree-text`).hasClass('cancel-line');
+        category.categoryNo = tree.getNodeData(childId).categoryNo
+          ? tree.getNodeData(childId).categoryNo : 0;
         categories.push(category);
       }
 
       return categories;
     },
 
-    getEntityToJSON(category) {
-      if (category.length === 0) {
-        return [];
-      }
-
-      const parentCategory = {};
-      const categories = [];
-      if (!!category.children && category.children.length > 0) {
-        category.children.forEach(child => {
-          const _category = {};
-          _category.text = child.title;
-          _category.children = this.getEntityToJSON(child.children);
-          categories.push(_category);
+    getEntityToJSON(categoryEntity) {
+      const category = {};
+      const childCategories = [];
+      if (categoryEntity.children && categoryEntity.children.length > 0) {
+        categoryEntity.children.forEach(childEntity => {
+          childCategories.push(this.getEntityToJSON(childEntity));
         });
       }
-      parentCategory.text = category.title;
-      parentCategory.children = categories;
+      category.text = categoryEntity.title;
+      category.children = childCategories;
+      category.isPublic = categoryEntity.publicYn;
+      category.categoryNo = categoryEntity.categoryNo;
+      category.totalNumberOfPosts = categoryEntity.totalNumberOfPosts;
 
-      return parentCategory;
+      return category;
     },
 
     onClickAction(e) {
@@ -220,30 +208,53 @@ $(() => {
     },
 
     togglePublic() {
-      const selectedNode = this.tree.getSelectedNodeId();
-      if (selectedNode !== null) {
-        const selectedNodeNo = Number(selectedNode.split('-')[3]);
+      const selectedNodeId = this.tree.getSelectedNodeId();
+      if (selectedNodeId !== null) {
+        const childIds = this.getAllChildIds(selectedNodeId);
+        const parentNodeIsPublic = this.isNotPublicNodes.indexOf(
+          Number(selectedNodeId.split('-')[3])) === -1;
 
-        if (this.isNotPublicNodes.indexOf(selectedNodeNo) === -1) {
-          this.isNotPublicNodes.push(selectedNodeNo);
-        } else {
-          this.isNotPublicNodes.splice(this.isNotPublicNodes.indexOf(selectedNodeNo), 1);
+        for (let i = 0; i < childIds.length; i++) {
+          const targetNodeId = Number(childIds[i].split('-')[3]);
+
+          if (this.isNotPublicNodes.indexOf(targetNodeId) === -1 && parentNodeIsPublic) {
+            this.isNotPublicNodes.push(targetNodeId);
+          } else if (!parentNodeIsPublic) {
+            this.isNotPublicNodes.splice(
+              this.isNotPublicNodes.indexOf(targetNodeId), 1);
+          }
         }
       }
 
       this.setPublicCSS();
     },
 
+    getAllChildIds(treeId) {
+      let ids = [];
+      const childIds = this.tree.getChildIds(treeId);
+      ids = ids.concat(treeId);
+
+      if (!!childIds && childIds.length > 0) {
+        for (let i = 0; i < childIds.length; i++) {
+          ids = ids.concat(this.getAllChildIds(childIds[i]));
+        }
+      }
+
+      return ids;
+    },
+
     setPublicCSS() {
       $('.tui-tree-text').removeClass('cancel-line');
 
       this.isNotPublicNodes.forEach(notPublicNode => {
-        $(`#tui-tree-node-${notPublicNode} > .tui-tree-content-wrapper > .tui-tree-text`).addClass('cancel-line');
+        $(`#tui-tree-node-${notPublicNode} > .tui-tree-content-wrapper > .tui-tree-text`).addClass(
+          'cancel-line');
       });
     },
 
     isPublic(nodeId) {
-      const $TextNode = $(`#${nodeId} > .tui-tree-content-wrapper > .tui-tree-text`);
+      const $TextNode = $(
+        `#${nodeId} > .tui-tree-content-wrapper > .tui-tree-text`);
       if ($TextNode.length === 1) {
         return !$TextNode.hasClass('cancel-line');
       }
@@ -260,12 +271,26 @@ $(() => {
         return;
       }
 
-      this.tree.add({text: `신규 카테고리${this.newTreeIndex++}`}, this.tree.getSelectedNodeId());
+      this.tree.add({text: `신규 카테고리${this.newTreeIndex++}`},
+        this.tree.getSelectedNodeId());
       this.setPublicCSS();
     },
 
     removeChild() {
-      this.tree.remove(this.tree.getSelectedNodeId());
+      const selectedNodeId = this.tree.getSelectedNodeId();
+      const childNodeIds = this.getAllChildIds(selectedNodeId);
+
+      for (let i = 0; i < childNodeIds.length; i++) {
+        const categoryNo = this.tree.getNodeData(childNodeIds[i]).categoryNo;
+
+        if (categoryNo) {
+          this.isRemovedNodes.push(categoryNo);
+        }
+      }
+
+      for (let i = 0; i < childNodeIds.length; i++) {
+        this.tree.remove(childNodeIds[i]);
+      }
     }
   };
 

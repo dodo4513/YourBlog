@@ -97,6 +97,10 @@
   font-size: 15px
 }
 
+#category-selector {
+  width: 300px;
+}
+
 
 [data-tooltip-text]:hover {
   position: relative;

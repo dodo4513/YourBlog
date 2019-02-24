@@ -4,6 +4,7 @@ import blog.api.category.dao.CategoryRepository;
 import blog.api.category.model.entity.Category;
 import blog.api.category.model.request.GetCategoriesRequest;
 import blog.api.category.model.request.SaveCategoryRequest;
+import blog.api.category.model.request.SaveCategoryRequests;
 import blog.api.category.model.response.CategoriesResponse;
 import blog.api.category.model.response.CategoryResponse;
 import blog.api.post.service.PostService;
@@ -49,9 +50,9 @@ public class CategoryService {
   public CategoriesResponse getCategoriesResponses(GetCategoriesRequest request) {
     List<Category> categoryList = null;
     if (request.getPublicType() == PublicType.ALL) {
-      categoryList = categoryRepository.findByParentIsNull();
+      categoryList = categoryRepository.findByParentIsNullAndDeleteYn(false);
     } else if (request.getPublicType() == PublicType.ONLY_PUBLIC) {
-      categoryList = categoryRepository.findByPublicYnAndParentIsNull(true);
+      categoryList = categoryRepository.findByPublicYnAndParentIsNullAndDeleteYn(true, false);
     }
 
     assert categoryList != null;
@@ -68,13 +69,14 @@ public class CategoryService {
   }
 
   @Transactional
-  public List<Category> saveCategory(List<SaveCategoryRequest> requests) {
+  public List<Category> saveCategories(SaveCategoryRequests requests) {
 
-    // FIXME 기존 no를 보존해야해 잉 근대 저장도잘안대는군?
-    categoryRepository.deleteAll();
+    if (requests.getRemovedCategoryNo().length > 0) {
+      categoryRepository.removeCategories(requests.getRemovedCategoryNo());
+    }
 
-    return requests.stream()
-        .map(request -> categoryRepository.save(copyCategoryRequestToEntity(request)))
+    return requests.getCategoryRequests().stream()
+        .map(request -> categoryRepository.save(copyCategoryRequestToEntity(request, true)))
         .collect(Collectors.toList());
   }
 
@@ -98,20 +100,33 @@ public class CategoryService {
   }
 
   // Recursive
-  private Category copyCategoryRequestToEntity(SaveCategoryRequest categoryRequest) {
-    Category parentsCategory = BeanUtils.copyNullableProperties(categoryRequest, Category.class);
+  private Category copyCategoryRequestToEntity(SaveCategoryRequest request, boolean rootCategory) {
+
+    Category category;
+
+    if (request.getCategoryNo() != 0) {
+      category = categoryRepository.findById(request.getCategoryNo()).get();
+
+      BeanUtils.copyProperties(request, category);
+    } else {
+      category = BeanUtils.copyNullableProperties(request, Category.class);
+    }
+
+    if (rootCategory) {
+      category.setParent(null);
+    }
 
     List<Category> childCategories = new ArrayList<>();
-    List<SaveCategoryRequest> childCategoryRequests = categoryRequest.getChildren();
+    List<SaveCategoryRequest> childCategoryRequests = request.getChildren();
     if (childCategoryRequests != null) {
-      childCategoryRequests.forEach(subCategory -> {
-        Category childCategory = copyCategoryRequestToEntity(subCategory);
-        childCategory.setParent(parentsCategory);
+      childCategoryRequests.forEach(childRequest -> {
+        Category childCategory = copyCategoryRequestToEntity(childRequest, false);
+        childCategory.setParent(category);
         childCategories.add(childCategory);
       });
     }
-    parentsCategory.setChildren(childCategories);
+    category.setChildren(childCategories);
 
-    return parentsCategory;
+    return category;
   }
 }

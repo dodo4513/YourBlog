@@ -2,7 +2,8 @@
 $(() => {
   const URI = {
     POST: '/posts',
-    LIST: '/admin/post-list'
+    LIST: '/admin/post-list',
+    CATEGORY: '/categories'
   };
 
   const MESSAGE = {
@@ -15,7 +16,54 @@ $(() => {
     init() {
       this.initEditor();
       this.addEvent();
+      this.initTagAutoComplete();
+      this.initCategory();
+    },
+
+    initTagAutoComplete() {
       blog.autocomplete.init($('#tags'), '/tags');
+    },
+
+    initCategory() {
+      blog.common.ajaxForPromise({
+        type: 'get',
+        url: URI.CATEGORY
+      }).then(resp => {
+        if (resp.totalCount > 0) {
+          let categoryTitlesAndNos = [];
+          resp.categoryResponses.forEach(categoryEntity => {
+            categoryTitlesAndNos = categoryTitlesAndNos.concat(this.makeCategoryTitle(categoryEntity, 0));
+          });
+          $('#category-selector').html(categoryTitlesAndNos);
+        } else {
+          $('#no-category-alert').show();
+          this.notWriteablePostStatus();
+        }
+      });
+    },
+
+    notWriteablePostStatus() {
+      $('input').prop('disabled', true);
+      const $saveBtn = $('#save');
+      $saveBtn.removeClass('btn-success');
+      $saveBtn.addClass('btn-secondary');
+      $saveBtn.attr('data-action', '');
+    },
+
+    makeCategoryTitle(categoryEntity, depth) {
+      let selector = [];
+      let title = '';
+      for (let i = 0; i < depth; i++) {
+        title += '&nbsp&nbsp&nbsp';
+      }
+      title += `${depth > 0 ? 'ㄴ' : ''}${categoryEntity.title}`;
+      selector.push(`<option value="${categoryEntity.categoryNo}">${title}</option>`);
+
+      for (let i = 0; i < categoryEntity.children.length; i++) {
+        selector = selector.concat(this.makeCategoryTitle(categoryEntity.children[i], depth + 1));
+      }
+
+      return selector;
     },
 
     initEditor() {
@@ -128,7 +176,8 @@ $(() => {
         body: this.editor.getMarkdown(),
         tags: this.makeTagsObject(),
         publicYn: $('[name=publicYn]:checked').val() === 'on',
-        extraData: this.makeExtraData()
+        extraData: this.makeExtraData(),
+        categoryNo: $('#category-selector').val()
       };
     },
 

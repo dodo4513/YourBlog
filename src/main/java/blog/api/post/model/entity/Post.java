@@ -43,8 +43,11 @@ public class Post extends BasicColumn {
   @Type(type = "yes_no")
   private boolean publicYn;
 
+  // 카테고리
+  private long categoryNo;
+
   @ManyToOne
-  @JoinColumn(name = "category_no")
+  @JoinColumn(name = "categoryNo", insertable = false, updatable = false)
   private Category category;
 
   // 기타 정보
