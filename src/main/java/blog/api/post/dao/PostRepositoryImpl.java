@@ -45,6 +45,14 @@ public class PostRepositoryImpl extends QuerydslRepositorySupport implements Pos
     return query.fetchCount();
   }
 
+  @Override
+  public long updateCategory(long preCategoryNo, long postCategoryNo) {
+    return update(post)
+        .set(post.categoryNo, postCategoryNo)
+        .where(post.categoryNo.eq(preCategoryNo))
+        .execute();
+  }
+
   private JPQLQuery<Post> getPostJPQLQuery(GetPostsRequest request) {
     BooleanBuilder condition = new BooleanBuilder();
 

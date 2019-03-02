@@ -10,4 +10,6 @@ public interface PostRepositoryCustom {
 
   long getCountPosts(GetPostsRequest getPostsRequest);
 
+  long updateCategory(long preCategoryNo, long postCategoryNo);
+
 }

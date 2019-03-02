@@ -141,3 +141,13 @@
 .cancel-line {
   text-decoration-line: line-through;
 }
+
+.vue-ordered > li {
+  margin-top: 8px;
+}
+
+.disable-btn {
+  background-color: lightgray;
+  border: 0;
+  pointer-events: none;
+}

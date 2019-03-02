@@ -1,6 +1,6 @@
 package blog.api.post.service;
 
-import blog.api.category.model.response.CategoryResponse;
+import blog.api.category.service.CategoryService;
 import blog.api.post.dao.PostRepository;
 import blog.api.post.model.entity.Post;
 import blog.api.post.model.request.GetPostsRequest;
@@ -23,6 +23,9 @@ public class PostService {
 
   private final PostRepository postRepository;
   private final TagService tagService;
+
+  @Autowired
+  private CategoryService categoryService;
 
   @Autowired
   public PostService(PostRepository postRepository, TagService tagService) {
@@ -54,9 +57,12 @@ public class PostService {
     List<PostResponse> postResponses = BeanUtils.copyProperties(posts, PostResponse.class);
     postResponses.forEach(postResponse -> {
       postResponse.setTags(BeanUtils.copyProperties(postResponse.getTags(), TagResponse.class));
-      postResponse.setCategory(BeanUtils.copyProperties(
-          posts.stream().filter(p -> p.getPostNo() == postResponse.getPostNo()).findAny().get()
-              .getCategory(), CategoryResponse.class));
+      postResponse.setCategory(categoryService.copyCategoryEntityToResponse(
+          posts.stream()
+              .filter(p -> p.getPostNo() == postResponse.getPostNo())
+              .findAny()
+              .get()
+              .getCategory()));
     });
 
     postsResponse.setPostResponses(postResponses);
@@ -87,5 +93,10 @@ public class PostService {
 
   public long getCountOfPostsInCategoryNo(long no) {
     return postRepository.countByCategory_CategoryNoAndDeleteYn(no, false);
+  }
+
+  @Transactional
+  public long moveCategory(long preCategoryNo, long postCategoryNo) {
+    return postRepository.updateCategory(preCategoryNo, postCategoryNo);
   }
 }

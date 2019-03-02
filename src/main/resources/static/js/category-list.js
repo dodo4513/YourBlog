@@ -13,7 +13,14 @@ $(() => {
 
   const MESSAGE = {
     SAVE_SUCCESS: '저장되었습니다.',
-    CATEGORY_LIMIT: '4단계까지만 추가가능합니다.'
+    CATEGORY_LIMIT: '4단계까지만 추가가능합니다.',
+    NOT_VALID_REMOVE_CATEGORY: '포스트가 있는 카테고리는 삭제할 수 없습니다.',
+    NOT_SELECTED_NODE: '카테고리를 먼저 선택해주세요.',
+    SELECT_MOVE_WANT_CATEGORY: '어디로 옮길까요? 카테고리를 선택해주세요.',
+    MODIFY_SUCCESS: '변경 되었습니다.',
+    NOT_MOVE_MYSELF: '자기 자신으로 이전할 수 없습니다.',
+    NOT_YET_SAVED_CATEGORY: '아직 저장되지 않은 카테고리는 이전할 수 없습니다.',
+    THERE_IS_NO_POSTS: '이전할 포스트가 없습니다.'
   };
 
   function getTemplate(isPublic) {
@@ -44,6 +51,11 @@ $(() => {
     isNotPublicNodes: [],
     isRemovedNodes: [],
     selectedNodeIsPublic: false,
+    movePostInfo: {
+      isMoveStatus: false,
+      targetId: ''
+    },
+    moveCategoryNos: [],
 
     init() {
       this.addEvent();
@@ -59,7 +71,6 @@ $(() => {
       }).then(resp => {
         const responses = resp.categoryResponses
           .map(response => this.getEntityToJSON(response));
-        console.log(JSON.stringify(responses));
         this.tree.resetAllData(responses);
         this.initCategoryInPublicYn(this.tree.getChildIds(this.tree.getRootNodeId()));
       });
@@ -122,6 +133,10 @@ $(() => {
         .enableFeature('Editable', {
           editableClassName: this.tree.classNames.textClass,
           dataKey: 'text'
+        }).on('select', evt => {
+          if (this.movePostInfo.isMoveStatus) {
+            this.movePosts2Step(evt.nodeId);
+          }
         });
 
       this.tree.on('afterDraw', () => {
@@ -138,6 +153,7 @@ $(() => {
       const data = {};
       data.categoryRequests = this.getCategoryToJSON(this.tree.getRootNodeId());
       data.removedCategoryNo = this.isRemovedNodes;
+      data.moveCategoryNos = this.moveCategoryNos;
 
       blog.common.ajaxForPromise({
         type: 'post',
@@ -202,15 +218,81 @@ $(() => {
         case 'togglePublic':
           this.togglePublic();
           break;
+        case 'movePosts':
+          this.movePosts1Step();
+          break;
         default:
           // nothing..
       }
     },
 
+    disableAllBtn(status) {
+      if (status) {
+        $('.action').addClass('disable-btn');
+      } else {
+        $('.action').removeClass('disable-btn');
+      }
+    },
+
+    movePosts1Step() {
+      const selectedNodeId = this.tree.getSelectedNodeId();
+      if (selectedNodeId === null) {
+        alert(MESSAGE.NOT_SELECTED_NODE);
+
+        return;
+      }
+
+      const selectedNodePostsCount = this.tree.getNodeData(selectedNodeId).totalNumberOfPosts;
+      if (!selectedNodePostsCount || selectedNodePostsCount === 0) {
+        alert(MESSAGE.THERE_IS_NO_POSTS);
+
+        return;
+      }
+
+      this.tree.deselect(selectedNodeId);
+      this.movePostInfo.isMoveStatus = true;
+      this.movePostInfo.targetId = selectedNodeId;
+
+      alert(MESSAGE.SELECT_MOVE_WANT_CATEGORY);
+      this.disableAllBtn(true);
+    },
+
+    movePosts2Step(selectedNodeId) {
+      this.movePostInfo.isMoveStatus = false;
+      this.disableAllBtn(false);
+
+      if (this.movePostInfo.targetId === selectedNodeId) {
+        alert(MESSAGE.NOT_MOVE_MYSELF);
+
+        return;
+      }
+      const targetNodeData = this.tree.getNodeData(this.movePostInfo.targetId);
+      const selectedNodeData = this.tree.getNodeData(selectedNodeId);
+
+      if (!targetNodeData.categoryNo || !selectedNodeData.categoryNo) {
+        alert(MESSAGE.NOT_YET_SAVED_CATEGORY);
+
+        return;
+      }
+
+      selectedNodeData.totalNumberOfPosts += targetNodeData.totalNumberOfPosts;
+      targetNodeData.totalNumberOfPosts = 0;
+
+      this.moveCategoryNos.push({
+        preCategoryNo: targetNodeData.categoryNo,
+        postCategoryNo: selectedNodeData.categoryNo
+      });
+
+      this.tree.setNodeData(this.movePostInfo.targetId, targetNodeData);
+      this.tree.setNodeData(selectedNodeId, selectedNodeData);
+
+      alert(MESSAGE.MODIFY_SUCCESS);
+    },
+
     togglePublic() {
       const selectedNodeId = this.tree.getSelectedNodeId();
       if (selectedNodeId !== null) {
-        const childIds = this.getAllChildIds(selectedNodeId);
+        const childIds = this.getMeAndAllChildIds(selectedNodeId);
         const parentNodeIsPublic = this.isNotPublicNodes.indexOf(
           Number(selectedNodeId.split('-')[3])) === -1;
 
@@ -229,14 +311,14 @@ $(() => {
       this.setPublicCSS();
     },
 
-    getAllChildIds(treeId) {
+    getMeAndAllChildIds(treeId) {
       let ids = [];
       const childIds = this.tree.getChildIds(treeId);
       ids = ids.concat(treeId);
 
       if (!!childIds && childIds.length > 0) {
         for (let i = 0; i < childIds.length; i++) {
-          ids = ids.concat(this.getAllChildIds(childIds[i]));
+          ids = ids.concat(this.getMeAndAllChildIds(childIds[i]));
         }
       }
 
@@ -278,18 +360,27 @@ $(() => {
 
     removeChild() {
       const selectedNodeId = this.tree.getSelectedNodeId();
-      const childNodeIds = this.getAllChildIds(selectedNodeId);
+      const meAndChildNodeIds = this.getMeAndAllChildIds(selectedNodeId);
 
-      for (let i = 0; i < childNodeIds.length; i++) {
-        const categoryNo = this.tree.getNodeData(childNodeIds[i]).categoryNo;
+      // valid
+      for (let i = 0; i < meAndChildNodeIds.length; i++) {
+        if (this.tree.getNodeData(meAndChildNodeIds[i]).totalNumberOfPosts > 0) {
+          alert(MESSAGE.NOT_VALID_REMOVE_CATEGORY);
+
+          return;
+        }
+      }
+
+      for (let i = 0; i < meAndChildNodeIds.length; i++) {
+        const categoryNo = this.tree.getNodeData(meAndChildNodeIds[i]).categoryNo;
 
         if (categoryNo) {
           this.isRemovedNodes.push(categoryNo);
         }
       }
 
-      for (let i = 0; i < childNodeIds.length; i++) {
-        this.tree.remove(childNodeIds[i]);
+      for (let i = 0; i < meAndChildNodeIds.length; i++) {
+        this.tree.remove(meAndChildNodeIds[i]);
       }
     }
   };

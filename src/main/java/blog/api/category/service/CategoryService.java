@@ -11,6 +11,7 @@ import blog.api.post.service.PostService;
 import blog.common.model.enums.PublicType;
 import blog.common.util.BeanUtils;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,13 +25,14 @@ import org.springframework.transaction.annotation.Transactional;
 public class CategoryService {
 
   private final CategoryRepository categoryRepository;
-  private final PostService postService;
 
   @Autowired
-  public CategoryService(CategoryRepository categoryRepository,
-      PostService postService) {
+  private PostService postService;
+
+  @Autowired
+  public CategoryService(CategoryRepository categoryRepository
+  ) {
     this.categoryRepository = categoryRepository;
-    this.postService = postService;
   }
 
   public CategoryResponse getCategoryResponse(long no) {
@@ -70,6 +72,11 @@ public class CategoryService {
 
   @Transactional
   public List<Category> saveCategories(SaveCategoryRequests requests) {
+    if (requests.getMoveCategoryNos().length > 0) {
+      Arrays.stream(requests.getMoveCategoryNos()).forEach(nos ->
+          postService.moveCategory(nos.getPreCategoryNo(), nos.getPostCategoryNo())
+      );
+    }
 
     if (requests.getRemovedCategoryNo().length > 0) {
       categoryRepository.removeCategories(requests.getRemovedCategoryNo());
@@ -80,7 +87,7 @@ public class CategoryService {
         .collect(Collectors.toList());
   }
 
-  private CategoryResponse copyCategoryEntityToResponse(Category category) {
+  public CategoryResponse copyCategoryEntityToResponse(Category category) {
     CategoryResponse parentsResponse = BeanUtils
         .copyNullableProperties(category, CategoryResponse.class);
 
