@@ -50,7 +50,7 @@
     <div id="editSection"></div>
 
     <script class="code-js">
-      var content = `FIRST and LAST button are custom`;
+      var content = 'FIRST and LAST button are custom';
 
       var editor = new tui.Editor({
         el: document.querySelector('#editSection'),
@@ -95,10 +95,10 @@
       });
 
       // ADD button method 2
-      const toolbar = editor.getUI().getToolbar();
+      var toolbar = editor.getUI().getToolbar();
 
       editor.eventManager.addEventType('Event1');
-      editor.eventManager.listen('Event1', () => {
+      editor.eventManager.listen('Event1', function() {
         alert('button click!');
         // do some other thing...
       });

@@ -21,12 +21,14 @@
     "test",
     "tests"
   ],
-  "_release": "fde64d0bed",
+  "version": "1.9.0",
+  "_release": "1.9.0",
   "_resolution": {
-    "type": "commit",
-    "commit": "fde64d0bedb524e4495f3121dce518b94ad5852b"
+    "type": "version",
+    "tag": "v1.9.0",
+    "commit": "7cef58bda854c49989c429d90756bff8d6fe758c"
   },
-  "_source": "https://github.com/sohee-lee7/Squire.git",
-  "_target": "fde64d0bedb524e4495f3121dce518b94ad5852b",
-  "_originalSource": "sohee-lee7/Squire"
+  "_source": "https://github.com/neilj/Squire.git",
+  "_target": "^1.9.0",
+  "_originalSource": "squire-rte"
 }

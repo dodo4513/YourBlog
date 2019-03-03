@@ -25,14 +25,14 @@
     "tui-code-snippet": "^1.5.0"
   },
   "homepage": "https://github.com/nhnent/tui.pagination",
-  "version": "3.3.0",
-  "_release": "3.3.0",
+  "version": "3.3.1",
+  "_release": "3.3.1",
   "_resolution": {
     "type": "version",
-    "tag": "v3.3.0",
-    "commit": "dbc3f1f6609d08161633cf82d4107f9318ce6eb6"
+    "tag": "v3.3.1",
+    "commit": "ba741ee7a68250300ecd4fa45a7cb9b513160e1b"
   },
   "_source": "https://github.com/nhnent/tui.pagination.git",
-  "_target": "^3.2.0",
+  "_target": "^3.3.0",
   "_originalSource": "tui-pagination"
 }

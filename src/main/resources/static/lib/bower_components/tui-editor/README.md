@@ -6,6 +6,7 @@
 ## Wrappers
 
 - [toast-ui.vue-editor](https://github.com/nhnent/toast-ui.vue-editor): Vue wrapper component is powered by [NHN Entertainment](https://github.com/nhnent).
+- [ember-tui-editor](https://github.com/evocount/ember-tui-editor): Ember wrapper component by [@evocount](https://github.com/evocount). Thanks for their effort.
 
 <p align="center"><a href="https://nhnent.github.io/tui.editor/"><img src="https://user-images.githubusercontent.com/1215767/34356204-4c03be8a-ea7f-11e7-9aa9-0d84f9e912ec.gif" /></a></p>
 
@@ -121,7 +122,10 @@ TOAST UI products are available over the CDN powered by [TOAST Cloud](https://ww
 You can use the CDN as below.
 
 ```html
-<script src="https://uicdn.toast.com/tui-editor/latest/tui-editor-Editor.js"></script>
+<link rel="stylesheet" href="https://uicdn.toast.com/tui-editor/latest/tui-editor.css"></link>
+<link rel="stylesheet" href="https://uicdn.toast.com/tui-editor/latest/tui-editor-contents.css"></link>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.39.2/codemirror.css"></link>
+<script src="https://uicdn.toast.com/tui-editor/latest/tui-editor-Editor-full.js"></script>
 ```
 
 If you want to use a specific version, use the tag name instead of `latest` in the url's path.
@@ -179,6 +183,16 @@ var editor = new Editor({
 or you can use jquery plugin.
 ```javascript
 $('#editSection').tuiEditor({
+    initialEditType: 'markdown',
+    previewStyle: 'vertical',
+    height: '300px'
+});
+```
+
+or if using the CDN
+```javascript
+var editor = new tui.Editor({
+    el: document.querySelector('#editSection'),
     initialEditType: 'markdown',
     previewStyle: 'vertical',
     height: '300px'

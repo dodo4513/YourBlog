@@ -14,7 +14,7 @@ $(() => {
     editor: null,
     grid: null,
     init() {
-      this.initEditor();
+      this.initTui();
       this.addEvent();
       this.initTagAutoComplete();
       this.initCategory();
@@ -66,12 +66,13 @@ $(() => {
       return selector;
     },
 
-    initEditor() {
+    initTui() {
       this.editor = new tui.Editor({
         el: document.querySelector('#tui-editor'),
         initialEditType: 'markdown',
         previewStyle: 'vertical',
-        height: '300px'
+        height: '300px',
+        exts: ['scrollSync', 'colorSyntax']
       });
 
       this.setExtraDataGrid();

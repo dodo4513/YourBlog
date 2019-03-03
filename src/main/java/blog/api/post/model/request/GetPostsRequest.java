@@ -9,17 +9,17 @@ import lombok.Setter;
 public class GetPostsRequest {
 
   @ApiModelProperty(value = "제목", position = 10)
-  String title;
+  private String title;
 
   @ApiModelProperty(value = "태그", position = 20)
-  String tags;
+  private String tags;
 
   @ApiModelProperty(value = "공개", position = 25)
-  Boolean publicYn;
+  private Boolean publicYn;
 
   @ApiModelProperty(value = "페이지 번호", position = 30)
-  Long pageNumber;
+  private Long pageNumber;
 
   @ApiModelProperty(value = "페이지 수", position = 40)
-  Long pageSize;
+  private Long pageSize;
 }

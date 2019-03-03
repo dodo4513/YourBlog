@@ -25,14 +25,14 @@
     "tui-dom": "^3.0.0"
   },
   "homepage": "https://github.com/nhnent/tui.context-menu",
-  "version": "2.1.1",
-  "_release": "2.1.1",
+  "version": "2.1.2",
+  "_release": "2.1.2",
   "_resolution": {
     "type": "version",
-    "tag": "v2.1.1",
-    "commit": "142963a503a11cebb0ae7007f47f4ea705836cc8"
+    "tag": "v2.1.2",
+    "commit": "430c873ffe0fb5aa990425f3a3d4378065ab640e"
   },
   "_source": "https://github.com/nhnent/tui.context-menu.git",
-  "_target": "^2.0.0",
+  "_target": "^2.1.1",
   "_originalSource": "tui-context-menu"
 }
