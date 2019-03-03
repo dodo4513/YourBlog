@@ -1,0 +1,49 @@
+.btn-box {
+  margin-top: 10px;
+}
+.btn-box button {
+  border-radius: unset !important;
+  border: 0;
+  color: white;
+  cursor: Pointer;
+  text-align: center;
+  user-select: none;
+  display: inline-block;
+  opacity: 0.7;
+}
+
+.btn-box button:active {
+  opacity: 1;
+}
+
+/* SIZE */
+
+.small-btn {
+  font-size: 12px;
+  margin-left: 3px;
+  padding: 2px 6px;
+}
+
+.medium-btn {
+  font-size: 14px;
+  margin-left: 3px;
+  padding: 2px 8px;
+}
+
+/* COLOR */
+
+.add-btn, .search-btn {
+  background-color: blue;
+}
+
+.remove-btn {
+  background-color: darkred;
+}
+
+.save-btn {
+  background-color: darkgreen;
+}
+
+.etc-btn {
+  background-color: dimgrey;
+}

@@ -44,7 +44,7 @@ $(() => {
 
     notWriteablePostStatus() {
       $('input').prop('disabled', true);
-      const $saveBtn = $('#save');
+      const $saveBtn = $('#save'); // FIXME ID 써야하나?
       $saveBtn.removeClass('btn-success');
       $saveBtn.addClass('btn-secondary');
       $saveBtn.attr('data-action', '');

@@ -8,6 +8,7 @@
 
   <!--my-->
   <link rel="stylesheet" type="text/css" href="/css/common.css"/>
+  <link rel="stylesheet" type="text/css" href="/css/button.css"/>
   <link rel="stylesheet" type="text/css" href="/css/tree.css"/>
 
 </head>
@@ -39,18 +40,23 @@
             <div class="card-body card-block">
               <div class="row">
                 <div class="col-lg-6">
-                  <button type="button" class="btn btn-primary common-small-btn action" data-action="addChild">추가</button>
-                  <button type="button" class="btn btn-info common-small-btn action" data-action="togglePublic">공개 전환</button>
-                  <button type="button" class="btn btn-info common-small-btn action" data-action="movePosts">포스트 이전</button>
-                  <button type="button" class="btn btn-danger common-small-btn action" data-action="removeChild">삭제</button>
+                  <div class="btn-box">
+                    <button type="button" class="add-btn  small-btn action" data-action="addChild">추가</button>
+                    <button type="button" class="etc-btn small-btn action" data-action="togglePublic">공개 전환</button>
+                    <button type="button" class="etc-btn small-btn action" data-action="movePosts">포스트 이전</button>
+                    <button type="button" class="remove-btn small-btn action" data-action="removeChild">삭제</button>
+                  </div>
+
                   <div id="tree" class="tui-tree-wrap"></div>
-                  <button id="save" type="button" class="btn btn-success common-small-btn action" data-action="save">저장</button>
+                  <div class="btn-box">
+                    <button type="button" class="save-btn medium-btn action" data-action="save">저장</button>
+                  </div>
                 </div>
                 <div class="col-lg-6 text-left">
 
                   <div>
                     <h3>카테고리 설명</h3>
-                    <ol class="vue-ordered">
+                    <ol class="vue-ordered btn-box">
                       <li>
                         카테고리는 각 포스트와 1:n 관계입니다.
                       </li>
@@ -58,19 +64,19 @@
                         각 카테고리는 더블클릭으로 이름을 변경할 수 있습니다.
                       </li>
                       <li>
-                        카테고리를 선택 후 <button type="button" class="btn btn-primary common-small-btn">추가</button> 를 누르면 자식 카테고리를 생성할 수 있습니다.
+                        카테고리를 선택 후 <button type="button" class="add-btn  small-btn">추가</button> 를 누르면 자식 카테고리를 생성할 수 있습니다.
                       </li>
                       <li>
                         카테고리 이름 옆의 숫자는 현재 해당 카테고리에 속한 포스트 수 입니다.
                       </li>
                       <li>
-                        <button type="button" class="btn btn-info common-small-btn">공개 전환</button> 으로 특정 카테고리의 공개/비공개를 변경할 수 있습니다. 이 때 자식 카테고리는 부모의 공개여부를 따라갑니다.
+                        <button type="button" class="etc-btn small-btn">공개 전환</button> 으로 특정 카테고리의 공개/비공개를 변경할 수 있습니다. 이 때 자식 카테고리는 부모의 공개여부를 따라갑니다.
                       </li>
                       <li>
-                        등록된 포스트가 있는 카테고리의 경우(자식 카테고리 포함) <button type="button" class="btn btn-danger common-small-btn">삭제</button> 가 불가능합니다. <button type="button" class="btn btn-info common-small-btn">포스트 이전</button> 후 삭제 부탁드립니다.
+                        등록된 포스트가 있는 카테고리의 경우(자식 카테고리 포함) <button type="button" class="remove-btn small-btn">삭제</button> 가 불가능합니다. <button type="button" class="etc-btn small-btn">포스트 이전</button> 후 삭제 해야합니다.
                       </li>
                       <li>
-                        모든 수정사항은 <button type="button" class="btn btn-success common-small-btn">저장</button> 을 눌러야 비로소 저장이 됩니다.
+                        모든 수정사항은 <button type="button" class="save-btn medium-btn">저장</button> 을 눌러야 비로소 저장이 됩니다.
                       </li>
                     </ol>
                   </div>

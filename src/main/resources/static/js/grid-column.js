@@ -16,7 +16,7 @@ blog.column = {
       {
         title: '카테고리',
         name: 'categoryTitle',
-        width: 100,
+        width: 120,
         formatter: (value, row) => row.category.title
       },
       {
