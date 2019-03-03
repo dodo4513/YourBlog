@@ -1,0 +1,112 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<head>
+    <title>Ela Admin - HTML5 Admin Template</title>
+    <th:block th:insert="fragment/ela-style-sheets.html :: ela-style-sheets"/>
+
+    <!--my-->
+    <link rel="stylesheet" type="text/css" href="/css/common.css"/>
+
+    <!--TUI grid-->
+    <link rel="stylesheet" type="text/css" href="/lib/bower_components/tui-grid/dist/tui-grid.css"/>
+    <link rel="stylesheet" type="text/css"
+          href="/lib/bower_components/tui-pagination/dist/tui-pagination.css"/>
+
+    <!--auto complete-->
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+</head>
+
+<body>
+<!-- Left Panel -->
+<th:block th:insert="fragment/left-panel.html :: left-panel(activeId = 'post')"/>
+<!-- /#left-panel -->
+
+<!-- Right Panel -->
+<div id="right-panel" class="right-panel">
+    <!-- Header-->
+    <th:block th:insert="fragment/header.html :: header"/>
+    <!-- /#header -->
+
+    <!-- Content -->
+    <div class="content">
+        <!-- Animated -->
+        <div class="animated fadeIn">
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <strong>태그</strong> 관리
+                        </div>
+                        <div class="card-body card-block">
+
+                            <form id="search-form">
+                                <input type="hidden" name="pageNumber"/>
+                                <input type="hidden" name="pageSize"/>
+                                <input type="hidden" name="publicYn" />
+
+                                <div class="row form-group">
+                                    <div class="col col-md-2">
+                                        <label for="name" class=" form-control-label">태그명</label>
+                                    </div>
+                                    <div class="col-12 col-md-10">
+                                        <input type="text" id="name" name="name" size="50" class="form-control input-style medium-input-style">
+                                    </div>
+                                </div>
+
+                                <div class="search-btn-box">
+                                    <div class="action" data-action="save">등록</div>
+                                </div>
+                            </form>
+
+                            <ul class="nav nav-tabs" id="result-grid" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link active show" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">
+                                        조회 결과
+                                        <span class="badge" id="total-count-badge">0</span>
+                                    </a>
+                                </li>
+                            </ul>
+
+                            <!-- grid -->
+                            <div id="wrapper" style="min-height: 450px"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- .animated -->
+    </div>
+    <!-- /.content -->
+    <div class="clearfix"></div>
+    <!-- Footer -->
+    <th:block th:insert="fragment/footer.html :: footer"/>
+    <!-- /.site-footer -->
+</div>
+<!-- /#right-panel -->
+
+<!-- Scripts -->
+<th:block th:insert="fragment/ela-scripts.html :: ela-scripts"/>
+
+<!--TUI grid-->
+<script src="/webjars/jquery/3.3.1-1/jquery.js"></script>
+<script src="/lib/bower_components/underscore/underscore.js"></script>
+<script src="/lib/bower_components/backbone/backbone.js"></script>
+<script src="/lib/bower_components/tui-code-snippet/dist/tui-code-snippet.js"></script>
+<script src="/lib/bower_components/tui-pagination/dist/tui-pagination.js"></script>
+<script src="/lib/bower_components/tui-date-picker/dist/tui-date-picker.js"></script>
+<script src="/lib/bower_components/tui-grid/dist/tui-grid.js"></script>
+<script src="/lib/bower_components/tui-pagination/dist/tui-pagination.js"></script>
+
+<!--auto complete-->
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+<!--my-->
+<script src="/js/common.js"></script>
+<script src="/js/grid-column.js"></script>
+<script src="/js/jquery-autocomplete.js"></script>
+<script src="/js/tags.js"></script>
+
+</body>
+</html>

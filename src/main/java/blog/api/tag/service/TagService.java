@@ -36,9 +36,8 @@ public class TagService {
 
     return tagRepository.saveAll(tagRequests
         .stream()
-        .filter(tagRequest -> originTags
-            .stream()
-            .noneMatch(tag -> tag.getName().equals(tagRequest.getName())))
+        .filter(tagRequest ->
+                originTags.stream().noneMatch(tag -> tag.getName().equals(tagRequest.getName())))
         .filter(tagRequest -> tagRequest.getName().trim().length() != 0)
         .map(tagRequest -> {
           Tag tag = new Tag();
@@ -60,4 +59,9 @@ public class TagService {
 
     return JacksonUtils.toForceList(cachedTags, TagResponse.class);
   }
+
+  public List<Tag> getTagList() {
+    return tagRepository.findAll();
+  }
+
 }

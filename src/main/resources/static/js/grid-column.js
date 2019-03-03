@@ -42,6 +42,43 @@ blog.column = {
       }
     ];
   },
+  tag() {
+      return [
+          {
+              title: '태그명',
+              name: 'name',
+              width: 100,
+              editOptions: {
+                  type: 'text',
+                  useViewMode: false
+              }
+          },
+          {
+              title: '상태',
+              name: 'deleteYn',
+              width: 100,
+              align: 'center',
+              editOptions: {
+                  type: 'select',
+                  useViewMode: false
+              }
+          },
+          {
+              title: '수정일',
+              name: 'updateYmdt',
+              width: 150,
+              align: 'center',
+              formatter: value => blog.common.getDateInKR(value)
+          },
+          {
+              title: '등록일',
+                  name: 'registerYmdt',
+              width: 150,
+              align: 'center',
+              formatter: value => blog.common.getDateInKR(value)
+          }
+      ];
+  },
   extraData() {
     return [
       {

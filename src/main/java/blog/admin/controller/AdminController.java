@@ -39,4 +39,8 @@ public class AdminController {
     return "set-me";
   }
 
+  @GetMapping("tags")
+  public String tags() {
+    return "tags";
+  }
 }
