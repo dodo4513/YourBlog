@@ -1,8 +1,10 @@
 package blog.api.tag.service;
 
 import blog.api.tag.dao.TagRepository;
+import blog.api.tag.model.entity.PostTagMapping;
 import blog.api.tag.model.entity.Tag;
 import blog.api.tag.model.request.TagRequest;
+import blog.api.tag.model.response.TagBestResponse;
 import blog.api.tag.model.response.TagResponse;
 import blog.common.model.enums.CacheName;
 import blog.common.etc.SystemConstants;
@@ -59,5 +61,30 @@ public class TagService {
     }
 
     return JacksonUtils.toForceList(cachedTags, TagResponse.class);
+  }
+
+  public List<TagBestResponse> getBestTags(long count) {
+
+    String cachedTagBests = cacheService.get(CacheName.TagBests, SystemConstants.TAGS_CACHE_KEY);
+
+    if (cachedTagBests == null) {
+      return getBestTagsByTagNoCount(count);
+    }
+
+    List<TagBestResponse> tagBestResponses = JacksonUtils.toForceList(cachedTagBests, TagBestResponse.class);
+    assert tagBestResponses != null;
+    if(tagBestResponses.size() != count) {
+      return getBestTagsByTagNoCount(count);
+    }
+
+    return tagBestResponses;
+  }
+
+  private List<TagBestResponse> getBestTagsByTagNoCount(long count) {
+
+    List<TagBestResponse> tagBestResponses = tagRepository.getBestTagsByTagNoCount(count);
+    cacheService.put(CacheName.TagBests, SystemConstants.TAGS_CACHE_KEY, tagBestResponses);
+
+    return tagBestResponses;
   }
 }
