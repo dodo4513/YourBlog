@@ -5,6 +5,7 @@ import blog.api.category.model.request.SaveCategoryRequest;
 import blog.api.category.model.request.SaveCategoryRequests;
 import blog.api.category.model.response.CategoriesResponse;
 import blog.api.category.model.response.CategoryResponse;
+import blog.api.category.model.response.ListingCategoriesResponse;
 import blog.api.category.service.CategoryService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -45,6 +46,12 @@ public class CategoryApiController {
     return ResponseEntity.ok().body(response);
   }
 
+  @GetMapping("listing")
+  @ApiOperation(value = "카테고리 목록 조회", notes = "카테고리 목록을 조회합니다.")
+  public ResponseEntity<List<ListingCategoriesResponse>> getCategories() {
+    return ResponseEntity.ok().body(categoryService.getListingCategoriesResponse());
+  }
+
   @GetMapping("{no}")
   @ApiOperation(value = "카테고리 조회", notes = "카테고리를 조회합니다.")
   public ResponseEntity<CategoryResponse> getCategory(@PathVariable long no) {
@@ -63,5 +70,12 @@ public class CategoryApiController {
     categoryService.saveCategories(requests);
 
     return ResponseEntity.noContent().build();
+  }
+
+  @GetMapping("limits/{limit}")
+  @ApiOperation(value = "지정된 상위 카테고리 조회", notes = "지정된 상위 카테고리 조회 합니다.")
+  public ResponseEntity<?> getBestCategorys(@PathVariable long limit) {
+
+    return ResponseEntity.ok().body(categoryService.getBestCategorys(limit));
   }
 }

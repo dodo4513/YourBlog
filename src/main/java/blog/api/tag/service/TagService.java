@@ -1,10 +1,9 @@
 package blog.api.tag.service;
 
 import blog.api.tag.dao.TagRepository;
-import blog.api.tag.model.entity.PostTagMapping;
 import blog.api.tag.model.entity.Tag;
 import blog.api.tag.model.request.TagRequest;
-import blog.api.tag.model.response.TagBestResponse;
+import blog.api.tag.model.response.BestTagsResponse;
 import blog.api.tag.model.response.TagResponse;
 import blog.common.model.enums.CacheName;
 import blog.common.etc.SystemConstants;
@@ -21,7 +20,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class TagService {
 
   private final TagRepository tagRepository;
-
   private final CacheService cacheService;
 
   @Autowired
@@ -63,28 +61,28 @@ public class TagService {
     return JacksonUtils.toForceList(cachedTags, TagResponse.class);
   }
 
-  public List<TagBestResponse> getBestTags(long count) {
+  public List<BestTagsResponse> getBestTags(long limit) {
 
-    String cachedTagBests = cacheService.get(CacheName.TagBests, SystemConstants.TAGS_CACHE_KEY);
+    String cachedBestTags = cacheService.get(CacheName.BestTags, SystemConstants.TAGS_CACHE_KEY);
 
-    if (cachedTagBests == null) {
-      return getBestTagsByTagNoCount(count);
+    if (cachedBestTags == null) {
+      return getBestTagsByTagNoCount(limit);
     }
 
-    List<TagBestResponse> tagBestResponses = JacksonUtils.toForceList(cachedTagBests, TagBestResponse.class);
-    assert tagBestResponses != null;
-    if(tagBestResponses.size() != count) {
-      return getBestTagsByTagNoCount(count);
+    List<BestTagsResponse> bestTagsRespons = JacksonUtils.toForceList(cachedBestTags, BestTagsResponse.class);
+    assert bestTagsRespons != null;
+    if(bestTagsRespons.size() != limit) {
+      return getBestTagsByTagNoCount(limit);
     }
 
-    return tagBestResponses;
+    return bestTagsRespons;
   }
 
-  private List<TagBestResponse> getBestTagsByTagNoCount(long count) {
+  private List<BestTagsResponse> getBestTagsByTagNoCount(long limit) {
 
-    List<TagBestResponse> tagBestResponses = tagRepository.getBestTagsByTagNoCount(count);
-    cacheService.put(CacheName.TagBests, SystemConstants.TAGS_CACHE_KEY, tagBestResponses);
+    List<BestTagsResponse> bestTagsRespons = tagRepository.getBestTagsByTagNoCount(limit);
+    cacheService.put(CacheName.BestTags, SystemConstants.TAGS_CACHE_KEY, bestTagsRespons);
 
-    return tagBestResponses;
+    return bestTagsRespons;
   }
 }

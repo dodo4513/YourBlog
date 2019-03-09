@@ -6,14 +6,21 @@ import blog.api.category.model.request.GetCategoriesRequest;
 import blog.api.category.model.request.SaveCategoryRequest;
 import blog.api.category.model.request.SaveCategoryRequests;
 import blog.api.category.model.response.CategoriesResponse;
+import blog.api.category.model.response.BestCategoriesResponse;
 import blog.api.category.model.response.CategoryResponse;
+import blog.api.category.model.response.ListingCategoriesResponse;
 import blog.api.post.service.PostService;
+import blog.common.etc.SystemConstants;
+import blog.common.model.enums.CacheName;
 import blog.common.model.enums.PublicType;
+import blog.common.service.CacheService;
 import blog.common.util.BeanUtils;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import blog.common.util.JacksonUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,13 +33,15 @@ public class CategoryService {
 
   private final CategoryRepository categoryRepository;
 
+  private final CacheService cacheService;
+
   @Autowired
   private PostService postService;
 
   @Autowired
-  public CategoryService(CategoryRepository categoryRepository
-  ) {
+  public CategoryService(CategoryRepository categoryRepository, CacheService cacheService) {
     this.categoryRepository = categoryRepository;
+    this.cacheService = cacheService;
   }
 
   public CategoryResponse getCategoryResponse(long no) {
@@ -68,6 +77,41 @@ public class CategoryService {
     response.setCategoryResponses(categoryResponses);
 
     return response;
+  }
+
+  public List<ListingCategoriesResponse> getListingCategoriesResponse() {
+    String cachedCategories = cacheService.get(CacheName.Categories, SystemConstants.CATEGORYS_CACHE_KEY);
+
+    if(cachedCategories == null) {
+        List<ListingCategoriesResponse> listingCategoriesResponses = BeanUtils.copyProperties(categoryRepository.findAll(), ListingCategoriesResponse.class);
+        cacheService.put(CacheName.Categories, SystemConstants.CATEGORYS_CACHE_KEY, listingCategoriesResponses);
+        return listingCategoriesResponses;
+    }
+
+    return JacksonUtils.toForceList(cachedCategories, ListingCategoriesResponse.class);
+  }
+
+  public List<BestCategoriesResponse> getBestCategorys(long limit) {
+    String cachedBestCategories = cacheService.get(CacheName.BestCategories, SystemConstants.CATEGORYS_CACHE_KEY);
+
+    if(cachedBestCategories == null) {
+      return getBestCategorysByCategoryNoCount(limit);
+    }
+
+    List<BestCategoriesResponse> bestCategoriesResponses = JacksonUtils.toForceList(cachedBestCategories, BestCategoriesResponse.class);
+    assert bestCategoriesResponses != null;
+    if(bestCategoriesResponses.size() != limit) {
+      return getBestCategorysByCategoryNoCount(limit);
+    }
+
+    return bestCategoriesResponses;
+  }
+
+  private List<BestCategoriesResponse> getBestCategorysByCategoryNoCount(long limit) {
+    List<BestCategoriesResponse> bestCategorysRespons = categoryRepository.getBestCategorysByCategoryNoCount(limit);
+
+    cacheService.put(CacheName.BestCategories, SystemConstants.CATEGORYS_CACHE_KEY, bestCategorysRespons);
+    return bestCategorysRespons;
   }
 
   @Transactional

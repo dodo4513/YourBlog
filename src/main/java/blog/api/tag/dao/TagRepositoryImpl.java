@@ -3,7 +3,7 @@ package blog.api.tag.dao;
 import blog.api.tag.model.entity.QPostTagMapping;
 import blog.api.tag.model.entity.QTag;
 import blog.api.tag.model.entity.Tag;
-import blog.api.tag.model.response.TagBestResponse;
+import blog.api.tag.model.response.BestTagsResponse;
 import com.querydsl.core.types.Projections;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 
@@ -18,18 +18,17 @@ public class TagRepositoryImpl extends QuerydslRepositorySupport implements TagR
         super(Tag.class);
     }
 
-
     @Override
-    public List<TagBestResponse> getBestTagsByTagNoCount(long count) {
+    public List<BestTagsResponse> getBestTagsByTagNoCount(long limit) {
         return from(postTagMapping)
                 .select(
-                        Projections.bean(TagBestResponse.class,
+                        Projections.bean(BestTagsResponse.class,
                                 tag.name.as("name"),
                                 postTagMapping.tag.count().as("count")))
-                .leftJoin(postTagMapping.tag, tag)
+                .leftJoin(postTagMapping.tag, tag).fetchJoin()
                 .groupBy(postTagMapping.tag)
                 .orderBy(postTagMapping.tag.count().desc())
-                .limit(count)
+                .limit(limit)
                 .fetch();
     }
 }

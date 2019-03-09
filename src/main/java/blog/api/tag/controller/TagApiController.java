@@ -1,5 +1,6 @@
 package blog.api.tag.controller;
 
+import blog.api.tag.model.response.BestTagsResponse;
 import blog.api.tag.service.TagService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -8,6 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @Api(tags = "Tag", description = "태그")
 @RestController
@@ -27,10 +30,10 @@ public class TagApiController {
     return ResponseEntity.ok().body(tagService.getTags());
   }
 
-  @GetMapping("tags/counts/{count}")
+  @GetMapping("tags/limits/{limit}")
   @ApiOperation(value = "지정된 상위 태그 조회", notes = "지정된 상위 태그 조회 합니다.")
-  public ResponseEntity<?> getBestTag(@PathVariable long count) {
+  public ResponseEntity<List<BestTagsResponse>> getBestTags(@PathVariable long limit) {
 
-    return ResponseEntity.ok().body(tagService.getBestTags(count));
+    return ResponseEntity.ok().body(tagService.getBestTags(limit));
   }
 }

@@ -1,9 +1,9 @@
 package blog.api.tag.dao;
 
-import blog.api.tag.model.response.TagBestResponse;
+import blog.api.tag.model.response.BestTagsResponse;
 
 import java.util.List;
 
 public interface TagRepositoryCustom {
-    List<TagBestResponse> getBestTagsByTagNoCount(long count);
+    List<BestTagsResponse> getBestTagsByTagNoCount(long limit);
 }

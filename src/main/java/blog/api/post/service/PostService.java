@@ -23,14 +23,13 @@ public class PostService {
 
   private final PostRepository postRepository;
   private final TagService tagService;
+  private final CategoryService categoryService;
 
   @Autowired
-  private CategoryService categoryService;
-
-  @Autowired
-  public PostService(PostRepository postRepository, TagService tagService) {
+  public PostService(PostRepository postRepository, TagService tagService, CategoryService categoryService) {
     this.postRepository = postRepository;
     this.tagService = tagService;
+    this.categoryService = categoryService;
   }
 
   public PostResponse getPostResponse(long no) {
