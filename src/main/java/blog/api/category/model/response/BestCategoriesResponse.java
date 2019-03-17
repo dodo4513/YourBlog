@@ -6,6 +6,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class BestCategoriesResponse {
-    private String title;
+    private String name;
     private long count;
 }

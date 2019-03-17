@@ -25,7 +25,7 @@ public class TagRepositoryImpl extends QuerydslRepositorySupport implements TagR
                         Projections.bean(BestTagsResponse.class,
                                 tag.name.as("name"),
                                 postTagMapping.tag.count().as("count")))
-                .leftJoin(postTagMapping.tag, tag).fetchJoin()
+                .leftJoin(postTagMapping.tag, tag)
                 .groupBy(postTagMapping.tag)
                 .orderBy(postTagMapping.tag.count().desc())
                 .limit(limit)

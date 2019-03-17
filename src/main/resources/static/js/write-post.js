@@ -21,7 +21,7 @@ $(() => {
     },
 
     initTagAutoComplete() {
-      blog.autocomplete.init($('#tags'), '/tags');
+      blog.autocomplete.init($('#tags'), {'keydown': '/tags'}, 'keydown');
     },
 
     initCategory() {

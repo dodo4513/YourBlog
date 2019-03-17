@@ -24,9 +24,9 @@ public class CategoryRepositoryImpl extends QuerydslRepositorySupport implements
         return from(post)
                 .select(
                         Projections.bean(BestCategoriesResponse.class,
-                                category.title.as("title"),
+                                category.title.as("name"),
                                 post.categoryNo.count().as("count")))
-                .leftJoin(post.category, category).fetchJoin()
+                .leftJoin(post.category, category)
                 .groupBy(post.categoryNo)
                 .orderBy(post.categoryNo.count().desc())
                 .limit(limit)

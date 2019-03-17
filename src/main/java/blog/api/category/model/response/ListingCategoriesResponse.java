@@ -11,5 +11,5 @@ public class ListingCategoriesResponse {
     private Long categoryNo;
 
     @ApiModelProperty(value = "이름", position = 20)
-    private String title;
+    private String name;
 }

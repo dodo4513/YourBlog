@@ -34,10 +34,11 @@ public class PostService {
 
   public PostResponse getPostResponse(long no) {
     Post post = postRepository.findByPostNoAndDeleteYn(no, false);
+    
     if (post == null) {
-
       return null;
     }
+
     PostResponse postResponse = new PostResponse();
     BeanUtils.copyProperties(post, postResponse);
 

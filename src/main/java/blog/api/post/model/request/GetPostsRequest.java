@@ -14,6 +14,9 @@ public class GetPostsRequest {
   @ApiModelProperty(value = "태그", position = 20)
   private String tags;
 
+  @ApiModelProperty(value = "카테고리", position = 20)
+  private String categories;
+
   @ApiModelProperty(value = "공개", position = 25)
   private Boolean publicYn;
 

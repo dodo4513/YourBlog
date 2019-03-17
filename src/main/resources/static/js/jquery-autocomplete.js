@@ -1,3 +1,4 @@
+let eventHandler;
 blog.autocomplete = {
   split(val) {
     return val.split(/,\s*/);
@@ -7,8 +8,9 @@ blog.autocomplete = {
     return this.split(term).pop();
   },
 
-  init($tags, sourceUrl) {
-    $tags.on('keydown', function(event) {
+  init($tags, sourceUrl, handler) {
+    $tags.on(handler, function(event) {
+      eventHandler = event.originalEvent.type;
       if (event.keyCode === $.ui.keyCode.TAB &&
             $(this).autocomplete('instance').menu.active) {
         event.preventDefault();
@@ -16,18 +18,17 @@ blog.autocomplete = {
     })
       .autocomplete({
         source(request, response) {
-          blog.common.ajaxForPromise({url: sourceUrl}, {progress: false}).then(resp => {
+          blog.common.ajaxForPromise({url: sourceUrl[eventHandler]}, {progress: false}).then(resp => {
             const tagNames = resp.map(tagResponse => tagResponse.name);
             response($.ui.autocomplete.filter(
-              tagNames, blog.autocomplete.extractLast(request.term)));
+              tagNames, (eventHandler == 'focus') ? '' : blog.autocomplete.extractLast(request.term)));
           });
         },
 
         search() {
-          const term = blog.autocomplete.extractLast(this.value);
-          if (term.length < 1) {
+          /*if (term.length < 1) {
             return false;
-          }
+          }*/
         },
 
         focus() {
@@ -43,6 +44,8 @@ blog.autocomplete = {
 
           return false;
         }
+      }).focus(function () {
+        $(this).autocomplete("search", " ");
       });
   }
 };

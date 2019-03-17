@@ -11,7 +11,9 @@ $(() => {
       this.addEvent();
       this.initGrind()
         .then(this.searchPosts());
-      blog.autocomplete.init($('#tags'), '/tags');
+
+      blog.autocomplete.init($('#tags'), {'keydown': '/tags', 'focus': '/tags/limits/5' }, 'keydown focus');
+      blog.autocomplete.init($('#categories'), {'keydown': '/categories/listing', 'focus': '/categories/limits/5' }, 'keydown focus');
     },
     initGrind() {
       return new Promise(() => {

@@ -83,7 +83,14 @@ public class CategoryService {
     String cachedCategories = cacheService.get(CacheName.Categories, SystemConstants.CATEGORYS_CACHE_KEY);
 
     if(cachedCategories == null) {
-        List<ListingCategoriesResponse> listingCategoriesResponses = BeanUtils.copyProperties(categoryRepository.findAll(), ListingCategoriesResponse.class);
+        List<ListingCategoriesResponse> listingCategoriesResponses =
+                categoryRepository.findAll().stream()
+                        .map(category -> {
+                          ListingCategoriesResponse listingCategoriesResponse = new ListingCategoriesResponse();
+                          listingCategoriesResponse.setCategoryNo(category.getCategoryNo());
+                          listingCategoriesResponse.setName(category.getTitle());
+                          return listingCategoriesResponse;
+                        }).collect(Collectors.toList());
         cacheService.put(CacheName.Categories, SystemConstants.CATEGORYS_CACHE_KEY, listingCategoriesResponses);
         return listingCategoriesResponses;
     }
