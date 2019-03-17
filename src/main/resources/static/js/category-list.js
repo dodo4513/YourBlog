@@ -172,7 +172,7 @@ $(() => {
 
       for (const childId of childIds) {
         const category = {};
-        category.title = tree.getNodeData(childId).text;
+        category.name = tree.getNodeData(childId).text;
         category.displayOrder = categories.length + 1;
         category.children = this.getCategoryToJSON(childId);
         category.publicYn = !$(`#tui-tree-node-${childId.split('-')[3]} > .tui-tree-content-wrapper > .tui-tree-text`).hasClass('cancel-line');
@@ -192,7 +192,7 @@ $(() => {
           childCategories.push(this.getEntityToJSON(childEntity));
         });
       }
-      category.text = categoryEntity.title;
+      category.text = categoryEntity.name;
       category.children = childCategories;
       category.isPublic = categoryEntity.publicYn;
       category.categoryNo = categoryEntity.categoryNo;

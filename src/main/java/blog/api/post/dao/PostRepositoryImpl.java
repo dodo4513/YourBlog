@@ -67,7 +67,7 @@ public class PostRepositoryImpl extends QuerydslRepositorySupport implements Pos
 
     if (Strings.isNotEmpty(request.getCategories())) {
       List<String> categories = Arrays.stream(request.getCategories().split(",")).collect(Collectors.toList());
-      condition.and(post.category.title.in(categories));
+      condition.and(post.category.name.in(categories));
     }
 
     if (request.getPublicYn() != null) {

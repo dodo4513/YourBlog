@@ -15,9 +15,9 @@ blog.column = {
       },
       {
         title: '카테고리',
-        name: 'categoryTitle',
+        name: 'categoryMame',
         width: 120,
-        formatter: (value, row) => row.category.title
+        formatter: (value, row) => row.category.name
       },
       {
         title: '태그',

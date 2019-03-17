@@ -1,11 +1,11 @@
-package blog.api.category.model.response;
+package blog.api.tag.model.response;
 
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class BestCategoriesResponse {
+public class FrequentlyUsedTagsResponse {
     private String name;
     private long count;
 }

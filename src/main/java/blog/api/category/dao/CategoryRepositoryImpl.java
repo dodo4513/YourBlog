@@ -2,7 +2,7 @@ package blog.api.category.dao;
 
 import blog.api.category.model.entity.Category;
 import blog.api.category.model.entity.QCategory;
-import blog.api.category.model.response.BestCategoriesResponse;
+import blog.api.category.model.response.FrequentlyUsedCategoryResponse;
 import blog.api.post.model.entity.QPost;
 import com.querydsl.core.types.Projections;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
@@ -19,12 +19,12 @@ public class CategoryRepositoryImpl extends QuerydslRepositorySupport implements
     }
 
     @Override
-    public List<BestCategoriesResponse> getBestCategorysByCategoryNoCount(long limit) {
+    public List<FrequentlyUsedCategoryResponse> getBestCategorysByCategoryNoCount(long limit) {
 
         return from(post)
                 .select(
-                        Projections.bean(BestCategoriesResponse.class,
-                                category.title.as("name"),
+                        Projections.bean(FrequentlyUsedCategoryResponse.class,
+                                category.name.as("name"),
                                 post.categoryNo.count().as("count")))
                 .leftJoin(post.category, category)
                 .groupBy(post.categoryNo)

@@ -1,24 +1,20 @@
 package blog.api.category.controller;
 
+import blog.api.category.model.request.FrequentlyUsedCategoryRequest;
 import blog.api.category.model.request.GetCategoriesRequest;
-import blog.api.category.model.request.SaveCategoryRequest;
 import blog.api.category.model.request.SaveCategoryRequests;
 import blog.api.category.model.response.CategoriesResponse;
 import blog.api.category.model.response.CategoryResponse;
+import blog.api.category.model.response.FrequentlyUsedCategoryResponse;
 import blog.api.category.model.response.ListingCategoriesResponse;
 import blog.api.category.service.CategoryService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * @author cyclamen on 13/01/2019
@@ -72,10 +68,10 @@ public class CategoryApiController {
     return ResponseEntity.noContent().build();
   }
 
-  @GetMapping("limits/{limit}")
+  @GetMapping("frequentlyUsed")
   @ApiOperation(value = "지정된 상위 카테고리 조회", notes = "지정된 상위 카테고리 조회 합니다.")
-  public ResponseEntity<?> getBestCategorys(@PathVariable long limit) {
+  public ResponseEntity<List<FrequentlyUsedCategoryResponse>> getFrequentlyUsedCategories(@ModelAttribute FrequentlyUsedCategoryRequest request) {
 
-    return ResponseEntity.ok().body(categoryService.getBestCategorys(limit));
+    return ResponseEntity.ok().body(categoryService.getFrequentlyUsedCategories(request));
   }
 }

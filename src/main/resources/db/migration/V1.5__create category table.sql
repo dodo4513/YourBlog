@@ -1,7 +1,7 @@
 CREATE TABLE category
 (
   category_no   BIGINT AUTO_INCREMENT PRIMARY KEY NOT NULL,
-  title         VARCHAR(100)                      NOT NULL,
+  name         VARCHAR(100)                      NOT NULL,
   public_yn     CHAR(1) DEFAULT 'Y'               NOT NULL,
   delete_yn     CHAR(1) DEFAULT 'N'               NOT NULL,
   display_order LONG                              NOT NULL,

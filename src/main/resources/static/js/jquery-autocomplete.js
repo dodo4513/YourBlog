@@ -1,4 +1,5 @@
 let eventHandler;
+let contentPropertyNames = ['categoryResponses', 'tagResponses'];
 blog.autocomplete = {
   split(val) {
     return val.split(/,\s*/);
@@ -6,6 +7,14 @@ blog.autocomplete = {
 
   extractLast(term) {
     return this.split(term).pop();
+  },
+
+  extractContent(resp) {
+    let found = null;
+      contentPropertyNames.some(function (value) {
+      if(resp.hasOwnProperty(value)) found = resp[value];
+    });
+    return (found === null) ? resp : found;
   },
 
   init($tags, sourceUrl, handler) {
@@ -19,9 +28,11 @@ blog.autocomplete = {
       .autocomplete({
         source(request, response) {
           blog.common.ajaxForPromise({url: sourceUrl[eventHandler]}, {progress: false}).then(resp => {
-            const tagNames = resp.map(tagResponse => tagResponse.name);
+            if(resp.length <= 0) return false;
+            let extractResp = blog.autocomplete.extractContent(resp);
+            const tagNames =  extractResp.map(tagResponse => tagResponse.name);
             response($.ui.autocomplete.filter(
-              tagNames, (eventHandler == 'focus') ? '' : blog.autocomplete.extractLast(request.term)));
+              tagNames, (eventHandler === 'focus') ? '' : blog.autocomplete.extractLast(request.term)));
           });
         },
 
