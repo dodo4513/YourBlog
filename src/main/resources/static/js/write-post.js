@@ -3,7 +3,8 @@ $(() => {
   const URI = {
     POST: '/posts',
     LIST: '/admin/post-list',
-    CATEGORY: '/categories'
+    CATEGORY: '/categories',
+    IMAGE_UPLOAD: '/images'
   };
 
   const MESSAGE = {
@@ -13,6 +14,7 @@ $(() => {
   blog.writePost = {
     editor: null,
     grid: null,
+    usedImageNos: [],
     init() {
       this.initTui();
       this.addEvent();
@@ -72,7 +74,48 @@ $(() => {
         initialEditType: 'markdown',
         previewStyle: 'vertical',
         height: '300px',
-        exts: ['scrollSync', 'colorSyntax']
+        exts: ['scrollSync', 'colorSyntax'],
+        hooks: {
+          'addImageBlobHook': (blob, callback) => {
+            const formData = new FormData();
+            formData.append('file', blob);
+
+            blog.common.ajaxForPromise({
+              url: URI.IMAGE_UPLOAD,
+              data: formData,
+              dataType: 'text',
+              processData: false,
+              contentType: false,
+              type: 'POST'
+            }).then(uri => callback(uri));
+          }
+        }
+      });
+
+      this.editor.on('change', () => {
+        const contents = this.editor.getMarkdown();
+        const regex = /!\[image.png\]\(\/images\/\d{0,}/g;
+        const images = [];
+        let image;
+        while ((image = regex.exec(contents)) !== null) {
+          images.push(image[0]);
+        }
+
+        const imageNos = [...new Set(images.map(i => i.split('/')[2]).sort())];
+
+        // 이미지 목록이 변경 됐다면
+        if (imageNos.length !== this.usedImageNos.length ||
+            !imageNos.every((value, index) => value === this.usedImageNos[index])) {
+          this.usedImageNos = imageNos;
+
+          let html = '';
+          imageNos.forEach(i =>
+            html += ` <li class='image'><img id='abc${i}' src="/images/${i}" alt="${i} image"/>
+                        <div class="overlay"><div class="text"></div></div>
+                      </li>`
+          );
+          $('#image-box').empty().append(html);
+        }
       });
 
       this.setExtraDataGrid();
@@ -106,6 +149,19 @@ $(() => {
       $body.on('click', '.action', $.proxy(this.onClickAction, this));
       $body.on('change', '#extra-data-use-check', $.proxy(this.setExtraDataGrid, this));
       $body.on('click', '.removeRow', $.proxy(this.removeRow, this));
+      $body.on('mouseover', '.image > .overlay', $.proxy(this.hoverOnImage, this));
+    },
+
+    hoverOnImage(e) {
+      const $img = $(e.target).siblings('img');
+      const $text = $(e.target).find('.text');
+      if ($text.html() !== '') {
+        return;
+      }
+
+      this.getImageFileSize($img[0].src).then(resp => {
+        $text.html(`${$img[0].naturalWidth}x${$img[0].naturalHeight}<br/>${resp.type}<br/>${resp.size / 1000}kb`);
+      });
     },
 
     setExtraDataGrid() {
@@ -195,6 +251,21 @@ $(() => {
       }
 
       return null;
+    },
+
+    getImageFileSize(url) {
+      return new Promise(resolve => {
+        const imageUrl = url;
+        let blob = null;
+        const xhr = new XMLHttpRequest();
+        xhr.open('GET', imageUrl, true);
+        xhr.responseType = 'blob';
+        xhr.onload = function() {
+          blob = xhr.response;
+          resolve(blob);
+        };
+        xhr.send();
+      });
     }
   };
 

@@ -110,3 +110,7 @@
 .content {
   min-height: 800px;
 }
+
+.text-center {
+  text-align: center;
+}

@@ -16,6 +16,10 @@ apply plugin: 'org.springframework.boot'
 repositories {
     jcenter()
 }
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
 querydsl {
     querydslDefault = true
     jpa = true

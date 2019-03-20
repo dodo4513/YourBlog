@@ -11,21 +11,34 @@ blog.common = {
       blog.common.curtainToggle(true);
     }
     console.log(params);
+    const p = {};
 
-    $.ajax({
-      url: `${blog.common.SETTING.LOCATION}${params.url}`,
-      type: params.type || 'GET',
-      data: params.data,
-      contentType: 'application/json',
-      success(resp) {
-        console.log('Communication ok\n response: ', resp);
-        if (progressCircle) {
-          blog.common.curtainToggle(false);
-        }
-        resolve(resp);
+    p.url = `${blog.common.SETTING.LOCATION}${params.url}`;
+    p.type = typeof params.type === 'undefined' ? 'GET' : params.type;
+    p.contentType = typeof params.contentType === 'undefined' ? 'application/json' : params.contentType;
+    p.success = resp => {
+      console.log('Communication ok\n response: ', resp);
+      if (progressCircle) {
+        blog.common.curtainToggle(false);
       }
-    });
+      resolve(resp);
+    };
+
+    if (typeof params.data !== 'undefined') {
+      p.data = params.data;
+    }
+
+    if (typeof params.dataType !== 'undefined') {
+      p.dataType = params.dataType;
+    }
+
+    if (typeof params.processData !== 'undefined') {
+      p.processData = params.processData;
+    }
+
+    $.ajax(p);
   }),
+
   getDateInKR(date) {
     const r = new Date(date);
 
@@ -38,6 +51,32 @@ blog.common = {
     } else {
       $('#curtain').remove();
     }
+  },
+
+  openPopup: (url, name, width, height, scrollAble) => {
+    const x = (screen.width - width) / 2;
+    const y = (screen.height - height) / 2;
+
+    if (typeof scrollAble === 'undefined') {
+      scrollAble = 'no';
+    }
+
+    if (screen.width >= 800 && screen.height >= 600) {
+      scrollAble = 'yes';
+    }
+
+    let o = `toolbar=no, channelmode=no, location=no, directories=no, menubar=no`;
+    o = `${o}, top=${y}, left=${x}, scrollbars=${scrollAble}, width=${width}, height=${height}, resizable=no`;
+    const win = window.open(url, name, o);
+
+    try {
+      win.moveTo(x, y);
+      win.focus();
+    } catch (e) {
+      console.log(e);
+    }
+
+    return win;
   }
 };
 

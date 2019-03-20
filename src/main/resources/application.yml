@@ -1,5 +1,7 @@
 server:
   port: 8081
+  compression:
+    enabled: false # resource 압축
 spring:
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
@@ -22,3 +24,7 @@ spring:
       enabled: true
     restart:
       enabled: false
+  servlet:
+    multipart:
+      file-size-threshold: 3MB
+      max-file-size: 3MB

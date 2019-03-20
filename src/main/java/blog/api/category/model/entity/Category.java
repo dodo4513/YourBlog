@@ -1,8 +1,6 @@
 package blog.api.category.model.entity;
 
-import blog.common.model.entity.BasicColumn;
-import java.util.ArrayList;
-import java.util.HashSet;
+import blog.common.model.entity.ForBasicTable;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -23,7 +21,7 @@ import org.hibernate.annotations.Type;
 @Entity
 @Getter
 @Setter
-public class Category extends BasicColumn {
+public class Category extends ForBasicTable {
 
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)

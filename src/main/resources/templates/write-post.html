@@ -7,6 +7,7 @@
   <!--my-->
   <link rel="stylesheet" type="text/css" href="/css/common.css"/>
   <link rel="stylesheet" type="text/css" href="/css/button.css"/>
+  <link rel="stylesheet" type="text/css" href="/css/image-box.css"/>
 
   <!--TUI editor-->
   <link rel="stylesheet" href="/lib/bower_components/codemirror/lib/codemirror.css">
@@ -79,13 +80,20 @@
                 </div>
 
                 <div class="row form-group">
-                  <div class="col col-md-2"><label for="tui-editor"
-                                                   class=" form-control-label must">본문</label>
+                  <div class="col col-md-2"><label for="tui-editor" class=" form-control-label must">본문</label>
                   </div>
                   <div class="col-12 col-md-10">
                     <!-- tui -->
-                    <div id="tui-editor" style="min-height: 300px"></div>
+                    <div id="tui-editor" style="min-height: 500px"></div>
+                  </div>
+                </div>
 
+                <div class="row form-group">
+                  <div class="col col-md-2">사용된 이미지
+                  </div>
+                  <div class="col-12 col-md-10">
+                    <ul id="image-box">
+                    </ul>
                   </div>
                 </div>
 

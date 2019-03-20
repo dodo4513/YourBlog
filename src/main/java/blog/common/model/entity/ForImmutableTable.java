@@ -12,7 +12,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @Setter
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
-public class ImmutableBasicColumn {
+public class ForImmutableTable {
 
   @CreatedDate
   private LocalDateTime registerYmdt;

@@ -3,7 +3,7 @@ package blog.api.post.model.entity;
 import blog.api.category.model.entity.Category;
 import blog.api.tag.model.entity.Tag;
 import blog.common.etc.MapToJsonConverter;
-import blog.common.model.entity.BasicColumn;
+import blog.common.model.entity.ForBasicTable;
 import java.util.List;
 import java.util.Map;
 import javax.persistence.Convert;
@@ -22,7 +22,7 @@ import org.hibernate.annotations.Type;
 @Setter
 @Getter
 @Entity
-public class Post extends BasicColumn {
+public class Post extends ForBasicTable {
 
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)

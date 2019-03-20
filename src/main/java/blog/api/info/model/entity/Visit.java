@@ -1,6 +1,6 @@
 package blog.api.info.model.entity;
 
-import blog.common.model.entity.ImmutableBasicColumn;
+import blog.common.model.entity.ForImmutableTable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -11,7 +11,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-public class Visit extends ImmutableBasicColumn {
+public class Visit extends ForImmutableTable {
 
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)

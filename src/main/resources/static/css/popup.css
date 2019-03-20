@@ -1,0 +1,36 @@
+html {
+  background-color: #f0f1f5;
+}
+body {
+  margin: 10px;
+  background-color: white;
+  border-radius: 3px;
+  min-width: 500px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.08);
+}
+header {
+  font-size: 15px;
+  padding: 6px 10px;
+  border-bottom: 1px solid #e8e9ed;
+  background-color: #f7f7f7
+}
+
+#title {
+  padding: 5px;
+}
+
+#contents {
+  margin: 15px 30px;
+  font-size: 14px;
+}
+
+#content {
+  font-size: 13px;
+  margin: 10px 10px;
+  overflow: auto;
+  max-height: 400px;
+}
+
+footer {
+  padding-bottom: 10px;
+}

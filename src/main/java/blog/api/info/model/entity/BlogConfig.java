@@ -1,7 +1,7 @@
 package blog.api.info.model.entity;
 
 import blog.api.info.model.enums.ConfigCode;
-import blog.common.model.entity.ImmutableBasicColumn;
+import blog.common.model.entity.ForImmutableTable;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -17,7 +17,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-public class BlogConfig extends ImmutableBasicColumn {
+public class BlogConfig extends ForImmutableTable {
 
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)

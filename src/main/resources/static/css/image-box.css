@@ -1,0 +1,55 @@
+#image-box {
+  background-color: lightgrey;
+  height: 124px;
+  overflow-x: scroll;
+  white-space: nowrap;
+  max-width: 900px;
+  padding: 7px 7px 7px 2px;
+}
+
+#image-box > li {
+  display: inline-block;
+  font-size: 40px;
+}
+
+#image-box > .image {
+  position: relative;
+}
+
+.image > img {
+  margin-left: 5px;
+  background-color: white;
+  /*display: inline-block;*/
+  height: 110px;
+  max-width: 150px;
+  display: inline-block;
+}
+
+.image > .overlay {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0px;
+  right: 0;
+  height: 100%;
+  width: 100%;
+  opacity: 0;
+  transition: .5s ease;
+  background-color: white;
+}
+
+.image > .overlay:hover {
+  opacity: 0.9;
+}
+
+.image > .overlay > .text {
+  color: dimgrey;
+  font-size: 12px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
