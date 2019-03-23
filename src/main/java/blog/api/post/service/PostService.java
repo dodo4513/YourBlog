@@ -23,22 +23,22 @@ public class PostService {
 
   private final PostRepository postRepository;
   private final TagService tagService;
+  private final CategoryService categoryService;
 
   @Autowired
-  private CategoryService categoryService;
-
-  @Autowired
-  public PostService(PostRepository postRepository, TagService tagService) {
+  public PostService(PostRepository postRepository, TagService tagService, CategoryService categoryService) {
     this.postRepository = postRepository;
     this.tagService = tagService;
+    this.categoryService = categoryService;
   }
 
   public PostResponse getPostResponse(long no) {
     Post post = postRepository.findByPostNoAndDeleteYn(no, false);
-    if (post == null) {
 
+    if (post == null) {
       return null;
     }
+
     PostResponse postResponse = new PostResponse();
     BeanUtils.copyProperties(post, postResponse);
 

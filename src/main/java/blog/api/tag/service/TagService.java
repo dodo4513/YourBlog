@@ -1,25 +1,28 @@
 package blog.api.tag.service;
 
 import blog.api.tag.dao.TagRepository;
+import blog.api.tag.model.TagsResponse;
 import blog.api.tag.model.entity.Tag;
+import blog.api.tag.model.request.FrequentlyUsedTagRequest;
 import blog.api.tag.model.request.TagRequest;
+import blog.api.tag.model.response.FrequentlyUsedTagsResponse;
 import blog.api.tag.model.response.TagResponse;
-import blog.common.model.enums.CacheName;
 import blog.common.etc.SystemConstants;
+import blog.common.model.enums.CacheName;
 import blog.common.service.CacheService;
 import blog.common.util.BeanUtils;
 import blog.common.util.JacksonUtils;
-import java.util.List;
-import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class TagService {
 
   private final TagRepository tagRepository;
-
   private final CacheService cacheService;
 
   @Autowired
@@ -47,17 +50,56 @@ public class TagService {
         }).collect(Collectors.toList()));
   }
 
-  public List<TagResponse> getTags() {
+  public TagsResponse getTags() {
     String cachedTags = cacheService.get(CacheName.Tags, SystemConstants.TAGS_CACHE_KEY);
+
+    TagsResponse response = new TagsResponse();
 
     if (cachedTags == null) {
       List<TagResponse> tagResponses = BeanUtils
           .copyProperties(tagRepository.findAll(), TagResponse.class);
+
       cacheService.put(CacheName.Tags, SystemConstants.TAGS_CACHE_KEY, tagResponses);
 
-      return tagResponses;
+      response.setTotalCount(tagResponses.size());
+      response.setTagResponses(tagResponses);
+
+      return response;
     }
 
-    return JacksonUtils.toForceList(cachedTags, TagResponse.class);
+    List<TagResponse> tagResponses = JacksonUtils.toForceList(cachedTags, TagResponse.class);
+
+    assert tagResponses != null;
+    response.setTotalCount(tagResponses.size());
+    response.setTagResponses(tagResponses);
+
+    return response;
+  }
+
+  public List<FrequentlyUsedTagsResponse> getFrequentlyUsedTags(FrequentlyUsedTagRequest request) {
+
+    String cachedBestTags = cacheService.get(CacheName.FrequentlyUsedTags, SystemConstants.TAGS_CACHE_KEY);
+
+    long limit = request.getLimit();
+
+    if (cachedBestTags == null) {
+      return getFrequentlyUsedTagsByLimit(limit);
+    }
+
+    List<FrequentlyUsedTagsResponse> bestTagsRespons = JacksonUtils.toForceList(cachedBestTags, FrequentlyUsedTagsResponse.class);
+    assert bestTagsRespons != null;
+    if(bestTagsRespons.size() != limit) {
+      return getFrequentlyUsedTagsByLimit(limit);
+    }
+
+    return bestTagsRespons;
+  }
+
+  private List<FrequentlyUsedTagsResponse> getFrequentlyUsedTagsByLimit(long limit) {
+
+    List<FrequentlyUsedTagsResponse> bestTagsRespons = tagRepository.getFrequentlyUsedTagsByLimit(limit);
+    cacheService.put(CacheName.FrequentlyUsedTags, SystemConstants.TAGS_CACHE_KEY, bestTagsRespons);
+
+    return bestTagsRespons;
   }
 }

@@ -21,7 +21,7 @@ $(() => {
     },
 
     initTagAutoComplete() {
-      blog.autocomplete.init($('#tags'), '/tags');
+      blog.autocomplete.init($('#tags'), {'keydown': '/tags'}, 'keydown');
     },
 
     initCategory() {
@@ -32,7 +32,7 @@ $(() => {
         if (resp.totalCount > 0) {
           let categoryTitlesAndNos = [];
           resp.categoryResponses.forEach(categoryEntity => {
-            categoryTitlesAndNos = categoryTitlesAndNos.concat(this.makeCategoryTitle(categoryEntity, 0));
+            categoryTitlesAndNos = categoryTitlesAndNos.concat(this.makeCategoryName(categoryEntity, 0));
           });
           $('#category-selector').html(categoryTitlesAndNos);
         } else {
@@ -50,17 +50,17 @@ $(() => {
       $saveBtn.attr('data-action', '');
     },
 
-    makeCategoryTitle(categoryEntity, depth) {
+    makeCategoryName(categoryEntity, depth) {
       let selector = [];
-      let title = '';
+      let name = '';
       for (let i = 0; i < depth; i++) {
-        title += '&nbsp&nbsp&nbsp';
+          name += '&nbsp&nbsp&nbsp';
       }
-      title += `${depth > 0 ? 'ㄴ' : ''}${categoryEntity.title}`;
-      selector.push(`<option value="${categoryEntity.categoryNo}">${title}</option>`);
+      name += `${depth > 0 ? 'ㄴ' : ''}${categoryEntity.name}`;
+      selector.push(`<option value="${categoryEntity.categoryNo}">${name}</option>`);
 
       for (let i = 0; i < categoryEntity.children.length; i++) {
-        selector = selector.concat(this.makeCategoryTitle(categoryEntity.children[i], depth + 1));
+        selector = selector.concat(this.makeCategoryName(categoryEntity.children[i], depth + 1));
       }
 
       return selector;

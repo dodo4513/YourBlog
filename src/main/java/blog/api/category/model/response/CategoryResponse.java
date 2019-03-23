@@ -18,7 +18,7 @@ public class CategoryResponse {
   private long categoryNo;
 
   @ApiModelProperty(value = "제목", position = 20)
-  private String title;
+  private String name;
 
   @ApiModelProperty(value = "공개 여부", position = 30)
   private boolean publicYn;

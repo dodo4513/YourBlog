@@ -16,7 +16,7 @@ public class SaveCategoryRequest {
   private Long categoryNo;
 
   @ApiModelProperty(value = "이름", required = true, position = 20)
-  private String title;
+  private String name;
 
   @ApiModelProperty(value = "공개 여부", position = 30)
   private boolean publicYn = true;

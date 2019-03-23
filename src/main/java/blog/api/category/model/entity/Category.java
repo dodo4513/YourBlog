@@ -30,7 +30,7 @@ public class Category extends BasicColumn {
   private long categoryNo;
 
   // 이름
-  private String title;
+  private String name;
 
   // 공개 여부
   @Type(type = "yes_no")
