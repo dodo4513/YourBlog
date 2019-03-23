@@ -24,7 +24,7 @@ public class TagApiController {
     this.tagService = tagService;
   }
 
-  @GetMapping("")
+  @GetMapping
   @ApiOperation(value = "전체 태그 조회", notes = "전체 태그를 조회합니다.")
   public ResponseEntity<TagsResponse> getTag() {
 

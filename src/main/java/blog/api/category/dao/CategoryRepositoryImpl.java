@@ -24,9 +24,9 @@ public class CategoryRepositoryImpl extends QuerydslRepositorySupport implements
         return from(post)
                 .select(
                         Projections.bean(FrequentlyUsedCategoryResponse.class,
-                                category.name.as("name"),
-                                post.categoryNo.count().as("count")))
-                .leftJoin(post.category, category)
+                                category.name,
+                                post.categoryNo.count()))
+                .join(post.category, category)
                 .groupBy(post.categoryNo)
                 .orderBy(post.categoryNo.count().desc())
                 .limit(limit)
