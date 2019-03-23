@@ -6,7 +6,6 @@ import blog.api.category.model.request.SaveCategoryRequests;
 import blog.api.category.model.response.CategoriesResponse;
 import blog.api.category.model.response.CategoryResponse;
 import blog.api.category.model.response.FrequentlyUsedCategoryResponse;
-import blog.api.category.model.response.ListingCategoriesResponse;
 import blog.api.category.service.CategoryService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -40,12 +39,6 @@ public class CategoryApiController {
     CategoriesResponse response = categoryService.getCategoriesResponses(request);
 
     return ResponseEntity.ok().body(response);
-  }
-
-  @GetMapping("listing")
-  @ApiOperation(value = "카테고리 목록 조회", notes = "카테고리 목록을 조회합니다.")
-  public ResponseEntity<List<ListingCategoriesResponse>> getCategories() {
-    return ResponseEntity.ok().body(categoryService.getListingCategoriesResponse());
   }
 
   @GetMapping("{no}")

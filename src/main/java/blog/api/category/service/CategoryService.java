@@ -9,7 +9,6 @@ import blog.api.category.model.request.SaveCategoryRequests;
 import blog.api.category.model.response.CategoriesResponse;
 import blog.api.category.model.response.CategoryResponse;
 import blog.api.category.model.response.FrequentlyUsedCategoryResponse;
-import blog.api.category.model.response.ListingCategoriesResponse;
 import blog.api.post.service.PostService;
 import blog.common.etc.SystemConstants;
 import blog.common.model.enums.CacheName;
@@ -78,25 +77,6 @@ public class CategoryService {
     response.setCategoryResponses(categoryResponses);
 
     return response;
-  }
-
-  public List<ListingCategoriesResponse> getListingCategoriesResponse() {
-    String cachedCategories = cacheService.get(CacheName.Categories, SystemConstants.CATEGORYS_CACHE_KEY);
-
-    if(cachedCategories == null) {
-        List<ListingCategoriesResponse> listingCategoriesResponses =
-                categoryRepository.findAll().stream()
-                        .map(category -> {
-                          ListingCategoriesResponse listingCategoriesResponse = new ListingCategoriesResponse();
-                          listingCategoriesResponse.setCategoryNo(category.getCategoryNo());
-                          listingCategoriesResponse.setName(category.getName());
-                          return listingCategoriesResponse;
-                        }).collect(Collectors.toList());
-        cacheService.put(CacheName.Categories, SystemConstants.CATEGORYS_CACHE_KEY, listingCategoriesResponses);
-        return listingCategoriesResponses;
-    }
-
-    return JacksonUtils.toForceList(cachedCategories, ListingCategoriesResponse.class);
   }
 
   public List<FrequentlyUsedCategoryResponse> getFrequentlyUsedCategories(FrequentlyUsedCategoryRequest request) {
