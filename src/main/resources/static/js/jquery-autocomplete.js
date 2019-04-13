@@ -1,4 +1,5 @@
 blog.autocomplete = {
+  activeEventType: null,
   split(val) {
     return val.split(/,\s*/);
   },
@@ -7,42 +8,39 @@ blog.autocomplete = {
     return this.split(term).pop();
   },
 
-  init($tags, sourceUrl) {
-    $tags.on('keydown', function(event) {
-      if (event.keyCode === $.ui.keyCode.TAB &&
-            $(this).autocomplete('instance').menu.active) {
+  init($tags, sourceUrl, fetchHandler) {
+    const that = this;
+    $tags.on('keydown focus', event => {
+      that.activeEventType = event.originalEvent.type;
+      if (event.keyCode === $.ui.keyCode.TAB) {
         event.preventDefault();
       }
-    })
-      .autocomplete({
-        source(request, response) {
-          blog.common.ajaxForPromise({url: sourceUrl}, {progress: false}).then(resp => {
-            const tagNames = resp.map(tagResponse => tagResponse.name);
-            response($.ui.autocomplete.filter(
-              tagNames, blog.autocomplete.extractLast(request.term)));
-          });
-        },
+    }).autocomplete({
+      source(request, response) {
+        blog.common.ajaxForPromise({
+          url: sourceUrl,
+          progress: false
+        }).then(resp => {
+          response($.ui.autocomplete.filter(
+            fetchHandler(resp),
+            that.activeEventType === 'focus' ? '' : blog.autocomplete.extractLast(request.term)));
+        });
+      },
+      focus() {
+        return false;
+      },
 
-        search() {
-          const term = blog.autocomplete.extractLast(this.value);
-          if (term.length < 1) {
-            return false;
-          }
-        },
+      select(event, ui) {
+        const terms = blog.autocomplete.split(this.value);
+        terms.pop();
+        terms.push(ui.item.value);
+        terms.push('');
+        this.value = terms.join(', ');
 
-        focus() {
-          return false;
-        },
-
-        select(event, ui) {
-          const terms = blog.autocomplete.split(this.value);
-          terms.pop();
-          terms.push(ui.item.value);
-          terms.push('');
-          this.value = terms.join(', ');
-
-          return false;
-        }
-      });
+        return false;
+      }
+    }).focus(function() {
+      $(this).autocomplete('search', ' ');
+    });
   }
 };

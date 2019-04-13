@@ -4,8 +4,9 @@ import blog.api.tag.dao.TagRepository;
 import blog.api.tag.model.entity.Tag;
 import blog.api.tag.model.request.TagRequest;
 import blog.api.tag.model.response.TagResponse;
-import blog.common.model.enums.CacheName;
+import blog.api.tag.model.response.TagsResponse;
 import blog.common.etc.SystemConstants;
+import blog.common.model.enums.CacheName;
 import blog.common.service.CacheService;
 import blog.common.util.BeanUtils;
 import blog.common.util.JacksonUtils;
@@ -47,17 +48,19 @@ public class TagService {
         }).collect(Collectors.toList()));
   }
 
-  public List<TagResponse> getTags() {
+  public TagsResponse getTags() {
     String cachedTags = cacheService.get(CacheName.Tags, SystemConstants.TAGS_CACHE_KEY);
 
     if (cachedTags == null) {
-      List<TagResponse> tagResponses = BeanUtils
-          .copyProperties(tagRepository.findAll(), TagResponse.class);
-      cacheService.put(CacheName.Tags, SystemConstants.TAGS_CACHE_KEY, tagResponses);
+      TagsResponse tagsResponse = new TagsResponse();
+      tagsResponse
+          .setTagResponses(BeanUtils.copyProperties(tagRepository.findAll(), TagResponse.class));
+      tagsResponse.setTotalCount(tagRepository.findAll().size());
+      cacheService.put(CacheName.Tags, SystemConstants.TAGS_CACHE_KEY, tagsResponse);
 
-      return tagResponses;
+      return tagsResponse;
     }
 
-    return JacksonUtils.toForceList(cachedTags, TagResponse.class);
+    return JacksonUtils.toForceModel(cachedTags, TagsResponse.class);
   }
 }

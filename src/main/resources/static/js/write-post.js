@@ -23,7 +23,10 @@ $(() => {
     },
 
     initTagAutoComplete() {
-      blog.autocomplete.init($('#tags'), '/tags');
+      blog.autocomplete.init(
+        $('#tags'),
+        '/tags',
+        resp => resp.tagResponses.map(tagResponse => tagResponse.name));
     },
 
     initCategory() {

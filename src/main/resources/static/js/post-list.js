@@ -11,7 +11,10 @@ $(() => {
       this.addEvent();
       this.initGrind()
         .then(this.searchPosts());
-      blog.autocomplete.init($('#tags'), '/tags');
+      blog.autocomplete.init(
+        $('#tags'),
+        '/tags',
+        resp => resp.tagResponses.map(tagResponse => tagResponse.name));
     },
     initGrind() {
       return new Promise(() => {
@@ -59,7 +62,7 @@ $(() => {
         data: $('#search-form').serialize()
       })
         .then(resp => {
-          console.log(resp)
+          console.log(resp);
           this.grid.setData(resp.postResponses);
 
           const pagination = this.grid.getPagination();

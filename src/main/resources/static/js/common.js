@@ -4,8 +4,8 @@ blog.common = {
   SETTING: {LOCATION: 'http://localhost:8081'},
   MOCK_DATA: true,
 
-  ajaxForPromise: (params, option) => new Promise((resolve, reject) => {
-    const progressCircle = option ? option.progress : true;
+  ajaxForPromise: params => new Promise((resolve, reject) => {
+    const progressCircle = params ? params.progress : true;
 
     if (progressCircle) {
       blog.common.curtainToggle(true);

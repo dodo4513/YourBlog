@@ -1,5 +1,6 @@
 package blog.api.tag.controller;
 
+import blog.api.tag.model.response.TagsResponse;
 import blog.api.tag.service.TagService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -21,7 +22,7 @@ public class TagApiController {
 
   @GetMapping("tags")
   @ApiOperation(value = "전체 태그 조회", notes = "전체 태그를 조회합니다.")
-  public ResponseEntity<?> getTag() {
+  public ResponseEntity<TagsResponse> getTag() {
 
     return ResponseEntity.ok().body(tagService.getTags());
   }
