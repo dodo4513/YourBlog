@@ -54,12 +54,12 @@ $(() => {
 
     makeCategoryTitle(categoryEntity, depth) {
       let selector = [];
-      let title = '';
+      let name = '';
       for (let i = 0; i < depth; i++) {
-        title += '&nbsp&nbsp&nbsp';
+        name += '&nbsp&nbsp&nbsp';
       }
-      title += `${depth > 0 ? 'ㄴ' : ''}${categoryEntity.title}`;
-      selector.push(`<option value="${categoryEntity.categoryNo}">${title}</option>`);
+      name += `${depth > 0 ? 'ㄴ' : ''}${categoryEntity.name}`;
+      selector.push(`<option value="${categoryEntity.categoryNo}">${name}</option>`);
 
       for (let i = 0; i < categoryEntity.children.length; i++) {
         selector = selector.concat(this.makeCategoryTitle(categoryEntity.children[i], depth + 1));

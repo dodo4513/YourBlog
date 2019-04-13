@@ -1,6 +1,5 @@
 package blog.api.category.model.response;
 
-import blog.api.category.model.entity.Category;
 import io.swagger.annotations.ApiModelProperty;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -18,7 +17,7 @@ public class CategoryResponse {
   private long categoryNo;
 
   @ApiModelProperty(value = "제목", position = 20)
-  private String title;
+  private String name;
 
   @ApiModelProperty(value = "공개 여부", position = 30)
   private boolean publicYn;
