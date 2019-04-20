@@ -9,11 +9,13 @@ import blog.api.post.model.response.PostInfoResponse;
 import blog.api.post.model.response.PostResponse;
 import blog.api.post.model.response.PostsResponse;
 import blog.api.tag.model.entity.Tag;
+import blog.api.tag.model.request.TagRequest;
 import blog.api.tag.model.response.TagResponse;
 import blog.api.tag.service.TagService;
 import blog.common.util.BeanUtils;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -39,11 +41,14 @@ public class PostService {
 
       return null;
     }
-    PostResponse postResponse = new PostResponse();
-    BeanUtils.copyProperties(post, postResponse);
+    PostResponse postResponse = BeanUtils.copyProperties(post, PostResponse.class);
 
     if (post.getTags() != null) {
       postResponse.setTags(BeanUtils.copyProperties(post.getTags(), TagResponse.class));
+    }
+
+    if (post.getCategory() != null) {
+      postResponse.setCategory(categoryService.copyCategoryEntityToResponse(post.getCategory()));
     }
 
     return postResponse;
@@ -73,9 +78,21 @@ public class PostService {
 
   @Transactional
   public Post savePost(SavePostRequest request) {
-    Post post = BeanUtils.copyProperties(request, Post.class);
+    Post post;
+    if (request.getPostNo() != null) {
+      // update
+      post = postRepository.findById(request.getPostNo()).get();
+      BeanUtils.copyProperties(request, post);
+    } else {
+      // insert
+      post = BeanUtils.copyProperties(request, Post.class);
+    }
+    tagService.saveTags(request.getTags());
 
-    List<Tag> tags = tagService.saveTags(request.getTags());
+    List<Tag> tags = tagService.getTags(request.getTags()
+        .stream()
+        .map(TagRequest::getName)
+        .collect(Collectors.toList()));
     post.setTags(tags);
 
     return postRepository.save(post);

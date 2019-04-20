@@ -39,13 +39,17 @@ public class TagService {
         .stream()
         .filter(tagRequest -> originTags
             .stream()
-            .noneMatch(tag -> tag.getName().equals(tagRequest.getName())))
+            .noneMatch(tag -> tag.getName().equals(tagRequest.getName().trim())))
         .filter(tagRequest -> tagRequest.getName().trim().length() != 0)
         .map(tagRequest -> {
           Tag tag = new Tag();
           tag.setName(tagRequest.getName());
           return tag;
         }).collect(Collectors.toList()));
+  }
+
+  public List<Tag> getTags(List<String> tagNames) {
+    return tagRepository.findByNameIn(tagNames);
   }
 
   public TagsResponse getTags() {

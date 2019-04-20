@@ -7,7 +7,7 @@ blog.common = {
   ajaxForPromise: params => new Promise((resolve, reject) => {
     const progressCircle = params ? params.progress : true;
 
-    if (progressCircle) {
+    if (progressCircle !== false) {
       blog.common.curtainToggle(true);
     }
     console.log(params);
@@ -16,9 +16,10 @@ blog.common = {
     p.url = `${blog.common.SETTING.LOCATION}${params.url}`;
     p.type = typeof params.type === 'undefined' ? 'GET' : params.type;
     p.contentType = typeof params.contentType === 'undefined' ? 'application/json' : params.contentType;
+    p.async = typeof params.async === 'undefined' ? true : params.type;
     p.success = resp => {
       console.log('Communication ok\n response: ', resp);
-      if (progressCircle) {
+      if (progressCircle !== false) {
         blog.common.curtainToggle(false);
       }
       resolve(resp);

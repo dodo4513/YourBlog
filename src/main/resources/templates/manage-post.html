@@ -18,8 +18,7 @@
 
   <!--TUI grid-->
   <link rel="stylesheet" type="text/css" href="/lib/bower_components/tui-grid/dist/tui-grid.css"/>
-  <link rel="stylesheet" type="text/css"
-        href="/lib/bower_components/tui-pagination/dist/tui-pagination.css"/>
+  <link rel="stylesheet" type="text/css" href="/lib/bower_components/tui-pagination/dist/tui-pagination.css"/>
 
   <!--auto complete-->
   <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
@@ -48,6 +47,7 @@
             <div class="card-header">
               <strong>포스트</strong> 등록
             </div>
+            <input type="hidden" id="selectedPostNo" th:value="${postNo}">
             <div class="card-body card-block">
               <div id="no-category-alert" class="sufee-alert alert with-close alert-danger alert-dismissible fade show" style="display: none">
                 <span class="badge badge-pill badge-danger">WARN</span>
@@ -128,8 +128,8 @@
                   <div class="col col-md-10">
                     <div class="form-check">
                       <div class="checkbox">
-                        <label for="extra-data-use-check" class="form-check-label ">
-                          <input type="checkbox" id="extra-data-use-check" class="form-check-input">사용
+                        <label for="extraDataCheck" class="form-check-label ">
+                          <input type="checkbox" id="extraDataCheck" class="form-check-input">사용
                         </label>
                       </div>
                     </div>

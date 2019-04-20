@@ -11,7 +11,7 @@ blog.column = {
       {
         title: '제목',
         name: 'title',
-        formatter: (value, row) => `<a href="/admin/post/${row.no}">${value}</a>`
+        formatter: (value, row) => `<a href="/admin/post/${row.postNo}">${value}</a>`
       },
       {
         title: '카테고리',

@@ -1,25 +1,72 @@
 /* eslint-disable no-eval */
 $(() => {
   const URI = {
-    POST: '/posts',
+    REGISTER_POST: '/posts',
     LIST: '/admin/post/list',
     CATEGORY: '/categories',
-    IMAGE_UPLOAD: '/images'
+    IMAGE_UPLOAD: '/images',
+    GET_POST: '/posts/{{postNo}}'
   };
 
   const MESSAGE = {
     SAVE_SUCCESS: '저장되었습니다.'
   };
 
+  const MODE = {
+    MODIFY: 'MODIFY',
+    WRITE: 'WRITE'
+  };
+
   blog.writePost = {
     editor: null,
     grid: null,
     usedImageNos: [],
+    mode: MODE.WRITE,
+
     init() {
+      if (this.getSelectedPostNo() > 0) {
+        this.mode = MODE.MODIFY;
+        console.log('Page mode: ', this.mode);
+      }
+
       this.initTui();
-      this.addEvent();
+      this.initEvent();
       this.initTagAutoComplete();
-      this.initCategory();
+
+      Promise.all([this.initCategory()])
+        .then(() => this.setUpPostAtModify());
+    },
+
+    setUpPostAtModify() {
+      if (this.mode === MODE.MODIFY) {
+        blog.common.ajaxForPromise({
+          type: 'get',
+          url: URI.GET_POST.replace('{{postNo}}', this.getSelectedPostNo)
+        }).then(post => {
+          console.log(post);
+          $('#title').val(post.title);
+          $('#category-selector').val(post.category.categoryNo);
+          this.editor.setValue(post.body);
+          this.collectImageFromBody();
+          $('#tags').val(post.tags.map(t => t.name).join(','));
+          $('#publicYn').prop('checked', post.publicYn);
+          if (post.extraData !== null) {
+            $('#extraDataCheck').prop('checked', true);
+
+            for (const key in post.extraData) {
+              this.addRowAtExtraData({
+                key,
+                value: post.extraData[key]
+              });
+            }
+          }
+          this.setExtraDataGrid();
+        });
+      }
+    },
+
+    getSelectedPostNo() {
+      return $('#selectedPostNo').val();
     },
 
     initTagAutoComplete() {
@@ -30,20 +77,23 @@ $(() => {
     },
 
     initCategory() {
-      blog.common.ajaxForPromise({
-        type: 'get',
-        url: URI.CATEGORY
-      }).then(resp => {
-        if (resp.totalCount > 0) {
-          let categoryTitlesAndNos = [];
-          resp.categoryResponses.forEach(categoryEntity => {
-            categoryTitlesAndNos = categoryTitlesAndNos.concat(this.makeCategoryTitle(categoryEntity, 0));
-          });
-          $('#category-selector').html(categoryTitlesAndNos);
-        } else {
-          $('#no-category-alert').show();
-          this.notWriteablePostStatus();
-        }
+      return new Promise((resolve, reject) => {
+        blog.common.ajaxForPromise({
+          type: 'get',
+          url: URI.CATEGORY
+        }).then(resp => {
+          if (resp.totalCount > 0) {
+            let categoryTitlesAndNos = [];
+            resp.categoryResponses.forEach(categoryEntity => {
+              categoryTitlesAndNos = categoryTitlesAndNos.concat(this.makeCategoryTitle(categoryEntity, 0));
+            });
+            $('#category-selector').html(categoryTitlesAndNos);
+          } else {
+            $('#no-category-alert').show();
+            this.notWriteablePostStatus();
+          }
+          resolve();
+        });
       });
     },
 
@@ -96,29 +146,7 @@ $(() => {
       });
 
       this.editor.on('change', () => {
-        const contents = this.editor.getMarkdown();
-        const regex = /!\[image.png\]\(\/images\/\d{0,}/g;
-        const images = [];
-        let image;
-        while ((image = regex.exec(contents)) !== null) {
-          images.push(image[0]);
-        }
-
-        const imageNos = [...new Set(images.map(i => i.split('/')[2]).sort())];
-
-        // 이미지 목록이 변경 됐다면
-        if (imageNos.length !== this.usedImageNos.length ||
-            !imageNos.every((value, index) => value === this.usedImageNos[index])) {
-          this.usedImageNos = imageNos;
-
-          let html = '';
-          imageNos.forEach(i =>
-            html += ` <li class='image'><img id='abc${i}' src="/images/${i}" alt="${i} image"/>
-                        <div class="overlay"><div class="text"></div></div>
-                      </li>`
-          );
-          $('#image-box').empty().append(html);
-        }
+        this.collectImageFromBody();
       });
 
       this.setExtraDataGrid();
@@ -131,15 +159,44 @@ $(() => {
         header: {height: 25}
       });
       // tui.Grid.applyTheme('clean');
-      this.addEmptyRowAtExtraData();
+
+      if (this.mode === MODE.WRITE) {
+        this.addRowAtExtraData({
+          key: '',
+          value: ''
+        });
+      }
     },
 
-    addEmptyRowAtExtraData() {
+    collectImageFromBody() {
+      const contents = this.editor.getMarkdown();
+      const regex = /!\[image.png\]\(\/images\/\d{0,}/g;
+      const images = [];
+      let image;
+      while ((image = regex.exec(contents)) !== null) {
+        images.push(image[0]);
+      }
+
+      const imageNos = [...new Set(images.map(i => i.split('/')[2]).sort())];
+
+      // 이미지 목록이 변경 됐다면
+      if (imageNos.length !== this.usedImageNos.length ||
+          !imageNos.every((value, index) => value === this.usedImageNos[index])) {
+        this.usedImageNos = imageNos;
+
+        let html = '';
+        imageNos.forEach(i =>
+          html += ` <li class='image'><img id='abc${i}' src="/images/${i}" alt="${i} image"/>
+                        <div class="overlay"><div class="text"></div></div>
+                      </li>`
+        );
+        $('#image-box').empty().append(html);
+      }
+    },
+
+    addRowAtExtraData(content) {
       const row = this.grid.getRows();
-      row.push({
-        key: '',
-        value: ''
-      });
+      row.push(content);
       this.grid.setData(row);
     },
 
@@ -147,10 +204,10 @@ $(() => {
       blog.writePost.grid.removeRow(String($(e.target).closest('tr').data('row-key')));
     },
 
-    addEvent() {
+    initEvent() {
       const $body = $('body');
       $body.on('click', '.action', $.proxy(this.onClickAction, this));
-      $body.on('change', '#extra-data-use-check', $.proxy(this.setExtraDataGrid, this));
+      $body.on('change', '#extraDataCheck', $.proxy(this.setExtraDataGrid, this));
       $body.on('click', '.removeRow', $.proxy(this.removeRow, this));
       $body.on('mouseover', '.image > .overlay', $.proxy(this.hoverOnImage, this));
     },
@@ -168,7 +225,7 @@ $(() => {
     },
 
     setExtraDataGrid() {
-      if ($('#extra-data-use-check:checked').val() === 'on') {
+      if ($('#extraDataCheck:checked').val() === 'on') {
         $('#extra-data-box').show();
       } else {
         $('#extra-data-box').hide();
@@ -184,7 +241,10 @@ $(() => {
           this.registerPost();
           break;
         case 'addRow':
-          this.addEmptyRowAtExtraData();
+          this.addRowAtExtraData({
+            key: '',
+            value: ''
+          });
           break;
         default:
         // nothing..
@@ -222,7 +282,7 @@ $(() => {
 
       blog.common.ajaxForPromise({
         type: 'post',
-        url: URI.POST,
+        url: URI.REGISTER_POST,
         data: JSON.stringify(postObject)
       }).then(() => {
         alert(MESSAGE.SAVE_SUCCESS);
@@ -232,6 +292,7 @@ $(() => {
 
     makePostObject() {
       return {
+        postNo: this.getSelectedPostNo(),
         title: $('#title').val(),
         body: this.editor.getMarkdown(),
         tags: this.makeTagsObject(),
@@ -249,7 +310,7 @@ $(() => {
     },
 
     makeExtraData() {
-      if ($('#extra-data-use-check:checked').val() === 'on') {
+      if ($('#extraDataCheck:checked').val() === 'on') {
         return eval(`({${blog.writePost.grid.getRows().map(row => `${row.key}:'${row.value}'`).join(',')}})`);
       }
 

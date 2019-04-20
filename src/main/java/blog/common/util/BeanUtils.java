@@ -1,6 +1,5 @@
 package blog.common.util;
 
-import blog.api.category.model.entity.Category;
 import java.beans.FeatureDescriptor;
 import java.util.ArrayList;
 import java.util.List;

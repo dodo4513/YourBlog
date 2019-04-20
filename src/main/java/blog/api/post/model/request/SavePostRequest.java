@@ -12,6 +12,9 @@ import lombok.Setter;
 @Setter
 public class SavePostRequest {
 
+  @ApiModelProperty(value = "포스트번호", position = 5)
+  private Long postNo;
+
   @ApiModelProperty(value = "제목", required = true, position = 10)
   private String title;
 
