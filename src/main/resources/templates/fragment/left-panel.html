@@ -47,12 +47,12 @@
             <a href="#" class="dropdown-toggle " data-toggle="dropdown" aria-haspopup="true"
                aria-expanded="false"> <i class="menu-icon fa fa-file-text"></i>포스트</a>
             <ul class="sub-menu children dropdown-menu">
-              <li><i class="menu-icon fa fa-pencil"></i><a href="/admin/write-post">등록</a></li>
-              <li><i class="menu-icon fa fa-list-ol"></i><a href="/admin/post-list">조회</a></li>
+              <li><i class="menu-icon fa fa-pencil"></i><a href="/admin/post/write">등록</a></li>
+              <li><i class="menu-icon fa fa-list-ol"></i><a href="/admin/post/list">조회</a></li>
             </ul>
           </li>
           <li th:class="${activeId} == 'category' ? 'active' : ''">
-            <a href="/admin/category-list"> <i class="menu-icon fa fa-align-left"></i>카테고리 </a>
+            <a href="/admin/category/list"> <i class="menu-icon fa fa-align-left"></i>카테고리 </a>
           </li>
           <li>
             <a href="widgets.html"> <i class="menu-icon fa fa-cog"></i>태그(미구현) </a>

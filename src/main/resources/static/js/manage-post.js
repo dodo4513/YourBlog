@@ -2,7 +2,7 @@
 $(() => {
   const URI = {
     POST: '/posts',
-    LIST: '/admin/post-list',
+    LIST: '/admin/post/list',
     CATEGORY: '/categories',
     IMAGE_UPLOAD: '/images'
   };
