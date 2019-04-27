@@ -12,14 +12,17 @@ public class GetPostsRequest {
   private String title;
 
   @ApiModelProperty(value = "태그", position = 20)
-  private String tags;
+  private String[] tags;
 
-  @ApiModelProperty(value = "공개", position = 25)
+  @ApiModelProperty(value = "카테고리", position = 30)
+  private String[] categories;
+
+  @ApiModelProperty(value = "공개", position = 40)
   private Boolean publicYn;
 
-  @ApiModelProperty(value = "페이지 번호", position = 30)
+  @ApiModelProperty(value = "페이지 번호", position = 50)
   private Long pageNumber;
 
-  @ApiModelProperty(value = "페이지 수", position = 40)
+  @ApiModelProperty(value = "페이지 수", position = 60)
   private Long pageSize;
 }

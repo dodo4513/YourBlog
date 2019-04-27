@@ -1,7 +1,7 @@
 $(() => {
   const URI = {
-    SAVE: '/categories',
-    GET: '/categories'
+    SAVE_CATEGORY: '/categories',
+    GET_CATEGORY: '/categories'
   };
 
   const defaultTemplate = [
@@ -66,8 +66,11 @@ $(() => {
     fetchCategories() {
       blog.common.ajaxForPromise({
         type: 'get',
-        url: URI.GET,
-        data: {publicType: 'ALL'}
+        url: URI.GET_CATEGORY,
+        data: {
+          publicType: 'ALL',
+          onlyRootLevel: true
+        }
       }).then(resp => {
         const responses = resp.categoryResponses
           .map(response => this.getEntityToJSON(response));
@@ -157,7 +160,7 @@ $(() => {
 
       blog.common.ajaxForPromise({
         type: 'post',
-        url: URI.SAVE,
+        url: URI.SAVE_CATEGORY,
         data: JSON.stringify(data)
       }).then(() => {
         alert(MESSAGE.SAVE_SUCCESS);

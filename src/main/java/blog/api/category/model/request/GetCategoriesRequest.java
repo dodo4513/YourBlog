@@ -12,6 +12,10 @@ import lombok.Setter;
 @Setter
 public class GetCategoriesRequest {
 
-  @ApiModelProperty(value = "공개", position = 10)
+  @ApiModelProperty(value = "공개 여부", position = 10)
   private PublicType publicType = PublicType.ONLY_PUBLIC;
+
+  @ApiModelProperty(value = "최상위 카테고리만 조회", position = 10)
+  private Boolean onlyRootLevel = false;
+
 }

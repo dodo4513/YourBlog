@@ -1,5 +1,5 @@
 $(() => {
-  const URI = {POST: '/posts'};
+  const URI = {GET_POST: '/posts'};
   const MAX_ROW_PER_POST = 10;
 
   blog.post = {
@@ -11,11 +11,22 @@ $(() => {
       this.addEvent();
       this.initGrind()
         .then(this.searchPosts());
+
+      this.initAutocomplete();
+    },
+
+    initAutocomplete() {
       blog.autocomplete.init(
         $('#tags'),
         '/tags',
-        resp => resp.tagResponses.map(tagResponse => tagResponse.name));
+        resp => resp.tagResponses.map(t => t.name));
+
+      blog.autocomplete.init(
+        $('#categories'),
+        '/categories?publicType=ONLY_PUBLIC',
+        resp => resp.categoryResponses.map(c => c.name));
     },
+
     initGrind() {
       return new Promise(() => {
         this.grid = new tui.Grid({
@@ -46,20 +57,34 @@ $(() => {
       });
     },
     searchPosts() {
-      // Set hidden value
-      $('[name=pageNumber]').val(this.pageNumber);
+      const data = {};
+      data.pageNumber = this.pageNumber;
 
       if ($('#publicY:checked').val() && !$('#publicN:checked').val()) {
-        $('[name=publicYn]').val(true);
+        data.publicYn = true;
       } else if (!$('#publicY:checked').val() && $('#publicN:checked').val()) {
-        $('[name=publicYn]').val(false);
-      } else {
-        $('[name=publicYn]').val('');
+        data.publicYn = false;
       }
 
+      if ($('#tags').val().length > 0) {
+        data.tags = $('#tags').val()
+          .split(',')
+          .map(t => t.trim())
+          .filter(t => t.length > 0);
+      }
+
+      if ($('#categories').val().length > 0) {
+        data.categories = $('#categories').val()
+          .split(',')
+          .map(t => t.trim())
+          .filter(c => c.length > 0);
+      }
+
+      console.log(data);
+
       blog.common.ajaxForPromise({
-        url: URI.POST,
-        data: $('#search-form').serialize()
+        url: URI.GET_POST,
+        data
       })
         .then(resp => {
           console.log(resp);

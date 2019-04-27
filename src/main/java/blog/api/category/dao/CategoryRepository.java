@@ -8,11 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface CategoryRepository extends JpaRepository<Category, Long> {
-
-  List<Category> findByPublicYnAndParentIsNullAndDeleteYn(boolean publicYn, boolean deleteYn);
-
-  List<Category> findByParentIsNullAndDeleteYn(boolean deleteYn);
+public interface CategoryRepository extends JpaRepository<Category, Long>, CategoryRepositoryCustom {
 
   @Modifying
   @Query("update Category c set c.deleteYn = 'Y' where c.categoryNo in ?1")

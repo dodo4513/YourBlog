@@ -8,7 +8,6 @@ import blog.api.category.model.request.SaveCategoryRequests;
 import blog.api.category.model.response.CategoriesResponse;
 import blog.api.category.model.response.CategoryResponse;
 import blog.api.post.service.PostService;
-import blog.common.model.enums.PublicType;
 import blog.common.util.BeanUtils;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -50,15 +49,9 @@ public class CategoryService {
   }
 
   public CategoriesResponse getCategoriesResponses(GetCategoriesRequest request) {
-    List<Category> categoryList = null;
-    if (request.getPublicType() == PublicType.ALL) {
-      categoryList = categoryRepository.findByParentIsNullAndDeleteYn(false);
-    } else if (request.getPublicType() == PublicType.ONLY_PUBLIC) {
-      categoryList = categoryRepository.findByPublicYnAndParentIsNullAndDeleteYn(true, false);
-    }
+    List<Category> categoryList = categoryRepository.getCategories(request);
 
     assert categoryList != null;
-
     List<CategoryResponse> categoryResponses = categoryList.stream()
         .map(this::copyCategoryEntityToResponse)
         .collect(Collectors.toList());
