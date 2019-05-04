@@ -14,7 +14,7 @@ blog.common = {
     const p = {};
 
     p.traditional = true;
-    p.url = `${blog.common.SETTING.LOCATION}${params.url}`;
+    p.url = `/${params.url}`;
     p.type = typeof params.type === 'undefined' ? 'GET' : params.type;
     p.contentType = typeof params.contentType === 'undefined' ? 'application/json' : params.contentType;
     p.async = typeof params.async === 'undefined' ? true : params.type;

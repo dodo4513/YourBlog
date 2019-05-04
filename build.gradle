@@ -82,12 +82,6 @@ bootRun {
     sourceResources sourceSets.main
 }
 
-task print() {
-    doLast {
-        println 'run print task!!'
-    }
-}
-
 //project.tasks.getByName('initQuerydslSourcesDir').dependsOn += 'generateSampleJooqSchemaSource'
 //project.tasks.getByName('generateSampleJooqSchemaSource').dependsOn += 'flywayMigrate'
 project.tasks.getByName('initQuerydslSourcesDir').dependsOn += 'flywayMigrate'
