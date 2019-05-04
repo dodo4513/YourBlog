@@ -85,7 +85,7 @@ public class PostService {
       BeanUtils.copyProperties(request, post);
     } else {
       // insert
-      post = BeanUtils.copyProperties(request, Post.class);
+      post = BeanUtils.copyNullableProperties(request, Post.class);
     }
     tagService.saveTags(request.getTags());
 
