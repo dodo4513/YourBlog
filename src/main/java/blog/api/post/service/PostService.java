@@ -91,7 +91,7 @@ public class PostService {
 
     List<Tag> tags = tagService.getTags(request.getTags()
         .stream()
-        .map(TagRequest::getName)
+        .map(tagRequest -> tagRequest.getName().trim())
         .collect(Collectors.toList()));
     post.setTags(tags);
 

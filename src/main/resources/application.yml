@@ -28,3 +28,12 @@ spring:
     multipart:
       file-size-threshold: 3MB
       max-file-size: 3MB
+envirment:
+  server-url: http://13.125.69.76
+---
+#local
+spring:
+  profiles: local
+environments:
+  server-url: http://127.0.0.1
+

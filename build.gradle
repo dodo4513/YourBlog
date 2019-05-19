@@ -80,6 +80,7 @@ flyway {
 
 bootRun {
     sourceResources sourceSets.main
+    systemProperties System.properties
 }
 
 //project.tasks.getByName('initQuerydslSourcesDir').dependsOn += 'generateSampleJooqSchemaSource'

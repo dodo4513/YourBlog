@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.Objects;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -15,6 +16,12 @@ import org.springframework.web.multipart.MultipartFile;
  */
 @Service
 public class ImageService {
+
+  @Value("${environments.server-url}")
+  private String serverUrl;
+
+  @Value("${server.port}")
+  private String serverPort;
 
   private ImageRepository imageRepository;
 
@@ -29,7 +36,7 @@ public class ImageService {
       image = new Image(
           Objects.requireNonNull(file.getOriginalFilename()),
           file.getContentType(), file.getBytes());
-      return ImageApiController.IMAGE_API_PREFIX + "/" + imageRepository.save(image).getImageNo();
+      return serverUrl + ":" + serverPort + ImageApiController.IMAGE_API_PREFIX + "/" + imageRepository.save(image).getImageNo();
     } catch (IOException ignored) {
     }
     return Strings.EMPTY;

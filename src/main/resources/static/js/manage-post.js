@@ -17,7 +17,7 @@ $(() => {
     WRITE: 'WRITE'
   };
 
-  blog.writePost = {
+  blog.managePost = {
     editor: null,
     grid: null,
     usedImageNos: [],
@@ -201,7 +201,7 @@ $(() => {
     },
 
     removeRow(e) {
-      blog.writePost.grid.removeRow(String($(e.target).closest('tr').data('row-key')));
+      blog.managePost.grid.removeRow(String($(e.target).closest('tr').data('row-key')));
     },
 
     initEvent() {
@@ -311,7 +311,7 @@ $(() => {
 
     makeExtraData() {
       if ($('#extraDataCheck:checked').val() === 'on') {
-        return eval(`({${blog.writePost.grid.getRows().map(row => `${row.key}:'${row.value}'`).join(',')}})`);
+        return eval(`({${blog.managePost.grid.getRows().map(row => `${row.key}:'${row.value}'`).join(',')}})`);
       }
 
       return null;
@@ -333,5 +333,5 @@ $(() => {
     }
   };
 
-  blog.writePost.init();
+  blog.managePost.init();
 });

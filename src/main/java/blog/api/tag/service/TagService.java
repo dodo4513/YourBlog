@@ -31,19 +31,20 @@ public class TagService {
 
   @Transactional
   public List<Tag> saveTags(List<TagRequest> tagRequests) {
-    List<Tag> originTags = tagRepository.findAll();
-
     cacheService.evict(CacheName.Tags);
 
-    return tagRepository.saveAll(tagRequests
-        .stream()
-        .filter(tagRequest -> originTags
-            .stream()
-            .noneMatch(tag -> tag.getName().equals(tagRequest.getName().trim())))
-        .filter(tagRequest -> tagRequest.getName().trim().length() != 0)
+    List<Tag> originTags = tagRepository
+        .findByNameIn(tagRequests.stream()
+            .map(tagRequest -> tagRequest.getName().trim())
+            .filter(tagName -> tagName.length() > 0)
+            .collect(Collectors.toList()));
+
+    return tagRepository.saveAll(tagRequests.stream()
+        .filter(tagRequest -> originTags.stream()
+            .noneMatch(originTag -> originTag.getName().trim().equals(tagRequest.getName().trim())))
         .map(tagRequest -> {
           Tag tag = new Tag();
-          tag.setName(tagRequest.getName());
+          tag.setName(tagRequest.getName().trim());
           return tag;
         }).collect(Collectors.toList()));
   }
