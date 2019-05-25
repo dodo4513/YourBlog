@@ -31,6 +31,12 @@ public class Post extends ForBasicTable {
   // 제목
   private String title;
 
+  // 말머리
+  private String description;
+
+  // 대표이미지
+  private String splashImage;
+
   // 본문
   private String body;
 
@@ -45,6 +51,9 @@ public class Post extends ForBasicTable {
 
   // 카테고리
   private long categoryNo;
+
+  // 포스트 뷰 수
+  private Long viewCount;
 
   @ManyToOne
   @JoinColumn(name = "categoryNo", insertable = false, updatable = false)

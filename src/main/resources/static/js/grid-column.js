@@ -32,6 +32,12 @@ blog.column = {
         formatter: value => (value ? '공개' : '비공개')
       },
       {
+        title: '방문 수',
+        name: 'viewCount',
+        width: 50,
+        align: 'center'
+      },
+      {
         title: '수정일',
         name: 'updateYmdt',
         width: 150,

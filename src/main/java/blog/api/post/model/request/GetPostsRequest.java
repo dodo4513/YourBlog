@@ -25,4 +25,11 @@ public class GetPostsRequest {
 
   @ApiModelProperty(value = "페이지 수", position = 60)
   private Long pageSize;
+
+  @ApiModelProperty(value = "정렬 방법", position = 70)
+  private OrderingMethod orderingMethod = OrderingMethod.LASTEST;
+
+  public enum OrderingMethod {
+    LASTEST, POPULAR
+  }
 }

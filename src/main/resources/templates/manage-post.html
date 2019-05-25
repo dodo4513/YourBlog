@@ -60,13 +60,24 @@
                     <p class="form-control-static">dodo</p>
                   </div>
                 </div>
+
                 <div class="row form-group">
                   <div class="col col-md-2">
                     <label for="title" class=" form-control-label must">제목</label>
                   </div>
                   <div class="col-12 col-md-10">
-                    <input type="text" id="title" name="text-input" placeholder="제목" class="form-control input-style large-input-style">
-                    <small class="help-block form-text">최대 100자 이내로 입력해 주세요.</small>
+                    <input type="text" id="title" name="text-input" placeholder="최대 100자 이내로 입력해 주세요." class="form-control input-style large-input-style">
+                    <!--<small class="help-block form-text"></small>-->
+                  </div>
+                </div>
+
+                <div class="row form-group">
+                  <div class="col col-md-2">
+                    <label for="description" class=" form-control-label">말머리</label>
+                  </div>
+                  <div class="col-12 col-md-10">
+                    <textarea type="text" id="description" name="text-input" placeholder="최대 500자 이내로 입력해 주세요." class="form-control input-style large-input-style"></textarea>
+                    <!--<small class="help-block form-text"></small>-->
                   </div>
                 </div>
 
@@ -80,6 +91,16 @@
                 </div>
 
                 <div class="row form-group">
+                  <div class="col col-md-2">
+                    <label for="splashImage" class=" form-control-label">대표이미지 URL</label>
+                  </div>
+                  <div class="col-12 col-md-10">
+                    <input type="text" id="splashImage" name="text-input" placeholder="최대 100자 이내로 입력해 주세요." class="form-control input-style large-input-style">
+                    <!--<small class="help-block form-text"></small>-->
+                  </div>
+                </div>
+
+                <div class="row form-group">
                   <div class="col col-md-2"><label for="tui-editor" class=" form-control-label must">본문</label>
                   </div>
                   <div class="col-12 col-md-10">
@@ -89,7 +110,7 @@
                 </div>
 
                 <div class="row form-group">
-                  <div class="col col-md-2">사용된 이미지
+                  <div class="col col-md-2">본문 이미지
                   </div>
                   <div class="col-12 col-md-10">
                     <ul id="image-box">

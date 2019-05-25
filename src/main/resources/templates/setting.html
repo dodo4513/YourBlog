@@ -1,0 +1,83 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<head>
+  <title>Ela Admin - HTML5 Admin Template</title>
+  <th:block th:insert="fragment/ela-style-sheets.html :: ela-style-sheets"/>
+
+  <!--my-->
+  <link rel="stylesheet" type="text/css" href="/css/common.css"/>
+
+</head>
+
+<body>
+<!-- Left Panel -->
+<th:block th:insert="fragment/left-panel.html :: left-panel(activeId = 'setting')"/>
+<!-- /#left-panel -->
+
+<!-- Right Panel -->
+<div id="right-panel" class="right-panel">
+  <!-- Header-->
+  <th:block th:insert="fragment/header.html :: header"/>
+  <!-- /#header -->
+
+  <!-- Content -->
+  <div class="content">
+    <!-- Animated -->
+    <div class="animated fadeIn">
+
+      <div class="row">
+
+        <div class="col-lg-10">
+          <div class="card">
+            <div class="card-header">
+              <strong>블로그</strong> 관리
+            </div>
+            <div class="card-body card-block">
+              <div class="row">
+                <div class="col-lg-12">
+
+                  <div class="row form-group">
+                    <div class="col col-md-2">
+                      <label for="title" class=" form-control-label">포스트 방문자 수집 주기</label>
+                    </div>
+                    <div class="col-12 col-md-10">
+                      <input type="text" id="title" name="text-input" placeholder="음" class="form-control input-style large-input-style">
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+
+            <!--<div class="card-footer">-->
+            <!--<button type="submit" class="btn btn-primary btn-sm action" data-action="register">-->
+            <!--<i class="fa fa-dot-circle-o"></i> Submit-->
+            <!--</button>-->
+            <!--</div>-->
+
+          </div>
+        </div>
+
+      </div>
+
+
+
+    </div>
+    <!-- .animated -->
+  </div>
+  <!-- /.content -->
+  <div class="clearfix"></div>
+  <!-- Footer -->
+  <th:block th:insert="fragment/footer.html :: footer"/>
+  <!-- /.site-footer -->
+</div>
+<!-- /#right-panel -->
+
+<!-- Scripts -->
+<th:block th:insert="fragment/ela-scripts.html :: ela-scripts"/>
+
+<!--Local Stuff-->
+<script src="/js/common.js"></script>
+
+</body>
+</html>

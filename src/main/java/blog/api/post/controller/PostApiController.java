@@ -28,7 +28,7 @@ public class PostApiController {
   }
 
   @GetMapping("posts")
-  @ApiOperation(value = "포스트 목록 조회", notes = "포스트 목록을 조회합니다.(paging)")
+  @ApiOperation(value = "포스트 목록 조회", notes = "포스트 목록을 조회합니다.")
   public ResponseEntity<PostsResponse> getPosts(@ModelAttribute GetPostsRequest getPostsRequest) {
 
     return ResponseEntity.ok().body(postService.getPostsResponse(getPostsRequest));

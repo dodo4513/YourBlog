@@ -12,4 +12,5 @@ public interface PostRepositoryCustom {
 
   long updateCategory(long preCategoryNo, long postCategoryNo);
 
+  long updateViewCountOfPost();
 }

@@ -116,4 +116,9 @@ public class PostService {
   public long moveCategory(long preCategoryNo, long postCategoryNo) {
     return postRepository.updateCategory(preCategoryNo, postCategoryNo);
   }
+
+  @Transactional
+  public long updateViewCountOfPost() {
+    return postRepository.updateViewCountOfPost();
+  }
 }

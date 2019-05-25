@@ -45,6 +45,8 @@ $(() => {
         }).then(post => {
           console.log(post);
           $('#title').val(post.title);
+          $('#description').val(post.description);
+          $('#splashImage').val(post.splashImage);
           $('#category-selector').val(post.category.categoryNo);
           this.editor.setValue(post.body);
           this.collectImageFromBody();
@@ -170,14 +172,19 @@ $(() => {
 
     collectImageFromBody() {
       const contents = this.editor.getMarkdown();
-      const regex = /!\[image.png\]\(\/images\/\d{0,}/g;
+      const regex = /!\[*.*\(*\/images\/\d{0,}/gi;
+
       const images = [];
       let image;
       while ((image = regex.exec(contents)) !== null) {
         images.push(image[0]);
       }
 
-      const imageNos = [...new Set(images.map(i => i.split('/')[2]).sort())];
+      console.log(images)
+
+      const imageNos = [...new Set(images.map(i => i.split('/images/')[1]).sort())];
+
+      console.log(imageNos)
 
       // 이미지 목록이 변경 됐다면
       if (imageNos.length !== this.usedImageNos.length ||
@@ -294,6 +301,8 @@ $(() => {
       return {
         postNo: this.getSelectedPostNo(),
         title: $('#title').val(),
+        description: $('#description').val(),
+        splashImage: $('#splashImage').val(),
         body: this.editor.getMarkdown(),
         tags: this.makeTagsObject(),
         publicYn: $('[name=publicYn]:checked').val() === 'on',

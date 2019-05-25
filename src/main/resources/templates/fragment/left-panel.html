@@ -66,13 +66,13 @@
 
           <li class="menu-title">관리</li><!-- /.menu-title -->
           <li>
-            <a href="widgets.html"> <i class="menu-icon fa fa-info"></i>기본 정보(미구현) </a>
-          </li>
-          <li>
             <a href="widgets.html"> <i class="menu-icon fa fa-location-arrow"></i>주소(미구현) </a>
           </li>
           <li>
             <a href="widgets.html"> <i class="menu-icon fa fa-upload"></i>자료(미구현) </a>
+          </li>
+          <li th:class="${activeId} == 'setting' ? 'active' : ''">
+            <a href="/admin/setting"> <i class="menu-icon fa fa-info"></i>설정 </a>
           </li>
 
           <!--<li class="menu-item-has-children dropdown">-->

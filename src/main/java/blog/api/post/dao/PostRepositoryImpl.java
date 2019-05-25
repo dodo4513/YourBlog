@@ -1,10 +1,12 @@
 package blog.api.post.dao;
 
 
+import blog.api.info.model.entity.QVisit;
 import blog.api.post.model.entity.Post;
 import blog.api.post.model.entity.QPost;
 import blog.api.post.model.request.GetPostsRequest;
 import com.querydsl.core.BooleanBuilder;
+import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.JPQLQuery;
 import java.util.List;
 import org.apache.logging.log4j.util.Strings;
@@ -13,6 +15,8 @@ import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 public class PostRepositoryImpl extends QuerydslRepositorySupport implements PostRepositoryCustom {
 
   QPost post = QPost.post;
+
+  QVisit visit = QVisit.visit;
 
   public PostRepositoryImpl() {
     super(Post.class);
@@ -26,6 +30,15 @@ public class PostRepositoryImpl extends QuerydslRepositorySupport implements Pos
       query
           .limit(request.getPageSize())
           .offset((request.getPageNumber() - 1) * request.getPageSize());
+    }
+
+    switch (request.getOrderingMethod()) {
+      case LASTEST:
+        query.orderBy(post.postNo.desc());
+        break;
+      case POPULAR:
+        query.orderBy(post.viewCount.desc());
+        break;
     }
 
     return query
@@ -71,5 +84,16 @@ public class PostRepositoryImpl extends QuerydslRepositorySupport implements Pos
     }
 
     return from(post).where(post.deleteYn.eq(false).and(condition));
+  }
+
+
+  @Override
+  public long updateViewCountOfPost() {
+    return update(post).set(post.viewCount,
+        JPAExpressions
+            .select(visit.count())
+            .from(visit)
+            .groupBy(visit.postNo))
+        .execute();
   }
 }

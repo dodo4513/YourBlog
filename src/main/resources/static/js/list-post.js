@@ -80,7 +80,16 @@ $(() => {
           .filter(c => c.length > 0);
       }
 
-      console.log(data);
+      switch ($('[name=orderingMethod]:checked').val()) {
+        case 'LASTED':
+          data.orderingMethod = 'LASTED';
+          break;
+        case 'POPULAR':
+          data.orderingMethod = 'POPULAR';
+          break;
+      }
+
+      console.log('data :', data);
 
       blog.common.ajaxForPromise({
         url: URI.GET_POST,
